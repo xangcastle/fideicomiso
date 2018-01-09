@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">fideicomiso</string>
+    <string name="hint_email">usuario</string>
+    <string name="hint_password">password</string>
+    <string name="btn_login">ingresar</string>
+    <string name="btn_link_to_register">registrarse</string>
+    <string name="message_error">no se pudo conectar con el servicio</string>
+    <string name="title_activity_dashboard">dashboard</string>
+</resources>
