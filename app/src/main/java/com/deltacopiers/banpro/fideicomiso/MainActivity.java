@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // Launch main activity
                     Intent intent = new Intent(MainActivity.this, dashboard.class);
-                    intent.putExtra("id", uid);
-                    intent.putExtra("username", uusername);
-                    intent.putExtra("nombre", unombre);
                     startActivity(intent);
                     finish();
 
