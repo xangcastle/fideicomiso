@@ -50,7 +50,7 @@ public class dashboard extends AppCompatActivity {
 
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("rutas", datos, null, "1", " DESC");
+        ArrayList puntos =  conexion.searchRegistration("datos", datos, null, null, " DESC");
 
         try{
 

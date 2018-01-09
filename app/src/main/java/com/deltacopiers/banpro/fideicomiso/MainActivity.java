@@ -74,31 +74,35 @@ public class MainActivity extends AppCompatActivity {
                     Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
                     long respuesta = conexion.insertRegistration("usuarios", data);
 
-                    data = new String[11][2];
-                    data[0][0] = "id";
-                    data[0][1] = jObj.getString("id");
-                    data[1][0] = "departamento";
-                    data[1][1] = jObj.getString("departamento");
-                    data[2][0] = "municipio";
-                    data[2][1] = jObj.getString("municipio");
-                    data[3][0] = "barrio";
-                    data[3][1] = jObj.getString("barrio");
-                    data[4][0] = "comarca";
-                    data[4][1] = jObj.getString("comarca");
-                    data[5][0] = "comunidad";
-                    data[5][1] = jObj.getString("comunidad");
-                    data[6][0] = "direccion";
-                    data[6][1] = jObj.getString("direccion");
-                    data[7][0] = "suvecion";
-                    data[7][1] = jObj.getString("suvecion");
-                    data[8][0] = "contactos";
-                    data[8][1] = jObj.getString("contactos");
-                    data[9][0] = "longitude";
-                    data[9][1] = jObj.getString("longitude");
-                    data[10][0] = "latitude";
-                    data[10][1] = jObj.getString("latitude");
+                    for(int i = 0 ; i<puntos.length();i++)
+                    {
+                        data = new String[11][2];
+                        data[0][0] = "id";
+                        data[0][1] = puntos.getJSONObject(i).getString("id");
+                        data[1][0] = "departamento";
+                        data[1][1] = puntos.getJSONObject(i).getString("departamento");
+                        data[2][0] = "municipio";
+                        data[2][1] = puntos.getJSONObject(i).getString("municipio");
+                        data[3][0] = "barrio";
+                        data[3][1] = puntos.getJSONObject(i).getString("barrio");
+                        data[4][0] = "comarca";
+                        data[4][1] = puntos.getJSONObject(i).getString("comarca");
+                        data[5][0] = "comunidad";
+                        data[5][1] = puntos.getJSONObject(i).getString("comunidad");
+                        data[6][0] = "direccion";
+                        data[6][1] = puntos.getJSONObject(i).getString("direccion");
+                        data[7][0] = "suvecion";
+                        data[7][1] = puntos.getJSONObject(i).getString("suvecion");
+                        data[8][0] = "contactos";
+                        data[8][1] = puntos.getJSONObject(i).getString("contactos");
+                        data[9][0] = "longitude";
+                        data[9][1] = puntos.getJSONObject(i).getString("longitude");
+                        data[10][0] = "latitude";
+                        data[10][1] = puntos.getJSONObject(i).getString("latitude");
 
-                    respuesta = conexion.insertRegistration("puntos", data);
+                        respuesta = conexion.insertRegistration("puntos", data);
+                    }
+
 
 
 
