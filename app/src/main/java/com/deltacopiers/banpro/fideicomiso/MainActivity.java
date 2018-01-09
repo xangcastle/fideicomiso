@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import com.deltacopiers.banpro.fideicomiso.AppController;
 public class MainActivity extends AppCompatActivity {
     private Button btn_login;
     private EditText txt_usuario;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLogin(final String usuario, final String password) {
         // Tag used to cancel the request
-
+        String tag_string_req = "req_login";
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 "http://192.168.0.17:8000/banpro/login/", new Response.Listener<String>() {
 
@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-        AppController.getInstance().addToRequestQueue(strReq);
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
 
