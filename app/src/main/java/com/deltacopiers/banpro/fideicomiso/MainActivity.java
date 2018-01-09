@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://192.168.0.17:8000/banpro/login/", new Response.Listener<String>() {
+                AppConfig.URL_LOGIN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

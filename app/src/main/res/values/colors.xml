@@ -17,10 +17,13 @@
     <color name="input_register_bg">#3b4148</color>
     <color name="input_register_hint">#5e6266</color>
     <color name="btn_login">#eceef1</color>
-    <color name="btn_login_bg">#EC7B18</color>
+    <color name="btn_login_bg">#166837</color>
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
     <color name="primary_text">#ff6861</color>
     <color name="secondary_text">#ff6861</color>
-    <color name="btn_register">#EC7B18</color>
+    <color name="btn_register">#166837</color>
+    <color name="list_background_pressed">#4287B1</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="list_divider">#cccccc</color>
 </resources>
