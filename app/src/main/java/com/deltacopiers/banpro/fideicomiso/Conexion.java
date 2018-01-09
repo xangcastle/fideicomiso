@@ -32,7 +32,7 @@ public class Conexion extends SQLiteOpenHelper {
         try {
             openDataBase();
             db.execSQL("CREATE TABLE IF NOT EXISTS 'usuarios' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id' INTEGER, 'username' TEXT ,'nombre' TEXT );");
-            db.execSQL("CREATE TABLE IF NOT EXISTS 'puntos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'departamento' TEXT , 'municipio' TEXT ,'barrio' TEXT, 'comarca' TEXT, 'comunidad' TEXT ,'direccion' TEXT ,'suvecion' INTEGER);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS 'puntos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'departamento' TEXT , 'municipio' TEXT ,'barrio' TEXT, 'comarca' TEXT, 'comunidad' TEXT ,'direccion' TEXT ,'suvecion' INTEGER,'id' TEXT, 'contactos' TEXT , 'longitude' TEXT,'latitude' TEXT);");
             db.execSQL("CREATE TABLE IF NOT EXISTS 'contactos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'nombre' TEXT , 'referencia' TEXT ,'punto' INTEGER);");
         } catch (Exception e) {
             Log.e("", e.toString());

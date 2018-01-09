@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,24 +55,52 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-
                     session.setLogin(true);
-
-                    // Now store the user in SQLite
-                    String uid = jObj.getString("id");
-                    String uusername = jObj.getString("username");
-                    String unombre = jObj.getString("nombre");
+                    String id = jObj.getString("id");
+                    String username = jObj.getString("username");
+                    String nombre = jObj.getString("nombre");
+                    JSONArray puntos = jObj.getJSONArray("puntos");
 
                     String[][] data = new String[3][2];
                     data[0][0] = "id";
-                    data[0][1] = uid;
+                    data[0][1] = id;
                     data[1][0] = "username";
-                    data[1][1] = uusername;
+                    data[1][1] = username;
                     data[2][0] = "nombre";
-                    data[2][1] = unombre;
+                    data[2][1] = nombre;
+
+
 
                     Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
                     long respuesta = conexion.insertRegistration("usuarios", data);
+
+                    data = new String[11][2];
+                    data[0][0] = "id";
+                    data[0][1] = jObj.getString("id");
+                    data[1][0] = "departamento";
+                    data[1][1] = jObj.getString("departamento");
+                    data[2][0] = "municipio";
+                    data[2][1] = jObj.getString("municipio");
+                    data[3][0] = "barrio";
+                    data[3][1] = jObj.getString("barrio");
+                    data[4][0] = "comarca";
+                    data[4][1] = jObj.getString("comarca");
+                    data[5][0] = "comunidad";
+                    data[5][1] = jObj.getString("comunidad");
+                    data[6][0] = "direccion";
+                    data[6][1] = jObj.getString("direccion");
+                    data[7][0] = "suvecion";
+                    data[7][1] = jObj.getString("suvecion");
+                    data[8][0] = "contactos";
+                    data[8][1] = jObj.getString("contactos");
+                    data[9][0] = "longitude";
+                    data[9][1] = jObj.getString("longitude");
+                    data[10][0] = "latitude";
+                    data[10][1] = jObj.getString("latitude");
+
+                    respuesta = conexion.insertRegistration("puntos", data);
+
+
 
                     // Launch main activity
                     Intent intent = new Intent(MainActivity.this, dashboard.class);

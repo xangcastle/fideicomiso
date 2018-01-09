@@ -38,8 +38,36 @@ public class dashboard extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview);
         arrList = new ArrayList<HashMap<String, String>>();
 
+        String[] datos = new String[11];
+        datos[0] = "id";
+        datos[1] = "departamento";
+        datos[2] = "municipio";
+        datos[3] = "barrio";
+        datos[4] = "comarca";
+        datos[5] = "comunidad";
+        datos[6] = "direccion";
+        datos[7] = "suvecion";
+        datos[8] = "contactos";
+        datos[9] = "longitude";
+        datos[10] = "latitude";
 
-       
+
+        Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
+        ArrayList puntos =  conexion.searchRegistration("rutas", datos, null, "1", " DESC");
+
+        try{
+
+            for (int i = 0; i < puntos.size(); i++) {
+                HashMap codDoc = (HashMap) puntos.get(i);
+                HashMap<String, String> map1 = new HashMap<String, String>();
+                map1.put("id", codDoc.get("id").toString());
+                map1.put("name", codDoc.get("departamento").toString());
+                map1.put("url", codDoc.get("direccion").toString());
+                arrList.add(map1);
+            }
+        } catch ( Exception e) {
+            e.printStackTrace();
+        }
 
 
         if(!arrList.isEmpty()){
