@@ -17,8 +17,8 @@
     <string name="btn_grabar">Grabar</string>
     <string name="btn_detener">Detener</string>
     <string name="btn_reproducir">Reproducir</string>
-    <string name="record">Record</string>
-    <string name="stop">Stop</string>
+    <string name="record">Grabar</string>
+    <string name="stop">Detener</string>
     <string name="description_info">Info</string>
     <string name="permission_request">This sample needs permission for camera and audio recording.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
