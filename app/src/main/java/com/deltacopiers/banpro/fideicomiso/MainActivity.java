@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(MainActivity.this, dashboard.class);
+            startActivity(intent);
+            finish();
+        }
         btn_login = (Button)findViewById(R.id.btnLogin);
         txt_usuario = (EditText)findViewById(R.id.email);
         txt_password = (EditText)findViewById(R.id.password);
