@@ -38,7 +38,7 @@
             android:id="@+id/detener"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dip"
+            android:layout_marginTop="40dip"
             android:background="@color/btn_login_bg"
             android:text="@string/btn_detener"
             android:textColor="@color/btn_login" />
@@ -46,7 +46,7 @@
             android:id="@+id/reproducir"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dip"
+            android:layout_marginTop="50dip"
             android:background="@color/btn_login_bg"
             android:text="@string/btn_reproducir"
             android:textColor="@color/btn_login" />

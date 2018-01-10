@@ -1,7 +1,9 @@
 package com.deltacopiers.banpro.fideicomiso;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +34,105 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(versionDispositivo()>=23)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+            }
+
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        0);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                        0);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.INTERNET))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.INTERNET},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+                        0);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_NETWORK_STATE))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                        0);
+            }
+
+
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.RECEIVE_BOOT_COMPLETED))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
+                        0);
+            }
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.LOCATION_HARDWARE))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.LOCATION_HARDWARE},
+                        0);
+            } else
+            {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.LOCATION_HARDWARE},
+                        0);
+            }
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.RECORD_AUDIO))
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO},
+                        0);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
+                        0);
+            }
+        }
 
 
         btn_login = (Button)findViewById(R.id.btnLogin);
@@ -165,6 +266,13 @@ public class MainActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    public int versionDispositivo()
+    {
+        int version = 0;
+        version = android.os.Build.VERSION.SDK_INT;
+        return version;
     }
 
 
