@@ -6,8 +6,8 @@
     <string name="btn_link_to_register">registrarse</string>
     <string name="message_error">no se pudo conectar con el servicio</string>
     <string name="title_activity_dashboard">dashboard</string>
-    <string name="info">Website Information from URL</string>
+    <string name="info">Informacion</string>
     <string name="wid">ID</string>
-    <string name="name">Name</string>
-    <string name="url">Website</string>
+    <string name="name">Nombre</string>
+    <string name="url">Direccion</string>
 </resources>
