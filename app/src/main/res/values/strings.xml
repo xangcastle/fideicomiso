@@ -1,8 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">fideicomiso</string>
     <string name="hint_email">usuario</string>
     <string name="hint_password">password</string>
     <string name="btn_login">ingresar</string>
+    <string name="btn_play">Grabar</string>
     <string name="btn_link_to_register">registrarse</string>
     <string name="message_error">no se pudo conectar con el servicio</string>
     <string name="title_activity_dashboard">dashboard</string>
@@ -15,4 +17,9 @@
     <string name="btn_grabar">Grabar</string>
     <string name="btn_detener">Detener</string>
     <string name="btn_reproducir">Reproducir</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="description_info">Info</string>
+    <string name="permission_request">This sample needs permission for camera and audio recording.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 </resources>
