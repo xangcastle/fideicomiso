@@ -59,9 +59,9 @@ public class CameraAppActivity extends AppCompatActivity implements SurfaceHolde
         holder.addCallback(this);
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        final Button btnRec = (Button)findViewById(R.id.btnRec);
-        final Button btnStop = (Button)findViewById(R.id.btnStop);
-        final Button btnPlay = (Button)findViewById(R.id.btnPlay);
+        final Button btnRec = (Button)findViewById(R.id.grabar);
+        final Button btnStop = (Button)findViewById(R.id.detener);
+        final Button btnPlay = (Button)findViewById(R.id.reproducir);
 
         btnRec.setOnClickListener(new View.OnClickListener() {
             @Override
