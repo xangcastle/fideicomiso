@@ -33,15 +33,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        btn_login = (Button)findViewById(R.id.btnLogin);
+        txt_usuario = (EditText)findViewById(R.id.email);
+        txt_password = (EditText)findViewById(R.id.password);
+        session = new SessionManager(getApplicationContext());
         if (session.isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, dashboard.class);
             startActivity(intent);
             finish();
         }
-        btn_login = (Button)findViewById(R.id.btnLogin);
-        txt_usuario = (EditText)findViewById(R.id.email);
-        txt_password = (EditText)findViewById(R.id.password);
-        session = new SessionManager(getApplicationContext());
 
         btn_login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+
     }
 
     private void checkLogin(final String usuario, final String password) {
