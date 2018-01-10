@@ -1,11 +1,12 @@
 package com.deltacopiers.banpro.fideicomiso;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -74,6 +75,18 @@ public class dashboard extends AppCompatActivity {
 
             listView.setAdapter(adapter);
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
+                String id_item = item.get("id");
+                Intent intent = new Intent(dashboard.this,Registro.class);
+                intent.putExtra("ID",id_item);
+                //based on item add info to intent
+                startActivity(intent);
+            }
+        });
     }
 
 

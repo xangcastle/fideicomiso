@@ -10,4 +10,5 @@
     <string name="wid">ID</string>
     <string name="name">Nombre</string>
     <string name="url">Direccion</string>
+    <string name="title_activity_registro">Registro</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.deltacopiers.banpro.fideicomiso;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText txt_usuario;
     private EditText txt_password;
     private SessionManager session;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 String usuario = txt_usuario.getText().toString();
                 String password = txt_password.getText().toString();
+                pDialog.setMessage("Cargando datos ...");
+                showDialog();
                 checkLogin(usuario, password);
             }
         });
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
     }
 
     private void checkLogin(final String usuario, final String password) {
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-                    conexion.deleteTabla();
+                    //conexion.deleteTabla();
                     long respuesta = conexion.insertRegistration("usuarios", data);
 
                     for(int i = 0 ; i<puntos.length();i++)
@@ -103,10 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                         respuesta = conexion.insertRegistration("puntos", data);
                     }
-
-
-
-
+                    hideDialog();
                     // Launch main activity
                     Intent intent = new Intent(MainActivity.this, dashboard.class);
                     startActivity(intent);
@@ -115,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     // JSON error
+                    hideDialog();
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),
                             R.string.message_error, Toast.LENGTH_LONG).show();
@@ -144,6 +148,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 
 
