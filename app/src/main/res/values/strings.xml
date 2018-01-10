@@ -11,4 +11,8 @@
     <string name="name">Nombre</string>
     <string name="url">Direccion</string>
     <string name="title_activity_registro">Registro</string>
+    <string name="title_activity_camera_app">CameraAppActivity</string>
+    <string name="btn_grabar">Grabar</string>
+    <string name="btn_detener">Detener</string>
+    <string name="btn_reproducir">Reproducir</string>
 </resources>
