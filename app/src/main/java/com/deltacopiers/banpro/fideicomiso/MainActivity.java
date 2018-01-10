@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
+                    conexion.deleteTabla();
                     long respuesta = conexion.insertRegistration("usuarios", data);
 
                     for(int i = 0 ; i<puntos.length();i++)

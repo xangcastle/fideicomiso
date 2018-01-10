@@ -24,19 +24,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@color/input_register_bg"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint" />
-    </LinearLayout>
+        android:focusableInTouchMode="true"></LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

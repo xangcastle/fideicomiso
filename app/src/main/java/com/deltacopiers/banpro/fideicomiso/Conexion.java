@@ -39,6 +39,18 @@ public class Conexion extends SQLiteOpenHelper {
         }
     }
 
+
+    public void deleteTabla() {
+        try {
+            openDataBase();
+            db.execSQL("DELETE FROM 'usuarios'");
+            db.execSQL("DELETE FROM 'puntos'");
+            db.execSQL("DELETE FROM 'contactos'");
+          } catch (Exception e) {
+            Log.e("", e.toString());
+        }
+    }
+
     public Conexion(Context _context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(_context, name, factory, version);
         context = _context;
