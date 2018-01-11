@@ -3,9 +3,12 @@ package com.fideicomiso.banpro.fideicomiso;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -31,6 +34,7 @@ public class LoginActivity extends Activity {
     private EditText txt_password;
     private SessionManager session;
     private ProgressDialog pDialog;
+    public static final long INTERVALOTIEMPOSINCRONIZACION = 30000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,12 @@ public class LoginActivity extends Activity {
             if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                 Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
                 getApplicationContext().startService(serv); //ctx de tipo Context
+            }
+            if(Build.VERSION.SDK_INT>=19) {
+                Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
             }
             Intent intent = new Intent(LoginActivity.this, dashboard.class);
             startActivity(intent);
@@ -152,6 +162,12 @@ public class LoginActivity extends Activity {
                     if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                         Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
                         getApplicationContext().startService(serv); //ctx de tipo Context
+                    }
+                    if(Build.VERSION.SDK_INT>=19) {
+                        Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                        AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                        manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
                     }
                     hideDialog();
                     // Launch main activity
