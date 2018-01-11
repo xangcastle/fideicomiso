@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 
 public class Camera extends Activity  {
-
+    public String id_Punto ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +17,10 @@ public class Camera extends Activity  {
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, VideoFrame.newInstance())
                     .commit();
+        }
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            id_Punto= extras.getString("ID");
         }
     }
 

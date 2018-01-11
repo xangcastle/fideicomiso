@@ -39,6 +39,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -90,6 +91,7 @@ public class VideoFrame extends Fragment
      * An {@link AutoFitTextureView} for camera preview.
      */
     private AutoFitTextureView mTextureView;
+    private TextView id_punto;
 
     /**
      * Button to record video
@@ -274,6 +276,7 @@ public class VideoFrame extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
+        id_punto     = (TextView) view.findViewById(R.id.id_punto);
        // view.findViewById(R.id.info).setOnClickListener(this);
     }
 
@@ -685,15 +688,31 @@ public class VideoFrame extends Fragment
 
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
-                Sincronizacion sincronizacion = new Sincronizacion();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
-
                 String fecha = dateFormat.format(date);
-                sincronizacion.sincronizacionVideo(getActivity(),mNextVideoAbsolutePath,longitude+"",latitude+"",fecha,"18","2223");
 
-                    // \n is for new line
-                Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                SessionManager session = new SessionManager(getActivity());
+                String[][] data = new String[6][2];
+                data[0][0] = "longitud";
+                data[0][1] = ""+longitude;
+                data[1][0] = "latitud";
+                data[1][1] = ""+latitude;
+                data[2][0] = "fecha";
+                data[2][1] = fecha;
+                data[3][0] = "ruta";
+                data[3][1] = mNextVideoAbsolutePath;
+                data[4][0] = "punto";
+                data[4][1] =  id_punto.getText().toString();
+                data[5][0] = "usuario";
+                data[5][1] = ""+session.get_user();
+
+                Conexion conexion = new Conexion(getActivity(), "Delta", null, 3);
+                //conexion.deleteTabla();
+                long respuesta = conexion.insertRegistration("registros", data);
+
+                // \n is for new line
+                Toast.makeText(getActivity(), respuesta+" - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
             }else{
                 // can't get location
                 // GPS or Network is not enabled

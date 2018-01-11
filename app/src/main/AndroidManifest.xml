@@ -35,6 +35,19 @@
         <activity
             android:name=".dashboard"
             android:label="@string/title_activity_dashboard" />
+        <service
+            android:name=".SincronizacionService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver android:name=".SincronizacionBroadcast">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

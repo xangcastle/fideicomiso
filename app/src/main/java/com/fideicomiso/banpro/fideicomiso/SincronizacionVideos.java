@@ -1,25 +1,18 @@
 package com.fideicomiso.banpro.fideicomiso;
 
         import android.content.Context;
-        import android.graphics.Bitmap;
         import android.os.AsyncTask;
-        import android.os.Environment;
         import android.util.Log;
-
         import java.io.DataOutputStream;
-        import java.io.File;
         import java.io.FileInputStream;
         import java.io.FileNotFoundException;
-        import java.io.FileOutputStream;
         import java.io.IOException;
         import java.io.InputStream;
         import java.net.HttpURLConnection;
         import java.net.MalformedURLException;
         import java.net.ProtocolException;
         import java.net.URL;
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.Random;
+
 
 /**
  * Se encarga de la sincronizacion de imagenes al servidor
@@ -80,8 +73,8 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     private String punto;
     private Context context;
 
-    private String titulo;
-    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto , ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
+    private String id_punto;
+    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,  ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
 
         this.ruta=ruta;
         this.longitud=longitud;
@@ -91,6 +84,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         this.punto=punto;
         this.context = context;
         this.listenerSincronizacionImagenes=listenerSincronizacionImagenes;
+        this.id_punto =id_punto;
 
     }
 
@@ -121,8 +115,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
      */
     protected void onPostExecute(Integer result) {
         this.codigoResultado=result;
-        Log.e("CODIGO", Integer.toString(codigoResultado));
-        listenerSincronizacionImagenes.enSincronizacionFinalizada(codigoResultado,titulo);
+        listenerSincronizacionImagenes.enSincronizacionFinalizada(codigoResultado,this.id_punto);
 
     }
 
@@ -305,9 +298,9 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         /**
          * En caso de que la sincronizacion haya sido finalizado, bien o mal
          * @param codigo  el codigo que arrojo la sincronizacion
-         * @param titulo  el titulo del campo que se sincronizo
+         * @param id_punto  el titulo del campo que se sincronizo
          */
-        void enSincronizacionFinalizada(int codigo, String titulo);
+        void enSincronizacionFinalizada(int codigo, String id_punto);
     }
 
 

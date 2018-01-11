@@ -2,7 +2,9 @@ package com.fideicomiso.banpro.fideicomiso;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -38,6 +40,7 @@ public class LoginActivity extends Activity {
         txt_password = (EditText)findViewById(R.id.password);
         session = new SessionManager(getApplicationContext());
 
+
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
             ActivityCompat.requestPermissions(this,
@@ -60,6 +63,7 @@ public class LoginActivity extends Activity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     0);
         }
+
         if (session.isLoggedIn()) {
             Intent intent = new Intent(LoginActivity.this, dashboard.class);
             startActivity(intent);
@@ -80,6 +84,7 @@ public class LoginActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
     }
+
     private void checkLogin(final String usuario, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
@@ -91,11 +96,12 @@ public class LoginActivity extends Activity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    session.setLogin(true);
+
                     String id = jObj.getString("id");
                     String username = jObj.getString("username");
                     String nombre = jObj.getString("nombre");
                     JSONArray puntos = jObj.getJSONArray("puntos");
+                    session.setLogin(true,Integer.parseInt(id));
 
                     String[][] data = new String[3][2];
                     data[0][0] = "id";
@@ -138,6 +144,10 @@ public class LoginActivity extends Activity {
                         data[10][1] = puntos.getJSONObject(i).getString("latitude");
 
                         respuesta = conexion.insertRegistration("puntos", data);
+                    }
+                    if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
+                        Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
+                        getApplicationContext().startService(serv); //ctx de tipo Context
                     }
                     hideDialog();
                     // Launch main activity
@@ -194,6 +204,17 @@ public class LoginActivity extends Activity {
         int version = 0;
         version = android.os.Build.VERSION.SDK_INT;
         return version;
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if (serviceClass.getName().equals(service.service.getClassName()))
+            {
+                return true;
+            }
+        } return false;
     }
 
 }
