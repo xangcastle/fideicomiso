@@ -9,16 +9,18 @@ import android.util.Log;
  */
 
 public class Sincronizacion implements SincronizacionVideos.ListenerSincronizacionImagenes{
-
+    Context context;
     public void sincronizacionVideo(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String _id )
     {
-
+        this.context = context;
         SincronizacionVideos sincronizacionImagenes = new SincronizacionVideos(context,ruta,  longitud,  latitud,  fecha,  usuario , punto,_id, this);
         sincronizacionImagenes.execute();
     }
     @Override
     public void enSincronizacionFinalizada(int codigo, String id_punto) {
       int cod= codigo;
-
+        Conexion conexion = new Conexion(this.context , "Delta", null, 3);
+        long respuesta =  conexion.deleteRegistration("registros", " punto = "+id_punto);
+             respuesta =  conexion.deleteRegistration("puntos", " _id = "+id_punto);
     }
 }

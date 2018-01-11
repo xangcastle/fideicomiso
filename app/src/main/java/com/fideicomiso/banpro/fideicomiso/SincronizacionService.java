@@ -121,13 +121,14 @@ public class SincronizacionService extends Service {
                             codDoc.get("punto").toString(),
                             codDoc.get("_id").toString()
                             );
+                    Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
                 }
             }catch ( Exception e) {
                 e.printStackTrace();
             }
 
 
-            Toast.makeText(getApplicationContext(), "Sincronización en proceso", Toast.LENGTH_SHORT).show();
+
 
         }
     }
