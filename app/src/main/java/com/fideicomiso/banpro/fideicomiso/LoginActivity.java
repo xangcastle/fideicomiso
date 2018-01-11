@@ -65,6 +65,10 @@ public class LoginActivity extends Activity {
         }
 
         if (session.isLoggedIn()) {
+            if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
+                Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
+                getApplicationContext().startService(serv); //ctx de tipo Context
+            }
             Intent intent = new Intent(LoginActivity.this, dashboard.class);
             startActivity(intent);
             finish();

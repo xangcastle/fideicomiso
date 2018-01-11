@@ -59,7 +59,7 @@ public class SincronizacionService extends Service {
         datos[6] = "_id";
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("puntos", datos, null, null, " DESC");
+        ArrayList puntos =  conexion.searchRegistration("registros", datos, null, null, " DESC");
         TareaSincronizar obj = new TareaSincronizar(puntos,fecha);
         handler.post(obj);
     }
