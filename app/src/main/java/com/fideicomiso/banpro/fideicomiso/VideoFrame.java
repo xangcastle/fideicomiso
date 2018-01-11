@@ -43,10 +43,15 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -680,8 +685,14 @@ public class VideoFrame extends Fragment
 
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
+                Sincronizacion sincronizacion = new Sincronizacion();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date = new Date();
 
-                // \n is for new line
+                String fecha = dateFormat.format(date);
+                sincronizacion.sincronizacionVideo(getActivity(),mNextVideoAbsolutePath,longitude+"",latitude+"",fecha,"18","223");
+
+                    // \n is for new line
                 Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
             }else{
                 // can't get location
