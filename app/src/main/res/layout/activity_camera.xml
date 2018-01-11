@@ -19,5 +19,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
-    tools:context="com.fideicomiso.banpro.fideicomiso.Camera" />
+    tools:context="com.fideicomiso.banpro.fideicomiso.Camera" >
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_punto"
+        android:visibility="invisible"/>
+</FrameLayout>
+
+
+
 

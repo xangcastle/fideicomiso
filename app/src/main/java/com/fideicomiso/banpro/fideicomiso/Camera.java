@@ -2,6 +2,7 @@ package com.fideicomiso.banpro.fideicomiso;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -16,16 +17,18 @@ public class Camera extends Activity  {
        // if(versionDispositivo()>=23)
 
         if (null == savedInstanceState) {
+            VideoFrame vf = VideoFrame.newInstance();
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container, VideoFrame.newInstance())
+                    .replace(R.id.container, vf)
                     .commit();
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                id_Punto= extras.getString("ID");
+                text = (TextView)findViewById(R.id.id_punto);
+                text.setText(id_Punto);
+            }
         }
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            id_Punto= extras.getString("ID");
-            text = findViewById(R.id.id_punto);
-            text.setText(id_Punto);
-        }
+
     }
 
     public int versionDispositivo()

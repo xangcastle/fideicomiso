@@ -276,7 +276,7 @@ public class VideoFrame extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
-        id_punto     = (TextView) view.findViewById(R.id.id_punto);
+
        // view.findViewById(R.id.info).setOnClickListener(this);
     }
 
@@ -691,7 +691,7 @@ public class VideoFrame extends Fragment
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
                 String fecha = dateFormat.format(date);
-
+                id_punto     = (TextView) getActivity().findViewById(R.id.id_punto);
                 SessionManager session = new SessionManager(getActivity());
                 String[][] data = new String[6][2];
                 data[0][0] = "longitud";
