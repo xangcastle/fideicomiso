@@ -1,12 +1,10 @@
 package com.fideicomiso.banpro.fideicomiso;
 
-import android.Manifest;
 import android.app.Activity;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Camera extends Activity {
+
+public class Camera extends Activity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +26,9 @@ public class Camera extends Activity {
         version = android.os.Build.VERSION.SDK_INT;
         return version;
     }
+
+
+
 }
 
 

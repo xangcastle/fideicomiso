@@ -1,6 +1,7 @@
 package com.fideicomiso.banpro.fideicomiso;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,6 +22,11 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -45,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -267,7 +274,7 @@ public class VideoFrame extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
-       // view.findViewById(R.id.info).setOnClickListener(this);
+        // view.findViewById(R.id.info).setOnClickListener(this);
     }
 
     @Override
@@ -658,6 +665,7 @@ public class VideoFrame extends Fragment
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void stopRecordingVideo() {
         // UI
         mIsRecordingVideo = false;
@@ -668,12 +676,37 @@ public class VideoFrame extends Fragment
 
         Activity activity = getActivity();
         if (null != activity) {
-            Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath,
-                    Toast.LENGTH_SHORT).show();
+
+            LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            CamLocationListener mlocListener = new CamLocationListener();
+            mlocListener.setMainActivity(this);
+            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) mlocListener);
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
         mNextVideoAbsolutePath = null;
         startPreview();
+    }
+    public void setLocation(Location loc) {
+        //Obtener la direcci—n de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+                if (!list.isEmpty()) {
+                    Address address = list.get(0);
+
+                    Activity activity = getActivity();
+                    if (null != activity) {
+                        Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath+"  latitud :"+loc.getLatitude()+" longitud :"+ loc.getLongitude(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    // messageTextView2.setText("Mi direcci—n es: \n" + address.getAddressLine(0));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
