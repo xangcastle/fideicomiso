@@ -690,7 +690,7 @@ public class VideoFrame extends Fragment
                 Date date = new Date();
 
                 String fecha = dateFormat.format(date);
-                sincronizacion.sincronizacionVideo(getActivity(),mNextVideoAbsolutePath,longitude+"",latitude+"",fecha,"18","223");
+                sincronizacion.sincronizacionVideo(getActivity(),mNextVideoAbsolutePath,longitude+"",latitude+"",fecha,"18","2223");
 
                     // \n is for new line
                 Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
