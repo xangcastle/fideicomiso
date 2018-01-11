@@ -2,10 +2,12 @@ package com.fideicomiso.banpro.fideicomiso;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 
 public class Camera extends Activity  {
     public String id_Punto ;
+    public TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,8 @@ public class Camera extends Activity  {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             id_Punto= extras.getString("ID");
+            text = findViewById(R.id.id_punto);
+            text.setText(id_Punto);
         }
     }
 
