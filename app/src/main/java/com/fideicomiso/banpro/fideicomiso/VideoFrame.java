@@ -8,6 +8,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Matrix;
@@ -303,7 +304,24 @@ public class VideoFrame extends Fragment
         switch (view.getId()) {
             case R.id.video: {
                 if (mIsRecordingVideo) {
-                    stopRecordingVideo();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder
+                            .setMessage("Desea Detener y grabar el video ?")
+                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    stopRecordingVideo();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+
                 } else {
                     startRecordingVideo();
                 }
@@ -711,8 +729,15 @@ public class VideoFrame extends Fragment
                 //conexion.deleteTabla();
                 long respuesta = conexion.insertRegistration("registros", data);
 
-                // \n is for new line
-                Toast.makeText(getActivity(), respuesta+" - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                String[][] datos = new String[1][2];
+                datos[0][0] = "estado";
+                datos[0][1] = "1";
+
+                 respuesta =  conexion.update("puntos",datos, " id =  "+id_punto.getText().toString());
+
+                Intent intent = new Intent( getActivity(),Dashboard.class);
+                startActivity(intent);
+
             }else{
                 // can't get location
                 // GPS or Network is not enabled

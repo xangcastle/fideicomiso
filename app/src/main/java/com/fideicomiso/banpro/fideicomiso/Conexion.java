@@ -32,9 +32,9 @@ public class Conexion extends SQLiteOpenHelper {
         try {
             openDataBase();
             db.execSQL("CREATE TABLE IF NOT EXISTS 'usuarios' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id' INTEGER, 'username' TEXT ,'nombre' TEXT );");
-            db.execSQL("CREATE TABLE IF NOT EXISTS 'puntos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'departamento' TEXT , 'municipio' TEXT ,'barrio' TEXT, 'comarca' TEXT, 'comunidad' TEXT ,'direccion' TEXT ,'suvecion' INTEGER,'id' TEXT, 'contactos' TEXT , 'longitude' TEXT,'latitude' TEXT);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS 'puntos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'departamento' TEXT , 'municipio' TEXT ,'barrio' TEXT, 'comarca' TEXT, 'comunidad' TEXT ,'direccion' TEXT ,'suvecion' INTEGER,'id' TEXT, 'contactos' TEXT , 'longitude' TEXT,'latitude' TEXT,'estado' INTEGER DEFAULT  0);");
             db.execSQL("CREATE TABLE IF NOT EXISTS 'contactos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'nombre' TEXT , 'referencia' TEXT ,'punto' INTEGER);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS 'registros' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'longitud' TEXT , 'latitud' TEXT ,'fecha' TEXT ,'ruta' TEXT , 'punto' INTEGER ,'usuario' INTEGER );");
+            db.execSQL("CREATE TABLE IF NOT EXISTS 'registros' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'longitud' TEXT , 'latitud' TEXT ,'fecha' TEXT ,'ruta' TEXT , 'punto' INTEGER ,'usuario' INTEGER ,'estado' INTEGER DEFAULT  0);");
         } catch (Exception e) {
             Log.e("", e.toString());
         }
@@ -143,6 +143,27 @@ public class Conexion extends SQLiteOpenHelper {
         out.close();
         //in.close();
 
+    }
+
+    public long update(String nameTable, String[][] data,String where)
+    {
+
+        try {
+            openDataBase();
+            ContentValues values = new ContentValues();
+
+            for (String[] aData : data) {
+                values.put(aData[0], aData[1]);
+            }
+
+            long res = db.update(nameTable, values,where,null);
+            return res;
+        } catch (Exception e) {
+            return -1;
+        } finally {
+            closeBD();
+
+        }
     }
 
     public long insertRegistration(String nameTable, String[][] data) {

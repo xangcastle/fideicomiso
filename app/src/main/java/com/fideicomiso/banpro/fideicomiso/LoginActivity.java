@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
                 AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                 manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
             }
-            Intent intent = new Intent(LoginActivity.this, dashboard.class);
+            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
             startActivity(intent);
             finish();
         }
@@ -171,7 +171,7 @@ public class LoginActivity extends Activity {
                     }
                     hideDialog();
                     // Launch main activity
-                    Intent intent = new Intent(LoginActivity.this, dashboard.class);
+                    Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(intent);
                     finish();
 

@@ -16,7 +16,7 @@ import android.widget.SimpleAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class dashboard extends Activity {
+public class Dashboard extends Activity {
     ListView listView;
 
     ArrayList<HashMap<String, String>> arrList;
@@ -49,7 +49,7 @@ public class dashboard extends Activity {
 
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("puntos", datos, null, null, " DESC");
+        ArrayList puntos =  conexion.searchRegistration("puntos", datos, " estado = 0 ", null, " DESC");
 
         try{
 
@@ -79,7 +79,7 @@ public class dashboard extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
                 String id_item = item.get("id");
-                Intent intent = new Intent(dashboard.this,Camera.class);
+                Intent intent = new Intent(Dashboard.this,Camera.class);
                 intent.putExtra("ID",id_item);
                 //based on item add info to intent
                 startActivity(intent);
@@ -108,7 +108,7 @@ public class dashboard extends Activity {
     }
     private void logoutUser() {
         session.setLogin(false,0);
-        Intent intent = new Intent(dashboard.this, LoginActivity.class);
+        Intent intent = new Intent(Dashboard.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
