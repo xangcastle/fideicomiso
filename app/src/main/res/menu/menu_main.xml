@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item   android:id="@+id/logout"
+        android:title="@string/logout"
+        android:icon="@drawable/ic_action_info"
+        android:tooltipText="@string/logout"/>
+
+</menu>
+
+
+<!--
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item android:id="@+id/menu_item_share"
+    android:title="@string/spanish"
+    android:icon="@android:drawable/ic_menu_share"
+    app:showAsAction="ifRoom"
+    android:actionProviderClass="android.widget.ShareActionProvider" />
+
+<item
+    android:id="@+id/empty"
+    android:title="@string/spanish"
+    android:orderInCategory="101"
+    app:showAsAction="always"
+    android:icon="@drawable/es">
+
+    <menu>
+
+        <item android:id="@+id/spanish"
+            android:icon="@android:drawable/ic_menu_preferences"
+            app:showAsAction="ifRoom"
+            android:title="@string/spanish" />
+
+        <item android:id="@+id/english"
+            android:icon="@android:drawable/ic_menu_help"
+            app:showAsAction="ifRoom"
+            android:title="@string/english" />
+
+    </menu>
+
+</item>
+
+</menu>
+-->
