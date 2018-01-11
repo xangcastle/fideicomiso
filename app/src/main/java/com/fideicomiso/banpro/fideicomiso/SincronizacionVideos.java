@@ -169,15 +169,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
             try {
                 Conexion conexion = new Conexion(context, "Delta", null, 3);
 
-                String[] datos = new String[2];
-                datos[0] = "usu_token";
 
-                ArrayList rutas = conexion.searchRegistration("usuarios", datos, null, "1", " DESC");
-                if (rutas.size() > 0) {
-                    HashMap codDoc = (HashMap) rutas.get(0);
-                    String token = codDoc.get("usu_token").toString();
-
-                    Log.e(Tag, "Starting Http File Sending to URL");
                     codigoResultado = ENPROGRESO;
                     // Open a HTTP connection to the URL
                     HttpURLConnection conn = (HttpURLConnection) connectURL.openConnection();
@@ -195,7 +187,6 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     conn.setRequestMethod("POST");
 
                     conn.setRequestProperty("Connection", "Keep-Alive");
-                    conn.setRequestProperty("Authorization", "Token " + token);
 
                     conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
@@ -284,11 +275,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     } else {
                         return ERROR;
                     }
-                }
-                else
-                {
-                    return ERROR;
-                }
+
             } catch (MalformedURLException ex) {
                 Log.e(Tag, "URL error: " + ex.getMessage(), ex);
                 return ERROR;
