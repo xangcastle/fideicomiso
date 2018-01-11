@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
     private EditText txt_password;
     private SessionManager session;
     private ProgressDialog pDialog;
-    public static final long INTERVALOTIEMPOSINCRONIZACION = 30000;
+    public static final long INTERVALOTIEMPOSINCRONIZACION = 60000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

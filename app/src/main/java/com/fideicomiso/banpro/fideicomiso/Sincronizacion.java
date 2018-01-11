@@ -21,6 +21,6 @@ public class Sincronizacion implements SincronizacionVideos.ListenerSincronizaci
       int cod= codigo;
         Conexion conexion = new Conexion(this.context , "Delta", null, 3);
         long respuesta =  conexion.deleteRegistration("registros", " punto = "+id_punto);
-             respuesta =  conexion.deleteRegistration("puntos", " _id = "+id_punto);
+             respuesta =  conexion.deleteRegistration("puntos", "id = "+id_punto);
     }
 }

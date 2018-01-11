@@ -1,11 +1,7 @@
 package com.fideicomiso.banpro.fideicomiso;
 
-        import android.app.AlarmManager;
-        import android.app.PendingIntent;
         import android.content.Context;
-        import android.content.Intent;
         import android.os.AsyncTask;
-        import android.os.Build;
         import android.util.Log;
         import java.io.DataOutputStream;
         import java.io.FileInputStream;
@@ -88,7 +84,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         this.punto=punto;
         this.context = context;
         this.listenerSincronizacionImagenes=listenerSincronizacionImagenes;
-        this.id_punto =id_punto;
+        this.id_punto =punto;
 
     }
 
@@ -223,7 +219,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
 
 
-                    dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "imagen.mp4" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
                     Log.e(Tag, "Headers are written");
@@ -267,12 +263,6 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     String s = b.toString();
                     Log.e("Response", s);
                     dos.close();
-                if(Build.VERSION.SDK_INT>=19) {
-                    Intent alarmIntent = new Intent(context, SincronizacionBroadcast.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-                    AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
-                }
                     if ((conn.getResponseCode() == 200 || conn.getResponseCode() == 201) && !s.equals("")) {
                         return IMAGENSUBIDA;
                     } else {

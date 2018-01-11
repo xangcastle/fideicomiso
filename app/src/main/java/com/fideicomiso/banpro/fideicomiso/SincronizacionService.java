@@ -90,7 +90,7 @@ public class SincronizacionService extends Service {
             }
             showToast("Finishing , id: " + msg.arg1);
             // the msg.arg1 is the startId used in the onStartCommand, so we can track the running sevice here.
-            stopSelf(msg.arg1);
+          //  stopSelf(msg.arg1);
         }
     }
 
