@@ -710,8 +710,10 @@ public class VideoFrame extends Fragment
                 Date date = new Date();
                 String fecha = dateFormat.format(date);
                 id_punto     = (TextView) getActivity().findViewById(R.id.id_punto);
+                TextView cedula  = (TextView) getActivity().findViewById(R.id.cedula);
+                TextView comentario  = (TextView) getActivity().findViewById(R.id.comentario);
                 SessionManager session = new SessionManager(getActivity());
-                String[][] data = new String[6][2];
+                String[][] data = new String[9][2];
                 data[0][0] = "longitud";
                 data[0][1] = ""+longitude;
                 data[1][0] = "latitud";
@@ -724,6 +726,14 @@ public class VideoFrame extends Fragment
                 data[4][1] =  id_punto.getText().toString();
                 data[5][0] = "usuario";
                 data[5][1] = ""+session.get_user();
+                data[6][0] = "cedula";
+                data[6][1] = cedula.getText().toString();
+                data[6][0] = "comentario";
+                data[6][1] = comentario.getText().toString();
+                data[7][0] = "tipo";
+                data[7][1] = "1";
+                data[8][0] = "estado";
+                data[8][1] = "1";
 
                 Conexion conexion = new Conexion(getActivity(), "Delta", null, 3);
                 //conexion.deleteTabla();

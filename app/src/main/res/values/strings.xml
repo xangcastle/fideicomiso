@@ -25,7 +25,23 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="marker_detail_latlng">(%1$.2f, %2$.2f)</string>
-    <string name="btn_iniciarVisita">Iniciar Visita</string>
+    <string name="btn_iniciarVisita">Aceptación de entrevista</string>
     <string name="punto_full_snippet">La República Argentina, conocida simplemente como Argentina, es un país soberano de América del Sur, ubicado en el extremo sur y sudeste de dicho subcontinente. Adopta la forma de gobierno republicana, representativa y federal. El Estado nacional convive federativamente con veinticuatro entidades estatales autónomas, de las cuales veintitrés son provincias que preservan todo el poder no delegado constitucionalmente a la Nación y una es la Ciudad Autónoma de Buenos Aires, designada por ley como capital federal.</string>
+    <string name="btn_rechazarVisita">No aceptación de la entrevista</string>
+    <string name="comentario">Comentario</string>
+
+    <string name="btn_picture_product">Seleccione Imagén Principal</string>
+    <string name="btn_picture_plus_product">Más imagenes</string>
+    <string name="intro">Captura</string>
+    <string name="picture">Galeria</string>
+    <string name="capture">Camara</string>
+    <string name="name_product">Nombre</string>
+    <string name="description_product">Descripción</string>
+    <string name="price_product">Precio en dolares</string>
+    <string name="category_product">Categoría</string>
+    <string name="feature_product">Características</string>
+    <string name="model_product">Modelo</string>
+    <string name="register_product_message">Registrando  ..</string>
+    <string name="btn_register">Registrar y seguir a grabar video</string>
 
 </resources>

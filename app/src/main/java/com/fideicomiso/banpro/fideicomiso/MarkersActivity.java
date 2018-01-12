@@ -1,10 +1,16 @@
 package com.fideicomiso.banpro.fideicomiso;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +51,9 @@ public class MarkersActivity extends AppCompatActivity
     private double longitudeOrigen;
     private GoogleMap map;
     private String texto ;
+    private String id__Punto;
+    private Button btn_iniciar_visita ;
+    private Button btn_rechazar_visita ;
     HashMap codDoc;
 
     @Override
@@ -68,7 +77,7 @@ public class MarkersActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         if(extras != null)
         {
-            String id_Punto= extras.getString("ID");
+            id__Punto= extras.getString("ID");
             String[] datos = new String[11];
             datos[0] = "id";
             datos[1] = "departamento";
@@ -83,7 +92,7 @@ public class MarkersActivity extends AppCompatActivity
             datos[10] = "latitude";
 
             Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-            ArrayList puntos =  conexion.searchRegistration("puntos", datos, " id =  "+id_Punto, null, " DESC");
+            ArrayList puntos =  conexion.searchRegistration("puntos", datos, " id =  "+id__Punto, null, " DESC");
             codDoc = (HashMap) puntos.get(0);
             HashMap<String, String> map1 = new HashMap<String, String>();
             String longitude  = codDoc.get("longitude").toString();
@@ -119,19 +128,16 @@ public class MarkersActivity extends AppCompatActivity
 
         // Markers
 
-        texto = "distancia :"+CalculationByDistance(destino,origen)+texto;
+        texto = "distancia :"+CalculationByDistance(destino,origen) +" KM "+texto;
 
         markerOrigen = googleMap.addMarker(new MarkerOptions()
-                .position(destino)
+                .position(origen)
                 .title("Usted esta aqui")
         );
 
-
-
-        LatLng argentina = new LatLng(-34.6, -58.4);
         markerDestino = googleMap.addMarker(
                 new MarkerOptions()
-                        .position(origen)
+                        .position(destino)
                         .title(codDoc.get("direccion").toString())
         );
 
@@ -145,30 +151,68 @@ public class MarkersActivity extends AppCompatActivity
         googleMap.setOnMarkerDragListener(this);
         googleMap.setOnInfoWindowClickListener(this);
 
+        btn_rechazar_visita  = (Button)findViewById(R.id.rechazarVicita);
+        btn_rechazar_visita.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                builder
+                        .setMessage("No aceptación de entrevista?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
+                                intent.putExtra("ID",id__Punto);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+
+            }
+        });
+
+
+        btn_iniciar_visita = (Button)findViewById(R.id.iniciarVicita);
+        btn_iniciar_visita.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                builder
+                        .setMessage("Aceptación de entrevista ?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                Intent intent = new Intent(getApplicationContext(), Camera.class);
+                intent.putExtra("ID",id__Punto);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        /*if (marker.equals(markerOrigen)) {
 
-            map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()), new GoogleMap.CancelableCallback() {
-                @Override
-                public void onFinish() {
-                    Intent intent = new Intent(MarkersActivity.this, MarkerDetailActivity.class);
-                    intent.putExtra(EXTRA_LATITUD, marker.getPosition().latitude);
-                    intent.putExtra(EXTRA_LONGITUD, marker.getPosition().longitude);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onCancel() {
-
-                }
-            });
-
-            return true;
-
-        }*/
 
         return false;
     }
@@ -283,10 +327,6 @@ public class MarkersActivity extends AppCompatActivity
         return data;
     }
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
-        ParserTask ()
-        {
-
-        }
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
 

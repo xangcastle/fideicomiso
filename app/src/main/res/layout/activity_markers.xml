@@ -18,12 +18,24 @@
 
         <Button
             android:id="@+id/iniciarVicita"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="50"
             android:layout_alignParentBottom="true"
             android:text="@string/btn_iniciarVisita"
             android:textColor="@color/btn_login" />
+
+        <Button
+            android:id="@+id/rechazarVicita"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:layout_alignParentBottom="true"
+            android:text="@string/btn_rechazarVisita"
+            android:textColor="@color/btn_login" />
+
+
+
     </LinearLayout>
 
 

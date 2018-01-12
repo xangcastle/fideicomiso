@@ -10,10 +10,10 @@ import android.util.Log;
 
 public class Sincronizacion implements SincronizacionVideos.ListenerSincronizacionImagenes{
     Context context;
-    public void sincronizacionVideo(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String _id )
+    public void sincronizacionVideo(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String _id,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa )
     {
         this.context = context;
-        SincronizacionVideos sincronizacionImagenes = new SincronizacionVideos(context,ruta,  longitud,  latitud,  fecha,  usuario , punto,_id, this);
+        SincronizacionVideos sincronizacionImagenes = new SincronizacionVideos(context,ruta,  longitud,  latitud,  fecha,  usuario , punto,_id,_tipo,_comentario,_ruta_imagen_cedula,_ruta_imagen_casa, this);
         sincronizacionImagenes.execute();
     }
     @Override

@@ -71,10 +71,14 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     private String fecha;
     private String usuario;
     private String punto;
+    private String tipo;
+    private String comentario;
+    private String ruta_imagen_cedula;
+    private String ruta_imagen_casa;
     private Context context;
 
     private String id_punto;
-    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,  ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
+    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa,ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
 
         this.ruta=ruta;
         this.longitud=longitud;
@@ -85,6 +89,10 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         this.context = context;
         this.listenerSincronizacionImagenes=listenerSincronizacionImagenes;
         this.id_punto =punto;
+        this.tipo =_tipo;
+        this.comentario =_comentario;
+        this.ruta_imagen_cedula =_ruta_imagen_cedula ;
+        this.ruta_imagen_casa = _ruta_imagen_casa;
 
     }
 
@@ -145,10 +153,17 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
          * Archivo que contiene la imagen
          */
         private FileInputStream fileInputStream = null;
+        private FileInputStream fileInputStreamCasa = null;
+        private FileInputStream fileInputStreamCedula = null;
 
         public ConexionHttp() throws MalformedURLException, FileNotFoundException {
             connectURL  = new URL(AppConfig.URL_REGISTER_VIDEO);
-            fileInputStream = new FileInputStream(getRutaImagen());
+            if(ruta != null)
+               fileInputStream = new FileInputStream(getRutaImagen());
+            if(ruta_imagen_casa != null)
+                fileInputStreamCasa = new FileInputStream(ruta_imagen_casa);
+            if(ruta_imagen_cedula != null)
+                fileInputStreamCedula = new FileInputStream(ruta_imagen_cedula);
         }
 
         /**
@@ -202,6 +217,24 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
 
+                    if(comentario != null)
+                    {
+                        dos.writeBytes("Content-Disposition: form-data; name=\"comentario\"" + lineEnd);
+                        dos.writeBytes(lineEnd);
+                        dos.writeBytes(comentario);
+                        dos.writeBytes(lineEnd);
+                        dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    }
+
+                    if(tipo != null)
+                    {
+                        dos.writeBytes("Content-Disposition: form-data; name=\"tipo\"" + lineEnd);
+                        dos.writeBytes(lineEnd);
+                        dos.writeBytes(tipo);
+                        dos.writeBytes(lineEnd);
+                        dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    }
+
                     dos.writeBytes("Content-Disposition: form-data; name=\"latitude\"" + lineEnd);
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(latitud);
@@ -214,34 +247,89 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
 
+                    if(ruta!=null)
+                    {
+                        dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
+                        dos.writeBytes(lineEnd);
 
 
+                        // create a buffer of maximum size
+                        int bytesAvailable = fileInputStream.available();
+
+                        int maxBufferSize = 1024;
+                        int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        byte[] buffer = new byte[bufferSize];
+
+                        // read file and write it into form...
+                        int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                        while (bytesRead > 0) {
+                            dos.write(buffer, 0, bufferSize);
+                            bytesAvailable = fileInputStream.available();
+                            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                        }
+
+                        dos.writeBytes(lineEnd);
+                        dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                            fileInputStream.close();
+                    }
+
+                if(ruta_imagen_cedula!=null)
+                {
                     dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
-                    Log.e(Tag, "Headers are written");
 
                     // create a buffer of maximum size
-                    int bytesAvailable = fileInputStream.available();
+                    int bytesAvailable = fileInputStreamCedula.available();
 
                     int maxBufferSize = 1024;
                     int bufferSize = Math.min(bytesAvailable, maxBufferSize);
                     byte[] buffer = new byte[bufferSize];
 
                     // read file and write it into form...
-                    int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                    int bytesRead = fileInputStreamCedula.read(buffer, 0, bufferSize);
 
                     while (bytesRead > 0) {
                         dos.write(buffer, 0, bufferSize);
-                        bytesAvailable = fileInputStream.available();
+                        bytesAvailable = fileInputStreamCedula.available();
                         bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                        bytesRead = fileInputStreamCedula.read(buffer, 0, bufferSize);
                     }
+
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                    fileInputStreamCedula.close();
+                }
 
-                    // close streams
-                    fileInputStream.close();
+                if(ruta_imagen_casa!=null)
+                {
+                    dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+
+
+                    // create a buffer of maximum size
+                    int bytesAvailable = fileInputStreamCasa.available();
+
+                    int maxBufferSize = 1024;
+                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    byte[] buffer = new byte[bufferSize];
+
+                    // read file and write it into form...
+                    int bytesRead = fileInputStreamCasa.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        dos.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStreamCasa.available();
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStreamCasa.read(buffer, 0, bufferSize);
+                    }
+
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                    fileInputStreamCasa.close();
+                }
 
                     dos.flush();
 

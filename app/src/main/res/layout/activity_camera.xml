@@ -25,6 +25,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/id_punto"
         android:visibility="invisible"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cedula"
+        android:visibility="invisible"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comentario"
+        android:visibility="invisible"/>
 </FrameLayout>
 
 

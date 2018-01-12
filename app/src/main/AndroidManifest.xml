@@ -39,8 +39,7 @@
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme"
-            />
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".SincronizacionService"
@@ -49,16 +48,16 @@
 
         <receiver android:name=".SincronizacionBroadcast" />
 
-        <activity android:name=".MapaActivity"></activity>
-        <activity
-            android:name=".MarkersActivity"
-          />
-        <activity
-            android:name=".MarkerDetailActivity"
-            />
+        <activity android:name=".MapaActivity" />
+        <activity android:name=".MarkersActivity" />
+        <activity android:name=".MarkerDetailActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity android:name=".NoVisitaActivity" />
+        <activity android:name=".VisitaActivity"></activity>
     </application>
 
 </manifest>

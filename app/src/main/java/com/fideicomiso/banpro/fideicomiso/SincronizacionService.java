@@ -49,7 +49,7 @@ public class SincronizacionService extends Service {
         Date date = new Date();
         String fecha = dateFormat.format(date);
 
-        String[] datos = new String[7];
+        String[] datos = new String[11];
         datos[0] = "longitud";
         datos[1] = "latitud";
         datos[2] = "fecha";
@@ -57,9 +57,13 @@ public class SincronizacionService extends Service {
         datos[4] = "punto";
         datos[5] = "usuario";
         datos[6] = "_id";
+        datos[7] = "tipo";
+        datos[8] = "comentario";
+        datos[9] = "cedula";
+        datos[10] = "casa";
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("registros", datos, null, null, " DESC");
+        ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1", null, " DESC");
         TareaSincronizar obj = new TareaSincronizar(puntos,fecha);
         handler.post(obj);
     }
@@ -105,22 +109,24 @@ public class SincronizacionService extends Service {
 
         @Override
         public void run() {
-
-
             try{
 
                 for (int i = 0; i < datos.size(); i++) {
                     HashMap codDoc = (HashMap) datos.get(i);
                     Sincronizacion sincronizacion = new Sincronizacion();
                     sincronizacion.sincronizacionVideo(getApplicationContext(),
-                            codDoc.get("ruta").toString(),
+                            ((codDoc.get("ruta").toString()=="")?null:codDoc.get("ruta").toString()),
                             codDoc.get("longitud").toString(),
                             codDoc.get("latitud").toString(),
                             codDoc.get("fecha").toString(),
                             codDoc.get("usuario").toString(),
                             codDoc.get("punto").toString(),
-                            codDoc.get("_id").toString()
-                            );
+                            codDoc.get("_id").toString(),
+                            codDoc.get("tipo").toString(),
+                            codDoc.get("comentario").toString(),
+                            ((codDoc.get("cedula").toString()=="")?null:codDoc.get("ruta").toString()),
+                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("ruta").toString())
+                    );
                     Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
                 }
             }catch ( Exception e) {
