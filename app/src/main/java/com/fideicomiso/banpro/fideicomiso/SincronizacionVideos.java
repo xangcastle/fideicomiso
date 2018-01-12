@@ -135,6 +135,12 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     public String getRutaImagen() {
         return this.ruta;
     }
+    public String getRutaCedula() {
+        return this.ruta_imagen_cedula;
+    }
+    public String getRutaVivienda() {
+        return this.ruta_imagen_casa;
+    }
 
     /**
      * Codigo del resultado que arrojo la sincronizacion
@@ -158,12 +164,12 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
         public ConexionHttp() throws MalformedURLException, FileNotFoundException {
             connectURL  = new URL(AppConfig.URL_REGISTER_VIDEO);
-            if(ruta != null)
+            if(getRutaImagen() != null)
                fileInputStream = new FileInputStream(getRutaImagen());
-            if(ruta_imagen_casa != null)
-                fileInputStreamCasa = new FileInputStream(ruta_imagen_casa);
-            if(ruta_imagen_cedula != null)
-                fileInputStreamCedula = new FileInputStream(ruta_imagen_cedula);
+            if(getRutaVivienda() != null)
+                fileInputStreamCasa = new FileInputStream(getRutaVivienda());
+            if(getRutaCedula() != null)
+                fileInputStreamCedula = new FileInputStream(getRutaCedula());
         }
 
         /**
