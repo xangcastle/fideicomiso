@@ -164,11 +164,11 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
         public ConexionHttp() throws MalformedURLException, FileNotFoundException {
             connectURL  = new URL(AppConfig.URL_REGISTER_VIDEO);
-            if(getRutaImagen() != null)
+            if(getRutaImagen() != null && !getRutaImagen().equals(""))
                fileInputStream = new FileInputStream(getRutaImagen());
-            if(getRutaVivienda() != null)
+            if(getRutaVivienda() != null && !getRutaVivienda().equals(""))
                 fileInputStreamCasa = new FileInputStream(getRutaVivienda());
-            if(getRutaCedula() != null)
+            if(getRutaCedula() != null && !getRutaCedula().equals(""))
                 fileInputStreamCedula = new FileInputStream(getRutaCedula());
         }
 
@@ -253,7 +253,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
 
-                    if(ruta!=null)
+                    if(ruta!=null && !ruta.equals(""))
                     {
                         dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
                         dos.writeBytes(lineEnd);
@@ -281,7 +281,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                             fileInputStream.close();
                     }
 
-                if(ruta_imagen_cedula!=null)
+                if(ruta_imagen_cedula!=null&& !ruta_imagen_cedula.equals(""))
                 {
                     dos.writeBytes("Content-Disposition: form-data; name=\"cedula\";filename=\"" + "cedula.jpg" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
@@ -309,7 +309,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     fileInputStreamCedula.close();
                 }
 
-                if(ruta_imagen_casa!=null)
+                if(ruta_imagen_casa!=null&& !ruta_imagen_casa.equals(""))
                 {
                     dos.writeBytes("Content-Disposition: form-data; name=\"vivienda\";filename=\"" + "vivienda.jpg" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);

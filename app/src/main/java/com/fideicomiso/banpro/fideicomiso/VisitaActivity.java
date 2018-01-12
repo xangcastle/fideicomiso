@@ -52,7 +52,7 @@ public class VisitaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_no_visita);
+        setContentView(R.layout.activity_visita);
 
         session = new SessionManager(getApplicationContext());
         if (!session.isLoggedIn())
