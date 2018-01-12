@@ -305,7 +305,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                 if(ruta_imagen_casa!=null)
                 {
-                    dos.writeBytes("Content-Disposition: form-data; name=\"casa\";filename=\"" + "casa.jpg" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"vivienda\";filename=\"" + "vivienda.jpg" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
 
