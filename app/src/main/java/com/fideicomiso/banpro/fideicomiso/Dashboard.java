@@ -61,7 +61,7 @@ public class Dashboard extends Activity {
                 HashMap codDoc = (HashMap) puntos.get(i);
                 HashMap<String, String> map1 = new HashMap<String, String>();
                 map1.put("id", codDoc.get("id").toString());
-                map1.put("name", codDoc.get("departamento").toString());
+                map1.put("name", codDoc.get("contactos").toString());
                 map1.put("url", codDoc.get("direccion").toString());
                 arrList.add(map1);
             }
