@@ -1,18 +1,19 @@
-package com.herprogramacion.googlemapsenandroid;
+package com.fideicomiso.banpro.fideicomiso;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-public class MarkerDetailActivity extends AppCompatActivity {
+public class MarkerDetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker_detail);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         // Extraer lat. y lng.
         Intent intent = getIntent();
@@ -24,11 +25,8 @@ public class MarkerDetailActivity extends AppCompatActivity {
         // Poblar
         TextView coordenadas = (TextView) findViewById(R.id.tv_latlng);
         coordenadas.setText(latlng);
+
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }
+
 }

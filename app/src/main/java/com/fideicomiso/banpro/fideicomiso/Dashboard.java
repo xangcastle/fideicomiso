@@ -79,7 +79,7 @@ public class Dashboard extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
                 String id_item = item.get("id");
-                Intent intent = new Intent(Dashboard.this,Camera.class);
+                Intent intent = new Intent(Dashboard.this,MarkersActivity.class);
                 intent.putExtra("ID",id_item);
                 //based on item add info to intent
                 startActivity(intent);

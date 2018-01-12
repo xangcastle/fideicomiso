@@ -5,6 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    tools:context="com.herprogramacion.googlemapsenandroid.MarkersActivity">
+    tools:context="com.fideicomiso.banpro.fideicomiso.MarkersActivity">
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+
+        <Button
+            android:id="@+id/iniciarVicita"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/btn_iniciarVisita"
+            android:textColor="@color/btn_login" />
+    </LinearLayout>
+
+
 
 </fragment>
