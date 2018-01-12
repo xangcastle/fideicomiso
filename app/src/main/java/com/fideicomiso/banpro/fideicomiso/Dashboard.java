@@ -3,6 +3,8 @@ package com.fideicomiso.banpro.fideicomiso;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
 
@@ -18,6 +21,7 @@ import java.util.HashMap;
 
 public class Dashboard extends Activity {
     ListView listView;
+    ListAdapter adapter;
 
     ArrayList<HashMap<String, String>> arrList;
     private SessionManager session;
@@ -67,7 +71,7 @@ public class Dashboard extends Activity {
 
 
         if(!arrList.isEmpty()){
-            ListAdapter adapter = new SimpleAdapter( this, arrList,
+                    adapter = new SimpleAdapter( this, arrList,
                     R.layout.list_item, new String[] { "id", "name", "url" },
                     new int[] { R.id.wid, R.id.name, R.id.url });
 
@@ -85,6 +89,29 @@ public class Dashboard extends Activity {
                 startActivity(intent);
             }
         });
+
+        SearchView search = (SearchView) findViewById(R.id.search);
+
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(newText);
+
+                return false;
+            }
+
+
+        });
+
+
     }
 
 

@@ -349,7 +349,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     Log.e("Response", s);
                     dos.close();
                     if ((conn.getResponseCode() == 200 || conn.getResponseCode() == 201) && !s.equals("")) {
-                        
+
                         return IMAGENSUBIDA;
 
                     } else {
