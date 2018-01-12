@@ -349,15 +349,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     Log.e("Response", s);
                     dos.close();
                     if ((conn.getResponseCode() == 200 || conn.getResponseCode() == 201) && !s.equals("")) {
-
-                        String[][] data = new String[1][2];
-                        data[0][0] = "estado";
-                        data[0][1] = "1";
-
-                        Conexion conexion = new Conexion(context, "Delta", null, 3);
-                        long respuesta =  conexion.update("puntos",data, " id =  "+id_punto);
-                             respuesta =  conexion.update("registros",data, " punto =  "+id_punto);
-
+                        
                         return IMAGENSUBIDA;
 
                     } else {
