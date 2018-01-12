@@ -277,7 +277,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                 if(ruta_imagen_cedula!=null)
                 {
-                    dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula\";filename=\"" + "cedula.jpg" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
 
@@ -305,7 +305,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                 if(ruta_imagen_casa!=null)
                 {
-                    dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"casa\";filename=\"" + "casa.jpg" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
 
