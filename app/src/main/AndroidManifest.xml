@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:name=".AppController"
@@ -31,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Camera">
+        <activity android:name=".Camera_view">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />

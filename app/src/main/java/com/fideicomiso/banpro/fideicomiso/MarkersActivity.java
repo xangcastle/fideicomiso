@@ -1,6 +1,5 @@
 package com.fideicomiso.banpro.fideicomiso;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -69,6 +68,8 @@ public class MarkersActivity extends AppCompatActivity
 
 
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -154,7 +155,7 @@ public class MarkersActivity extends AppCompatActivity
         btn_rechazar_visita  = (Button)findViewById(R.id.rechazarVicita);
         btn_rechazar_visita.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 builder
                         .setMessage("No aceptación de entrevista?")
@@ -184,14 +185,17 @@ public class MarkersActivity extends AppCompatActivity
         btn_iniciar_visita.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                 builder
                         .setMessage("Aceptación de entrevista ?")
                         .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-
+                                Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
+                                intent.putExtra("ID",id__Punto);
+                                startActivity(intent);
+                                finish();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -201,10 +205,7 @@ public class MarkersActivity extends AppCompatActivity
                             }
                         })
                         .show();
-                Intent intent = new Intent(getApplicationContext(), Camera.class);
-                intent.putExtra("ID",id__Punto);
-                startActivity(intent);
-                finish();
+
             }
         });
 

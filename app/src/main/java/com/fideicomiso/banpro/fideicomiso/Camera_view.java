@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class Camera extends Activity  {
+public class Camera_view extends Activity  {
     public String id_Punto ;
 
     public TextView text;
