@@ -9,7 +9,6 @@ import android.widget.TextView;
 public class Camera_view extends Activity  {
     public String id_Punto ;
 
-    public TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +24,12 @@ public class Camera_view extends Activity  {
             Bundle extras = getIntent().getExtras();
             if(extras != null) {
                 id_Punto= extras.getString("ID");
-                text = (TextView)findViewById(R.id.id_punto);
+                TextView text = (TextView)findViewById(R.id.id_punto);
                 text.setText(id_Punto);
-                text = (TextView)findViewById(R.id.cedula);
-                text.setText(extras.getString("cedula"));
-                text = (TextView)findViewById(R.id.comentario);
-                text.setText(extras.getString("comentario"));
+                TextView text2 = (TextView)findViewById(R.id.cedula);
+                text2.setText(extras.getString("cedula"));
+                TextView text3 = (TextView)findViewById(R.id.comentario);
+                text3.setText(extras.getString("comentario"));
             }
         }
 

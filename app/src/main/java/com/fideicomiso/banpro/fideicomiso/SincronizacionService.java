@@ -124,8 +124,8 @@ public class SincronizacionService extends Service {
                             codDoc.get("_id").toString(),
                             codDoc.get("tipo").toString(),
                             codDoc.get("comentario").toString(),
-                            ((codDoc.get("cedula").toString()=="")?null:codDoc.get("ruta").toString()),
-                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("ruta").toString())
+                            ((codDoc.get("cedula").toString()=="")?null:codDoc.get("cedula").toString()),
+                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("casa").toString())
                     );
                     Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
                 }
