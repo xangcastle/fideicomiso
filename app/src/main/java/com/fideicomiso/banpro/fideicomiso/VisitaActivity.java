@@ -46,7 +46,10 @@ public class VisitaActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private ImageView imageView;
+    private ImageView imageView2;
     private Bitmap imagen;
+    private Bitmap imagen2;
+    int cara = 0 ;
 
 
     @Override
@@ -76,7 +79,8 @@ public class VisitaActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-
+        imageView = (ImageView) findViewById(R.id.imageview);
+        imageView2 = (ImageView) findViewById(R.id.imageview2);
 
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +118,23 @@ public class VisitaActivity extends AppCompatActivity {
                                 }
 
 
+
+                                File file2 = new File(path , "fideicomizo2" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+                                try {
+                                    fOut = new FileOutputStream(file2);
+                                    imagen2.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                                    fOut.flush(); // Not really required
+                                    fOut.close(); // do not forget to close the stream
+                                    MediaStore.Images.Media.insertImage(getContentResolver(), file2.getAbsolutePath(), file2.getName(), file2.getName());
+
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
                                 Bundle extras = getIntent().getExtras();
                                 String id__Punto ="";
                                 if(extras != null)
@@ -121,6 +142,7 @@ public class VisitaActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent( getApplicationContext(),Camera_view.class);
                                 intent.putExtra("cedula",path+"fideicomizo"+time+".jpg");
+                                intent.putExtra("cedula2",path+"fideicomizo2"+time+".jpg");
                                 intent.putExtra("comentario",comentario.getText().toString());
                                 intent.putExtra("ID",id__Punto);
 
@@ -142,7 +164,7 @@ public class VisitaActivity extends AppCompatActivity {
             }
         });
 
-        imageView = (ImageView) findViewById(R.id.imageview);
+
 
 
 
@@ -158,6 +180,25 @@ public class VisitaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Abre la camara para tomar la foto
+                cara = 1 ;
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, 1);
+                }
+            }
+
+        });
+
+        //======== codigo nuevo ========
+        Button boton2 = (Button) findViewById(R.id.btnTomaFoto2);
+        //Si no existe crea la carpeta donde se guardaran las fotos
+        //accion para el boton
+        boton2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Abre la camara para tomar la foto
+                cara = 2 ;
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, 1);
@@ -221,8 +262,17 @@ public class VisitaActivity extends AppCompatActivity {
         if (requestCode == 1||requestCode==100 ) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                imagen = (Bitmap) extras.get("data");
-                imageView.setImageBitmap(imagen);
+                if (cara == 1 )
+                {
+                    imagen = (Bitmap) extras.get("data");
+                    imageView.setImageBitmap(imagen);
+                }
+                else if (cara == 2 )
+                {
+                    imagen2 = (Bitmap) extras.get("data");
+                    imageView2.setImageBitmap(imagen2);
+                }
+
             }
         }
     }

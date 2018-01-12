@@ -75,10 +75,11 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     private String comentario;
     private String ruta_imagen_cedula;
     private String ruta_imagen_casa;
+    private String _ruta_cedula2;
     private Context context;
 
     private String id_punto;
-    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa,ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
+    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa,String _ruta_cedula2,ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
 
         this.ruta=ruta;
         this.longitud=longitud;
@@ -93,6 +94,12 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         this.comentario =_comentario;
         this.ruta_imagen_cedula =_ruta_imagen_cedula ;
         this.ruta_imagen_casa = _ruta_imagen_casa;
+        this._ruta_cedula2 = _ruta_cedula2;
+
+
+
+
+
 
     }
 
@@ -141,6 +148,11 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     public String getRutaVivienda() {
         return this.ruta_imagen_casa;
     }
+    public String getRutaCedula2() {
+        return this._ruta_cedula2;
+    }
+
+
 
     /**
      * Codigo del resultado que arrojo la sincronizacion
@@ -161,6 +173,9 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         private FileInputStream fileInputStream = null;
         private FileInputStream fileInputStreamCasa = null;
         private FileInputStream fileInputStreamCedula = null;
+        private FileInputStream fileInputStreamCedula2 = null;
+
+
 
         public ConexionHttp() throws MalformedURLException, FileNotFoundException {
             connectURL  = new URL(AppConfig.URL_REGISTER_VIDEO);
@@ -170,6 +185,11 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                 fileInputStreamCasa = new FileInputStream(getRutaVivienda());
             if(getRutaCedula() != null && !getRutaCedula().equals(""))
                 fileInputStreamCedula = new FileInputStream(getRutaCedula());
+            if(getRutaCedula2() != null && !getRutaCedula2().equals(""))
+                fileInputStreamCedula2 = new FileInputStream(getRutaCedula2());
+
+
+
         }
 
         /**
@@ -280,6 +300,35 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                         dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
                             fileInputStream.close();
                     }
+
+                if(_ruta_cedula2!=null&& !_ruta_cedula2.equals(""))
+                {
+                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula2\";filename=\"" + "cedula2.jpg" + "\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+
+
+                    // create a buffer of maximum size
+                    int bytesAvailable = fileInputStreamCedula2.available();
+
+                    int maxBufferSize = 1024;
+                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    byte[] buffer = new byte[bufferSize];
+
+                    // read file and write it into form...
+                    int bytesRead = fileInputStreamCedula2.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        dos.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStreamCedula2.available();
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStreamCedula2.read(buffer, 0, bufferSize);
+                    }
+
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                    fileInputStreamCedula2.close();
+                }
+
 
                 if(ruta_imagen_cedula!=null&& !ruta_imagen_cedula.equals(""))
                 {

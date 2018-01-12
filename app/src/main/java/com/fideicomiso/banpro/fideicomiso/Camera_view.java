@@ -30,6 +30,8 @@ public class Camera_view extends Activity  {
                 text2.setText(extras.getString("cedula"));
                 TextView text3 = (TextView)findViewById(R.id.comentario);
                 text3.setText(extras.getString("comentario"));
+                TextView text4 = (TextView)findViewById(R.id.cedula2);
+                text4.setText(extras.getString("cedula2"));
             }
         }
 

@@ -49,7 +49,7 @@ public class SincronizacionService extends Service {
         Date date = new Date();
         String fecha = dateFormat.format(date);
 
-        String[] datos = new String[11];
+        String[] datos = new String[12];
         datos[0] = "longitud";
         datos[1] = "latitud";
         datos[2] = "fecha";
@@ -61,6 +61,7 @@ public class SincronizacionService extends Service {
         datos[8] = "comentario";
         datos[9] = "cedula";
         datos[10] = "casa";
+        datos[11] = "cedula2";
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
         ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1", null, " DESC");
@@ -125,7 +126,8 @@ public class SincronizacionService extends Service {
                             codDoc.get("tipo").toString(),
                             codDoc.get("comentario").toString(),
                             ((codDoc.get("cedula").toString()=="")?null:codDoc.get("cedula").toString()),
-                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("casa").toString())
+                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("casa").toString()),
+                            ((codDoc.get("cedula2").toString()=="")?null:codDoc.get("cedula2").toString())
                     );
                     Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
                 }
