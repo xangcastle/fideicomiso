@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -125,7 +127,7 @@ public class MarkersActivity extends AppCompatActivity
         }
 
         LatLng destino = new LatLng(latitudeDestino,longitudeDestino);
-        LatLng origen  = new LatLng(latitudeOrigen,longitudeOrigen);
+        final LatLng origen  = new LatLng(latitudeOrigen,longitudeOrigen);
 
         // Markers
 
@@ -142,9 +144,6 @@ public class MarkersActivity extends AppCompatActivity
                         .title(codDoc.get("direccion").toString())
         );
 
-        String url = obtenerDireccionesURL(destino, origen);
-        DownloadTask downloadTask = new DownloadTask();
-        downloadTask.execute(url);
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(destino));
         // Eventos
@@ -209,6 +208,19 @@ public class MarkersActivity extends AppCompatActivity
             }
         });
 
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(origen, 15));
+        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition position) {
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(origen, map.getCameraPosition().zoom));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(india, 12));
+
+            }
+
+        });
+
+
     }
 
     @Override
@@ -249,133 +261,6 @@ public class MarkersActivity extends AppCompatActivity
         return super.onSupportNavigateUp();
     }
 
-    private String obtenerDireccionesURL(LatLng origin,LatLng dest){
-
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
-
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
-
-        String sensor = "sensor=false";
-
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
-
-        String output = "json";
-
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-
-        return url;
-    }
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            String data = "";
-
-            try{
-                data = downloadUrl(url[0]);
-            }catch(Exception e){
-              //  Log.d("ERROR AL OBTENER INFO DEL WS",e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-
-            parserTask.execute(result);
-        }
-    }
-
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try{
-            URL url = new URL(strUrl);
-
-            // Creamos una conexion http
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            // Conectamos
-            urlConnection.connect();
-
-            // Leemos desde URL
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while( ( line = br.readLine()) != null){
-                sb.append(line);
-            }
-
-            data = sb.toString();
-
-            br.close();
-
-        }catch(Exception e){
-            Log.d("Exception", e.toString());
-        }finally{
-            iStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try{
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-
-                routes = parser.parse(jObject);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-
-            for(int i=0;i<result.size();i++){
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for(int j=0;j<path.size();j++){
-                    HashMap<String,String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(4);
-                lineOptions.color(Color.rgb(0,0,255));
-            }
-            if(lineOptions!=null) {
-                map.addPolyline(lineOptions);
-            }
-        }
-    }
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radio de la tierra en  kilómetros
         double lat1 = StartP.latitude;

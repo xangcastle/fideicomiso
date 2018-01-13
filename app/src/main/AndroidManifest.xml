@@ -51,7 +51,6 @@
 
         <receiver android:name=".SincronizacionBroadcast" />
 
-        <activity android:name=".MapaActivity" />
         <activity android:name=".MarkersActivity" />
         <activity android:name=".MarkerDetailActivity" />
 
