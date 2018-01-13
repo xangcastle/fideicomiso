@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'delta2017'
             keyPassword 'delta2017'
-            storeFile file('/home/ian/Documents/android-studio/bin/deltacopier2.com')
+            storeFile file('/home/ian/fideicomiso/deltacopier2.com')
             storePassword 'delta2017'
         }
     }
