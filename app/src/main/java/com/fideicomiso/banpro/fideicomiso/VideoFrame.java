@@ -737,8 +737,8 @@ public class VideoFrame extends Fragment
                 data[9][1] = "1";
                 data[10][0] = "cedula2";
                 data[10][1] = cedula2.getText().toString();
-                
-                Conexion conexion = new Conexion(getActivity(), "Delta", null, 3);
+
+                Conexion conexion = new Conexion(getActivity(), "Delta2", null, 3);
                 //conexion.deleteTabla();
                 long respuesta = conexion.insertRegistration("registros", data);
 

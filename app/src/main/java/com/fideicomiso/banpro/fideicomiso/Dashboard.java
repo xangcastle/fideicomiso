@@ -52,7 +52,7 @@ public class Dashboard extends Activity {
         datos[10] = "latitude";
 
 
-        Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
+        Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
         ArrayList puntos =  conexion.searchRegistration("puntos", datos, " estado = 0 ", null, " DESC");
 
         try{

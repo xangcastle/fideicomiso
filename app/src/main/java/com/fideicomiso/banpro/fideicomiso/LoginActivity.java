@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
 
 
 
-                    Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
+                    Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
                     //conexion.deleteTabla();
                     long respuesta = conexion.insertRegistration("usuarios", data);
 

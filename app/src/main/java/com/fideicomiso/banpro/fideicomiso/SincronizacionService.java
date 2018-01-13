@@ -63,7 +63,7 @@ public class SincronizacionService extends Service {
         datos[10] = "casa";
         datos[11] = "cedula2";
 
-        Conexion conexion = new Conexion(getApplicationContext(), "Delta", null, 3);
+        Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
         ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1", null, " DESC");
         TareaSincronizar obj = new TareaSincronizar(puntos,fecha);
         handler.post(obj);
