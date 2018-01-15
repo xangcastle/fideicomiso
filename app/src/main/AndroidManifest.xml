@@ -34,11 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Camera_view" android:theme="@style/AppTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
-        </activity>
         <activity
             android:name=".Dashboard"
             android:label="@string/title_activity_dashboard"
@@ -49,7 +44,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name=".SincronizacionBroadcast" />
+        <receiver android:name=".SincronizacionBroadcast" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".MarkersActivity" />
         <activity android:name=".MarkerDetailActivity" />

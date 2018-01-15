@@ -12,6 +12,8 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -26,7 +28,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pkmmte.view.CircularImageView;
@@ -42,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class VisitaActivity extends AppCompatActivity {
+public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.OnCompletionListener {
     private ProgressDialog pDialog;
     private SessionManager session;
     private ImageView imageView;
@@ -50,6 +54,10 @@ public class VisitaActivity extends AppCompatActivity {
     private Bitmap imagen;
     private Bitmap imagen2;
     int cara = 0 ;
+    MediaRecorder recorder;
+    MediaPlayer player;
+    File archivo;
+    ImageButton grabar, pausar, detener , reproducir;
 
 
     @Override
@@ -81,6 +89,36 @@ public class VisitaActivity extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imageview);
         imageView2 = (ImageView) findViewById(R.id.imageview2);
+
+        grabar = (ImageButton) findViewById(R.id.record);
+        reproducir = (ImageButton) findViewById(R.id.play);
+        detener = (ImageButton) findViewById(R.id.stop);
+        pausar = (ImageButton) findViewById(R.id.pause);
+
+        grabar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+              grabar(v);
+            }
+        });
+
+        pausar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                detener(v);
+            }
+        });
+
+        reproducir.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                reproducir(v);
+            }
+        });
+
 
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -140,13 +178,13 @@ public class VisitaActivity extends AppCompatActivity {
                                 if(extras != null)
                                     id__Punto = extras.getString("ID");
 
-                                Intent intent = new Intent( getApplicationContext(),Camera_view.class);
+                               /* Intent intent = new Intent( getApplicationContext(),Camera_view.class);
                                 intent.putExtra("cedula",path+"fideicomizo"+time+".jpg");
                                 intent.putExtra("cedula2",path+"fideicomizo2"+time+".jpg");
                                 intent.putExtra("comentario",comentario.getText().toString());
                                 intent.putExtra("ID",id__Punto);
 
-                                startActivity(intent);
+                                startActivity(intent);*/
 
 
 
@@ -164,17 +202,8 @@ public class VisitaActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
         //======== codigo nuevo ========
         Button boton = (Button) findViewById(R.id.btnTomaFoto);
-        //Si no existe crea la carpeta donde se guardaran las fotos
-        //accion para el boton
         boton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -191,13 +220,11 @@ public class VisitaActivity extends AppCompatActivity {
 
         //======== codigo nuevo ========
         Button boton2 = (Button) findViewById(R.id.btnTomaFoto2);
-        //Si no existe crea la carpeta donde se guardaran las fotos
-        //accion para el boton
+
         boton2.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //Abre la camara para tomar la foto
                 cara = 2 ;
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -277,6 +304,60 @@ public class VisitaActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        grabar.setEnabled(true);
+        detener.setEnabled(true);
+        reproducir.setEnabled(true);
+    }
+
+
+    public void grabar(View v) {
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        File path = new File(Environment.getExternalStorageDirectory()
+                .getPath());
+        try {
+            archivo = File.createTempFile("temporal", ".3gp", path);
+        } catch (IOException e) {
+        }
+        recorder.setOutputFile(archivo.getAbsolutePath());
+        try {
+            recorder.prepare();
+        } catch (IOException e) {
+        }
+        recorder.start();
+
+        grabar.setEnabled(false);
+        detener.setEnabled(true);
+    }
+
+    public void detener(View v) {
+        recorder.stop();
+        recorder.release();
+        player = new MediaPlayer();
+        player.setOnCompletionListener(this);
+        try {
+            player.setDataSource(archivo.getAbsolutePath());
+        } catch (IOException e) {
+        }
+        try {
+            player.prepare();
+        } catch (IOException e) {
+        }
+        grabar.setEnabled(true);
+        detener.setEnabled(false);
+        reproducir.setEnabled(true);
+    }
+
+    public void reproducir(View v) {
+        player.start();
+        grabar.setEnabled(false);
+        detener.setEnabled(false);
+        reproducir.setEnabled(false);
+    }
 }
 
 
