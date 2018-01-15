@@ -349,7 +349,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         File path = new File(Environment.getExternalStorageDirectory()
-                .getPath()+"fideicomiso/");
+                .getPath()+"/fideicomiso/");
 
         if (!path.exists()){
             path.mkdirs();
@@ -371,13 +371,13 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         grabar.setVisibility(View.INVISIBLE);
 
         pausar.setEnabled(true);
-        pausar.setVisibility(View.VISIBLE);
+        pausar.setVisibility(View.GONE);
 
         detener.setEnabled(true);
-        detener.setVisibility(View.VISIBLE);
+        detener.setVisibility(View.GONE);
 
         resume.setEnabled(true);
-        resume.setVisibility(View.VISIBLE);
+        resume.setVisibility(View.GONE);
     }
 
     public void detener() {
@@ -396,7 +396,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
 
 
         reproducir.setEnabled(true);
-        reproducir.setVisibility(View.VISIBLE);
+        reproducir.setVisibility(View.GONE);
 
         grabar.setEnabled(false);
         grabar.setVisibility(View.INVISIBLE);
@@ -408,7 +408,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         detener.setVisibility(View.INVISIBLE);
 
         delete.setEnabled(true);
-        delete.setVisibility(View.VISIBLE);
+        delete.setVisibility(View.GONE);
 
         resume.setEnabled(false);
         resume.setVisibility(View.INVISIBLE);
@@ -416,7 +416,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
 
 
         mergeMediaFiles(true ,dataFiles,Environment.getExternalStorageDirectory()
-                .getPath()+"fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4");
+                .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4");
     }
 
     public void reproducir() {
@@ -441,7 +441,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
             }
         }
         grabar.setEnabled(true);
-        grabar.setVisibility(View.VISIBLE);
+        grabar.setVisibility(View.GONE);
 
         reproducir.setEnabled(false);
         reproducir.setVisibility(View.INVISIBLE);
