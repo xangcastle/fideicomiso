@@ -3,48 +3,31 @@ package com.fideicomiso.banpro.fideicomiso;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.pkmmte.view.CircularImageView;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+
 
 public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.OnCompletionListener {
     private ProgressDialog pDialog;
@@ -75,11 +58,11 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
                     Manifest.permission.READ_EXTERNAL_STORAGE))
             {
                 android.support.v4.app.ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO},
                         0);
             } else
             {
-                android.support.v4.app.ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                android.support.v4.app.ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO},
                         0);
             }
         }
@@ -99,7 +82,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         {
             @Override
             public void onClick(View v) {
-              grabar(v);
+              grabar();
             }
         });
 
@@ -107,7 +90,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         {
             @Override
             public void onClick(View v) {
-                detener(v);
+                detener();
             }
         });
 
@@ -115,7 +98,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         {
             @Override
             public void onClick(View v) {
-                reproducir(v);
+                reproducir();
             }
         });
 
@@ -312,7 +295,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
     }
 
 
-    public void grabar(View v) {
+    public void grabar() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -334,7 +317,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         detener.setEnabled(true);
     }
 
-    public void detener(View v) {
+    public void detener() {
         recorder.stop();
         recorder.release();
         player = new MediaPlayer();
@@ -352,7 +335,7 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         reproducir.setEnabled(true);
     }
 
-    public void reproducir(View v) {
+    public void reproducir() {
         player.start();
         grabar.setEnabled(false);
         detener.setEnabled(false);
