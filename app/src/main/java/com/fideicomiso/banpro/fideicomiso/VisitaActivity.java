@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -22,27 +20,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.coremedia.iso.boxes.Container;
-import com.googlecode.mp4parser.authoring.Movie;
-import com.googlecode.mp4parser.authoring.Track;
-import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
-import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
-import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
-import com.pkmmte.view.CircularImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 
-public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.OnCompletionListener {
+public class VisitaActivity extends AppCompatActivity  {
     private ProgressDialog pDialog;
     private SessionManager session;
     private ImageView imageView;
@@ -50,13 +36,8 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
     private Bitmap imagen;
     private Bitmap imagen2;
     int cara = 0 ;
-    MediaRecorder recorder;
-    MediaPlayer player;
-    File archivo;
-    ImageButton grabar, pausar, detener , reproducir,resume,delete;
-    TextView estado_grabacion;
-    ArrayList dataFiles ;
     String idPunto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,68 +69,11 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
         imageView = (ImageView) findViewById(R.id.imageview);
         imageView2 = (ImageView) findViewById(R.id.imageview2);
 
-        grabar     = (ImageButton) findViewById(R.id.record);
-        reproducir = (ImageButton) findViewById(R.id.play);
-        detener    = (ImageButton) findViewById(R.id.stop);
-        pausar     = (ImageButton) findViewById(R.id.pause);
-        resume     = (ImageButton)findViewById(R.id.resume);
-        delete     = (ImageButton)findViewById(R.id.resume);
-        dataFiles  = new ArrayList<String>();
-        estado_grabacion = (TextView) findViewById(R.id.estado_grabacion);
+
         Bundle extras = getIntent().getExtras();
 
         if(extras != null)
             idPunto = extras.getString("ID");
-
-        detener.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                detener();
-
-            }
-        });
-
-        grabar.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-              grabar();
-            }
-        });
-
-        pausar.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                detener();
-            }
-        });
-
-        reproducir.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                reproducir();
-            }
-        });
-
-        resume.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                reanudar();
-            }
-        });
-
-        delete.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                eliminar();
-            }
-        });
-
 
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -332,164 +256,6 @@ public class VisitaActivity extends AppCompatActivity  implements MediaPlayer.On
                 }
 
             }
-        }
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        grabar.setEnabled(true);
-        detener.setEnabled(true);
-        reproducir.setEnabled(true);
-    }
-
-
-    public void grabar() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        File path = new File(Environment.getExternalStorageDirectory()
-                .getPath()+"/fideicomiso/");
-
-        if (!path.exists()){
-            path.mkdirs();
-        }
-        try {
-            archivo = File.createTempFile("temporal"+System.currentTimeMillis(), ".mp4", path);
-            dataFiles.add(path+"temporal"+System.currentTimeMillis()+".mp4");
-        } catch (IOException e) {
-        }
-        recorder.setOutputFile(archivo.getAbsolutePath());
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-        }
-        recorder.start();
-        estado_grabacion.setText("Grabando");
-
-        grabar.setEnabled(false);
-        grabar.setVisibility(View.INVISIBLE);
-
-        pausar.setEnabled(true);
-        pausar.setVisibility(View.GONE);
-
-        detener.setEnabled(true);
-        detener.setVisibility(View.GONE);
-
-        resume.setEnabled(true);
-        resume.setVisibility(View.GONE);
-    }
-
-    public void detener() {
-        recorder.stop();
-        recorder.release();
-        player = new MediaPlayer();
-        player.setOnCompletionListener(this);
-        try {
-            player.setDataSource(archivo.getAbsolutePath());
-        } catch (IOException e) {
-        }
-        try {
-            player.prepare();
-        } catch (IOException e) {
-        }
-
-
-        reproducir.setEnabled(true);
-        reproducir.setVisibility(View.GONE);
-
-        grabar.setEnabled(false);
-        grabar.setVisibility(View.INVISIBLE);
-
-        pausar.setEnabled(false);
-        pausar.setVisibility(View.INVISIBLE);
-
-        detener.setEnabled(false);
-        detener.setVisibility(View.INVISIBLE);
-
-        delete.setEnabled(true);
-        delete.setVisibility(View.GONE);
-
-        resume.setEnabled(false);
-        resume.setVisibility(View.INVISIBLE);
-
-
-
-        mergeMediaFiles(true ,dataFiles,Environment.getExternalStorageDirectory()
-                .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4");
-    }
-
-    public void reproducir() {
-        player.start();
-        grabar.setEnabled(false);
-        detener.setEnabled(false);
-        reproducir.setEnabled(false);
-    }
-
-    public void reanudar() {
-        grabar();
-    }
-
-    public void eliminar() {
-        recorder.stop();
-        recorder.release();
-        for (Object row : dataFiles) {
-            File file = new File(row.toString());
-            if(file.exists())
-            {
-                boolean deleted = file.delete();
-            }
-        }
-        grabar.setEnabled(true);
-        grabar.setVisibility(View.GONE);
-
-        reproducir.setEnabled(false);
-        reproducir.setVisibility(View.INVISIBLE);
-
-        grabar.setEnabled(false);
-        grabar.setVisibility(View.INVISIBLE);
-
-        pausar.setEnabled(false);
-        pausar.setVisibility(View.INVISIBLE);
-
-        detener.setEnabled(false);
-        detener.setVisibility(View.INVISIBLE);
-
-        delete.setEnabled(false);
-        delete.setVisibility(View.INVISIBLE);
-
-        resume.setEnabled(false);
-        resume.setVisibility(View.INVISIBLE);
-    }
-
-
-    public static boolean mergeMediaFiles(boolean isAudio, ArrayList sourceFiles, String targetFile) {
-        try {
-            String mediaKey = isAudio ? "soun" : "vide";
-            List<Movie> listMovies = new ArrayList<>();
-            for (Object row : sourceFiles) {
-                listMovies.add(MovieCreator.build(row.toString()));
-            }
-            List<Track> listTracks = new LinkedList<>();
-            for (Movie movie : listMovies) {
-                for (Track track : movie.getTracks()) {
-                    if (track.getHandler().equals(mediaKey)) {
-                        listTracks.add(track);
-                    }
-                }
-            }
-            Movie outputMovie = new Movie();
-            if (!listTracks.isEmpty()) {
-                outputMovie.addTrack(new AppendTrack(listTracks.toArray(new Track[listTracks.size()])));
-            }
-            Container container = new DefaultMp4Builder().build(outputMovie);
-            FileChannel fileChannel = new RandomAccessFile(String.format(targetFile), "rw").getChannel();
-            container.writeContainer(fileChannel);
-            fileChannel.close();
-            return true;
-        }
-        catch (IOException e) {
-            return false;
         }
     }
 }

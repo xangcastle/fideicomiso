@@ -1,7 +1,4 @@
 package com.fideicomiso.banpro.fideicomiso;
-
-        import android.app.AlertDialog;
-        import android.content.DialogInterface;
         import android.content.Intent;
         import android.graphics.Color;
         import android.os.AsyncTask;
@@ -10,7 +7,6 @@ package com.fideicomiso.banpro.fideicomiso;
         import android.util.Log;
         import android.view.View;
         import android.widget.Button;
-
         import com.google.android.gms.maps.CameraUpdateFactory;
         import com.google.android.gms.maps.GoogleMap;
         import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,9 +16,7 @@ package com.fideicomiso.banpro.fideicomiso;
         import com.google.android.gms.maps.model.Marker;
         import com.google.android.gms.maps.model.MarkerOptions;
         import com.google.android.gms.maps.model.PolylineOptions;
-
         import org.json.JSONObject;
-
         import java.io.BufferedReader;
         import java.io.IOException;
         import java.io.InputStream;
@@ -42,7 +36,6 @@ public class MarkersActivity extends AppCompatActivity
 
     public static final String EXTRA_LATITUD = "LATITUD";
     public static final String EXTRA_LONGITUD = "LONGITUD";
-
     private Marker markerDestino;
     private Marker markerOrigen;
     private double longitudeDestino;
@@ -52,8 +45,8 @@ public class MarkersActivity extends AppCompatActivity
     private GoogleMap map;
     private String texto ;
     private String id__Punto;
-    private Button btn_iniciar_visita ;
-    private Button btn_rechazar_visita ;
+    private Button iniciar;
+
     HashMap codDoc;
 
     @Override
@@ -67,6 +60,21 @@ public class MarkersActivity extends AppCompatActivity
 
         mapFragment.getMapAsync(this);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null)
+            id__Punto = extras.getString("ID");
+
+        iniciar = (Button) findViewById(R.id.iniciar);
+        iniciar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( getApplicationContext(),GrabarAudioActivity.class);
+                intent.putExtra("ID",id__Punto);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
@@ -153,62 +161,7 @@ public class MarkersActivity extends AppCompatActivity
         googleMap.setOnMarkerDragListener(this);
         googleMap.setOnInfoWindowClickListener(this);
 
-        btn_rechazar_visita  = (Button)findViewById(R.id.rechazarVicita);
-        btn_rechazar_visita.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                builder
-                        .setMessage("No aceptación de entrevista?")
-                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
-                                intent.putExtra("ID",id__Punto);
-                                startActivity(intent);
-                                finish();
-
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .show();
-
-            }
-        });
-
-
-        btn_iniciar_visita = (Button)findViewById(R.id.iniciarVicita);
-        btn_iniciar_visita.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-
-                builder
-                        .setMessage("Aceptación de entrevista ?")
-                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
-                                intent.putExtra("ID",id__Punto);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .show();
-
-            }
-        });
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(origen, 8));
         map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override

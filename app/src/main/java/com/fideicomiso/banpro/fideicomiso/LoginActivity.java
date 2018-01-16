@@ -104,6 +104,14 @@ public class LoginActivity extends Activity {
                 String password = txt_password.getText().toString();
                 pDialog.setMessage("Cargando datos ...");
                 showDialog();
+                ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
+                if(conDec.connectionVerification())
+                {
+                    Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                    Boolean elimianados = conexion.deleteTabla();
+                    if(!elimianados)
+                        return ;
+                }
                 checkLogin(usuario, password);
             }
         });
@@ -137,10 +145,7 @@ public class LoginActivity extends Activity {
                     data[2][0] = "nombre";
                     data[2][1] = nombre;
 
-
-
                     Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
-                    //conexion.deleteTabla();
                     long respuesta = conexion.insertRegistration("usuarios", data);
 
                     for(int i = 0 ; i<puntos.length();i++)

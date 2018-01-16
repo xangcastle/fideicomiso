@@ -12,7 +12,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.fideicomiso.banpro.fideicomiso"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 3
         versionName "1.2"

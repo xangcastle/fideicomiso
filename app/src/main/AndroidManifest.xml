@@ -14,9 +14,10 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:name=".AppController"
@@ -43,7 +44,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name=".SincronizacionBroadcast" >
+        <receiver android:name=".SincronizacionBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -56,12 +57,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".NoVisitaActivity" >
+        <activity android:name=".NoVisitaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
         </activity>
         <activity android:name=".VisitaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
+        </activity>
+        <activity android:name=".GrabarAudioActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />

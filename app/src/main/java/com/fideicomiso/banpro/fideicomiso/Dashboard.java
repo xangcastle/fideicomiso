@@ -83,9 +83,18 @@ public class Dashboard extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
                 String id_item = item.get("id");
-                Intent intent = new Intent(Dashboard.this,MarkersActivity.class);
+
+                Intent intent = null;
+                ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
+                if(conDec.connectionVerification())
+                {
+                    intent = new Intent(Dashboard.this,MarkersActivity.class);
+                }
+                else
+                    {
+                        intent = new Intent(Dashboard.this,GrabarAudioActivity.class);
+                    }
                 intent.putExtra("ID",id_item);
-                //based on item add info to intent
                 startActivity(intent);
             }
         });
@@ -139,6 +148,8 @@ public class Dashboard extends Activity {
         startActivity(intent);
         finish();
     }
+
+
 
 
 }

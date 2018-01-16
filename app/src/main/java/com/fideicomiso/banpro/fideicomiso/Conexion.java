@@ -41,14 +41,16 @@ public class Conexion extends SQLiteOpenHelper {
     }
 
 
-    public void deleteTabla() {
+    public Boolean deleteTabla() {
         try {
             openDataBase();
-            db.execSQL("DELETE FROM 'usuarios'");
-            db.execSQL("DELETE FROM 'puntos'");
-            db.execSQL("DELETE FROM 'contactos'");
+            db.execSQL("DROP TABLE IF EXISTS 'usuarios'");
+            db.execSQL("DROP TABLE IF EXISTS 'puntos'");
+            db.execSQL("DROP TABLE IF EXISTS 'contactos'");
+            return true;
           } catch (Exception e) {
             Log.e("", e.toString());
+            return false;
         }
     }
 
