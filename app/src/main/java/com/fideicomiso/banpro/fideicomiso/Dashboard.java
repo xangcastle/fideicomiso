@@ -142,6 +142,7 @@ public class Dashboard extends Activity {
                 }
             }
 
+        SearchView search = (SearchView) findViewById(R.id.search);
         if(!arrList.isEmpty()){
                     adapter = new SimpleAdapter( this, arrList,
                     R.layout.list_item, new String[] { "id", "name", "url" },
@@ -149,6 +150,10 @@ public class Dashboard extends Activity {
 
             listView.setAdapter(adapter);
         }
+        else
+            {
+                search.setVisibility(View.INVISIBLE);
+            }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -173,7 +178,6 @@ public class Dashboard extends Activity {
 
         try
         {
-            SearchView search = (SearchView) findViewById(R.id.search);
 
 
             search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -49,7 +49,7 @@ public class SincronizacionService extends Service {
         Date date = new Date();
         String fecha = dateFormat.format(date);
 
-        String[] datos = new String[12];
+        String[] datos = new String[14];
         datos[0] = "longitud";
         datos[1] = "latitud";
         datos[2] = "fecha";
@@ -62,6 +62,9 @@ public class SincronizacionService extends Service {
         datos[9] = "cedula";
         datos[10] = "casa";
         datos[11] = "cedula2";
+        datos[12] = "ncedula";
+        datos[13] = "nombre";
+
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
         ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1", null, " DESC");
@@ -102,9 +105,11 @@ public class SincronizacionService extends Service {
     public class TareaSincronizar implements Runnable {
         private  ArrayList datos;
         private  String fecha;
+        private  Conexion conexion;
         public TareaSincronizar(ArrayList _data , String _fecha) {
             this.datos = _data;
             this.fecha = _fecha;
+            this.conexion  = new Conexion(getApplicationContext(), "Delta3", null, 3);
         }
 
 
@@ -127,17 +132,19 @@ public class SincronizacionService extends Service {
                             codDoc.get("comentario").toString(),
                             ((codDoc.get("cedula").toString()=="")?null:codDoc.get("cedula").toString()),
                             ((codDoc.get("casa").toString()=="")?null:codDoc.get("casa").toString()),
-                            ((codDoc.get("cedula2").toString()=="")?null:codDoc.get("cedula2").toString())
+                            ((codDoc.get("cedula2").toString()=="")?null:codDoc.get("cedula2").toString()),
+                            codDoc.get("ncedula").toString(),
+                            codDoc.get("nombre").toString()
                     );
                     Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
+                    String[][] datos = new String[1][2];
+                    datos[0][0] = "estado";
+                    datos[0][1] = "0";
+                    long respuesta =  conexion.update("registros",datos, " id =  "+ codDoc.get("punto").toString());
                 }
             }catch ( Exception e) {
                 e.printStackTrace();
             }
-
-
-
-
         }
     }
 }

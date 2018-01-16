@@ -115,12 +115,14 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     String fecha = dateFormat.format(date);
                                     Bundle extras = getIntent().getExtras();
                                     String id__Punto = "";
+                                    String ruta ="";
                                     if (extras != null) {
                                         id__Punto = extras.getString("ID");
+                                        ruta = extras.getString("ruta");
 
                                     }
                                     SessionManager session = new SessionManager(getApplicationContext());
-                                    String[][] data = new String[11][2];
+                                    String[][] data = new String[14][2];
                                     data[0][0] = "longitud";
                                     data[0][1] = "" + longitude;
                                     data[1][0] = "latitud";
@@ -128,7 +130,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     data[2][0] = "fecha";
                                     data[2][1] = fecha;
                                     data[3][0] = "ruta";
-                                    data[3][1] = "";
+                                    data[3][1] = ruta;
                                     data[4][0] = "punto";
                                     data[4][1] = id__Punto;
                                     data[5][0] = "usuario";
@@ -143,6 +145,12 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     data[9][1] = comentario.getText().toString();
                                     data[10][0] = "estado";
                                     data[10][1] = "1";
+                                    data[11][0] = "ncedula";
+                                    data[11][1] = "";
+                                    data[12][0] = "nombre";
+                                    data[12][1] = "";
+                                    data[13][0] = "cedula2";
+                                    data[13][1] = "";
 
                                     Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                                     long respuesta = conexion.insertRegistration("registros", data);

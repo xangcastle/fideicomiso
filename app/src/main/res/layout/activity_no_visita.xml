@@ -6,6 +6,9 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp" >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -70,7 +73,7 @@
             android:textColor="@color/btn_login" />
 
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>
 
 

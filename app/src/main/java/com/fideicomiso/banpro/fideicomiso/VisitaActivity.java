@@ -25,7 +25,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class VisitaActivity extends AppCompatActivity  {
@@ -81,7 +84,7 @@ public class VisitaActivity extends AppCompatActivity  {
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
 
                 builder
-                        .setMessage("Desea continuar para grabar video ?")
+                        .setMessage("Desea terminar Visita?")
                         .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
@@ -128,12 +131,73 @@ public class VisitaActivity extends AppCompatActivity  {
 
 
 
-                                Bundle extras = getIntent().getExtras();
-                                String id__Punto ="";
-                                if(extras != null)
-                                {
-                                    id__Punto = extras.getString("ID");
-                                    String url = extras.getString("url");
+                                GPSTracker gps = new GPSTracker(getApplicationContext());
+
+                                // check if GPS enabled
+                                if (gps.canGetLocation()) {
+
+                                    double latitude = gps.getLatitude();
+                                    double longitude = gps.getLongitude();
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                    Date date = new Date();
+                                    String fecha = dateFormat.format(date);
+                                    Bundle extras = getIntent().getExtras();
+                                    String id__Punto = "";
+                                    String ruta ="";
+                                    if (extras != null) {
+                                        id__Punto = extras.getString("ID");
+                                        ruta = extras.getString("ruta");
+
+                                    }
+                                    EditText nombre = (EditText) findViewById(R.id.nombre);
+                                    EditText ncedula = (EditText) findViewById(R.id.cedula);
+                                    SessionManager session = new SessionManager(getApplicationContext());
+                                    String[][] data = new String[14][2];
+                                    data[0][0] = "longitud";
+                                    data[0][1] = "" + longitude;
+                                    data[1][0] = "latitud";
+                                    data[1][1] = "" + latitude;
+                                    data[2][0] = "fecha";
+                                    data[2][1] = fecha;
+                                    data[3][0] = "ruta";
+                                    data[3][1] = ruta;
+                                    data[4][0] = "punto";
+                                    data[4][1] = id__Punto;
+                                    data[5][0] = "usuario";
+                                    data[5][1] = "" + session.get_user();
+                                    data[6][0] = "cedula";
+                                    data[6][1] = path + "fideicomiso" + time + ".jpg";
+                                    data[7][0] = "casa";
+                                    data[7][1] = "";
+                                    data[8][0] = "tipo";
+                                    data[8][1] = "1";
+                                    data[9][0] = "comentario";
+                                    data[9][1] = comentario.getText().toString();
+                                    data[10][0] = "estado";
+                                    data[10][1] = "1";
+                                    data[11][0] = "ncedula";
+                                    data[11][1] = ncedula.getText().toString();
+                                    data[12][0] = "nombre";
+                                    data[12][1] = nombre.getText().toString();
+                                    data[13][0] = "cedula2";
+                                    data[13][1] = path + "fideicomiso2" + time + ".jpg";
+
+
+
+                                    Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+                                    long respuesta = conexion.insertRegistration("registros", data);
+
+                                    String[][] datos = new String[1][2];
+                                    datos[0][0] = "estado";
+                                    datos[0][1] = "1";
+
+                                    respuesta =  conexion.update("puntos",datos, " id =  "+id__Punto);
+
+                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    gps.showSettingsAlert();
                                 }
 
 

@@ -66,6 +66,8 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
      */
 
     private String ruta;
+    private String ncedula;
+    private String nombre;
     private String longitud;
     private String latitud;
     private String fecha;
@@ -79,7 +81,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
     private Context context;
 
     private String id_punto;
-    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa,String _ruta_cedula2,ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
+    public SincronizacionVideos(Context context, String ruta, String longitud, String latitud, String fecha, String usuario , String punto ,String id_punto,String _tipo ,String _comentario,String _ruta_imagen_cedula,String _ruta_imagen_casa,String _ruta_cedula2,String ncedula_,String nombre_,ListenerSincronizacionImagenes listenerSincronizacionImagenes) {
 
         this.ruta=ruta;
         this.longitud=longitud;
@@ -95,12 +97,8 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
         this.ruta_imagen_cedula =_ruta_imagen_cedula ;
         this.ruta_imagen_casa = _ruta_imagen_casa;
         this._ruta_cedula2 = _ruta_cedula2;
-
-
-
-
-
-
+        this.ncedula = ncedula_;
+        this.nombre  = nombre_;
     }
 
     /**
@@ -240,6 +238,18 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     dos.writeBytes("Content-Disposition: form-data; name=\"usuario\"" + lineEnd);
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(usuario);
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+                    dos.writeBytes("Content-Disposition: form-data; name=\"ncedula\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(ncedula);
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+                    dos.writeBytes("Content-Disposition: form-data; name=\"nombre\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(nombre);
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
 
