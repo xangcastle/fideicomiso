@@ -82,96 +82,101 @@ public class MarkersActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null)
+        try
         {
-            id__Punto= extras.getString("ID");
-            String[] datos = new String[11];
-            datos[0] = "id";
-            datos[1] = "departamento";
-            datos[2] = "municipio";
-            datos[3] = "barrio";
-            datos[4] = "comarca";
-            datos[5] = "comunidad";
-            datos[6] = "direccion";
-            datos[7] = "suvecion";
-            datos[8] = "contactos";
-            datos[9] = "longitude";
-            datos[10] = "latitude";
+            map = googleMap;
 
-            Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
-            ArrayList puntos =  conexion.searchRegistration("puntos", datos, " id =  "+id__Punto, null, " DESC");
-            codDoc = (HashMap) puntos.get(0);
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            String longitude  = codDoc.get("longitude").toString();
-            String latitude   = codDoc.get("latitude").toString();
+            Bundle extras = getIntent().getExtras();
+            if(extras != null)
+            {
+                id__Punto= extras.getString("ID");
+                String[] datos = new String[11];
+                datos[0] = "id";
+                datos[1] = "departamento";
+                datos[2] = "municipio";
+                datos[3] = "barrio";
+                datos[4] = "comarca";
+                datos[5] = "comunidad";
+                datos[6] = "direccion";
+                datos[7] = "suvecion";
+                datos[8] = "contactos";
+                datos[9] = "longitude";
+                datos[10] = "latitude";
 
-            texto = "  \n longitud : "+codDoc.get("longitude").toString()+" \n  latitud : "+ codDoc.get("latitude").toString()+" \n departamento : "+ codDoc.get("departamento").toString()+"\n municipio : "+ codDoc.get("municipio").toString()+" \n comarca : "+ codDoc.get("comarca").toString()+" \n comunidad :"+ codDoc.get("comunidad").toString()+" \n direccion : "+ codDoc.get("direccion").toString()+"\n suvecion : "+ codDoc.get("suvecion").toString()+" \n  contactos :"+ codDoc.get("contactos").toString();
+                Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                ArrayList puntos =  conexion.searchRegistration("puntos", datos, " id =  "+id__Punto, null, " DESC");
+                codDoc = (HashMap) puntos.get(0);
+                HashMap<String, String> map1 = new HashMap<String, String>();
+                String longitude  = codDoc.get("longitude").toString();
+                String latitude   = codDoc.get("latitude").toString();
 
-
-
-            longitudeDestino  = Double.parseDouble(longitude);
-            latitudeDestino   = Double.parseDouble(latitude);
-
-        }
-
-        GPSTracker gps = new GPSTracker(getApplicationContext());
-
-        // check if GPS enabled
-        if(gps.canGetLocation()){
-
-            latitudeOrigen = gps.getLatitude();
-            longitudeOrigen = gps.getLongitude();
+                texto = "  \n longitud : "+codDoc.get("longitude").toString()+" \n  latitud : "+ codDoc.get("latitude").toString()+" \n departamento : "+ codDoc.get("departamento").toString()+"\n municipio : "+ codDoc.get("municipio").toString()+" \n comarca : "+ codDoc.get("comarca").toString()+" \n comunidad :"+ codDoc.get("comunidad").toString()+" \n direccion : "+ codDoc.get("direccion").toString()+"\n suvecion : "+ codDoc.get("suvecion").toString()+" \n  contactos :"+ codDoc.get("contactos").toString();
 
 
-        }else{
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            gps.showSettingsAlert();
-        }
 
-        final LatLng destino = new LatLng(latitudeDestino,longitudeDestino);
-        final LatLng origen  = new LatLng(latitudeOrigen,longitudeOrigen);
-
-        // Markers
-
-        texto = "distancia :"+CalculationByDistance(destino,origen) +" KM "+texto;
-
-        markerOrigen = googleMap.addMarker(new MarkerOptions()
-                .position(origen)
-                .title("Usted esta aqui")
-        );
-
-        markerDestino = googleMap.addMarker(
-                new MarkerOptions()
-                        .position(destino)
-                        .title(codDoc.get("direccion").toString())
-        );
-
-        String url = obtenerDireccionesURL(destino, origen);
-        DownloadTask downloadTask = new DownloadTask();
-        downloadTask.execute(url);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(destino));
-        // Eventos
-        googleMap.setOnMarkerClickListener(this);
-        googleMap.setOnMarkerDragListener(this);
-        googleMap.setOnInfoWindowClickListener(this);
-
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(origen, 8));
-        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition position) {
-
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(destino, map.getCameraPosition().zoom));
+                longitudeDestino  = Double.parseDouble(longitude);
+                latitudeDestino   = Double.parseDouble(latitude);
 
             }
 
-        });
+            GPSTracker gps = new GPSTracker(getApplicationContext());
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                latitudeOrigen = gps.getLatitude();
+                longitudeOrigen = gps.getLongitude();
+
+
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
+
+            final LatLng destino = new LatLng(latitudeDestino,longitudeDestino);
+            final LatLng origen  = new LatLng(latitudeOrigen,longitudeOrigen);
+
+            // Markers
+
+            texto = "distancia :"+CalculationByDistance(destino,origen) +" KM "+texto;
+
+            markerOrigen = googleMap.addMarker(new MarkerOptions()
+                    .position(origen)
+                    .title("Usted esta aqui")
+            );
+
+            markerDestino = googleMap.addMarker(
+                    new MarkerOptions()
+                            .position(destino)
+                            .title(codDoc.get("direccion").toString())
+            );
+
+            String url = obtenerDireccionesURL(destino, origen);
+            DownloadTask downloadTask = new DownloadTask();
+            downloadTask.execute(url);
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(destino));
+            // Eventos
+            googleMap.setOnMarkerClickListener(this);
+            googleMap.setOnMarkerDragListener(this);
+            googleMap.setOnInfoWindowClickListener(this);
+
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(origen, 8));
+            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition position) {
+
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(destino, map.getCameraPosition().zoom));
+
+                }
+
+            });
+        }
+        catch (Exception e){}
+
 
     }
 
@@ -199,12 +204,19 @@ public class MarkersActivity extends AppCompatActivity
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        if (marker.equals(markerDestino)) {
+        try
+        {
+            if (marker.equals(markerDestino)) {
 
-            PuntoDetalleDialogFragment.newInstance(marker.getTitle(),
-                    texto)
-                    .show(getSupportFragmentManager(), null);
+                PuntoDetalleDialogFragment.newInstance(marker.getTitle(),
+                        texto)
+                        .show(getSupportFragmentManager(), null);
+            }
+        }catch (Exception e)
+        {
+
         }
+
     }
 
     @Override
@@ -214,25 +226,31 @@ public class MarkersActivity extends AppCompatActivity
     }
 
     private String obtenerDireccionesURL(LatLng origin,LatLng dest){
+        String url = "";
+        try
+        {
+            String str_origin = "origin="+origin.latitude+","+origin.longitude;
 
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+            String str_dest = "destination="+dest.latitude+","+dest.longitude;
 
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+            String sensor = "sensor=false";
 
-        String sensor = "sensor=false";
+            String parameters = str_origin+"&"+str_dest+"&"+sensor;
 
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+            String output = "json";
 
-        String output = "json";
+             url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
 
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        }catch (Exception e){}
+
 
         return url;
     }
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected String doInBackground(String... url) {
+        protected String doInBackground(String... url)
+        {
 
             String data = "";
 
@@ -341,28 +359,34 @@ public class MarkersActivity extends AppCompatActivity
         }
     }
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
-        int Radius = 6371;// radio de la tierra en  kilómetros
-        double lat1 = StartP.latitude;
-        double lat2 = EndP.latitude;
-        double lon1 = StartP.longitude;
-        double lon2 = EndP.longitude;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
+        try {
+            int Radius = 6371;// radio de la tierra en  kilómetros
+            double lat1 = StartP.latitude;
+            double lat2 = EndP.latitude;
+            double lon1 = StartP.longitude;
+            double lon2 = EndP.longitude;
+            double dLat = Math.toRadians(lat2 - lat1);
+            double dLon = Math.toRadians(lon2 - lon1);
+            double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                    + Math.cos(Math.toRadians(lat1))
+                    * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                    * Math.sin(dLon / 2);
+            double c = 2 * Math.asin(Math.sqrt(a));
+            double valueResult = Radius * c;
+            double km = valueResult / 1;
+            DecimalFormat newFormat = new DecimalFormat("####");
+            int kmInDec = Integer.valueOf(newFormat.format(km));
+            double meter = valueResult % 1000;
+            int meterInDec = Integer.valueOf(newFormat.format(meter));
+            Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                    + " Meter   " + meterInDec);
 
-        return Radius * c;
+            return Radius * c;
+        }
+        catch (Exception e)
+        {
+            return 1 ;
+        }
     }
 
 }
