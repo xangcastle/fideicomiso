@@ -1,4 +1,6 @@
 package com.fideicomiso.banpro.fideicomiso;
+        import android.app.AlertDialog;
+        import android.content.DialogInterface;
         import android.content.Intent;
         import android.graphics.Color;
         import android.os.AsyncTask;
@@ -69,10 +71,27 @@ public class MarkersActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),GrabarAudioActivity.class);
-                intent.putExtra("ID",id__Punto);
-                startActivity(intent);
-                finish();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+
+                builder
+                        .setMessage("Desea iniciar ?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(getApplicationContext(),GrabarAudioActivity.class);
+                                intent.putExtra("ID",id__Punto);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
