@@ -1,75 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true"
-    android:orientation="vertical" >
-
-    <LinearLayout
+    android:background="@color/bg_login"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
-
-        <ImageView
-            android:id="@+id/imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_marginTop="20dip">
-
-        <EditText
-            android:id="@+id/comment_visita"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:lines="6"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:scrollHorizontally="false"
-            android:textColor="@color/wallet_holo_blue_light"
-            android:hint="Comentarios necesarios"/>
-
-
-        <Button
-            android:id="@+id/btnTomaFoto"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/btn_login_bg"
-            android:text="Foto Casa"
-            android:textColor="@color/btn_login" />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                >
+
+                <ImageView
+                    android:id="@+id/imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginTop="20dip">
+
+                <EditText
+                    android:id="@+id/comment_visita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:lines="6"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:scrollHorizontally="false"
+                    android:textColor="@color/wallet_holo_blue_light"
+                    android:hint="Comentarios necesarios"/>
 
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/btn_login_bg"
-            android:text="Registrar"
-            android:textColor="@color/btn_login" />
+                <Button
+                    android:id="@+id/btnTomaFoto"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:background="@color/btn_login_bg"
+                    android:text="Foto Casa"
+                    android:textColor="@color/btn_login" />
 
-    </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:background="@color/btn_login_bg"
+                    android:text="Registrar"
+                    android:textColor="@color/btn_login" />
+
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
+
+</LinearLayout>
 
 
 

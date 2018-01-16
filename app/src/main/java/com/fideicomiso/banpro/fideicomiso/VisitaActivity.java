@@ -173,13 +173,11 @@ public class VisitaActivity extends AppCompatActivity  {
                                     data[10][0] = "estado";
                                     data[10][1] = "1";
                                     data[11][0] = "ncedula";
-                                    data[11][1] = ncedula.getText().toString();
+                                    data[11][1] = ncedula.getText().toString().trim().toUpperCase();
                                     data[12][0] = "nombre";
-                                    data[12][1] = nombre.getText().toString();
+                                    data[12][1] = nombre.getText().toString().trim().toUpperCase();
                                     data[13][0] = "cedula2";
                                     data[13][1] = path + "fideicomiso2" + time + ".jpg";
-
-
 
                                     Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                                     long respuesta = conexion.insertRegistration("registros", data);
