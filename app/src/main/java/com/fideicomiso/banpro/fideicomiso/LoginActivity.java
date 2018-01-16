@@ -162,6 +162,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideDialog();
                 Toast.makeText(getApplicationContext(),
                         R.string.message_error, Toast.LENGTH_LONG).show();
             }

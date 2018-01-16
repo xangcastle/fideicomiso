@@ -116,12 +116,16 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
 
                 resume.setEnabled(false);
                 resume.setVisibility(View.INVISIBLE);
+                detener("");
                 String p = Environment.getExternalStorageDirectory()
                         .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4";
                 Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
 
                 if(armarAudio)
-                 detener(p);
+                {
+                    reproducirAudioFinal(p);
+                }
+
 
 
             }
@@ -359,6 +363,22 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                 player.setDataSource(path);
             else
                 player.setDataSource(archivo.getAbsolutePath());
+        } catch (IOException e) {
+        }
+        try {
+            player.prepare();
+        } catch (IOException e) {
+        }
+
+
+    }
+    public void reproducirAudioFinal(String path )
+    {
+        player = new MediaPlayer();
+        player.setOnCompletionListener(this);
+        try {
+                player.setDataSource(path);
+
         } catch (IOException e) {
         }
         try {

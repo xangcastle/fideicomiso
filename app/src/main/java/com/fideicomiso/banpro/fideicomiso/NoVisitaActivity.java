@@ -81,14 +81,14 @@ public class NoVisitaActivity extends AppCompatActivity {
 
 
 
-                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomizo/";
+                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/";
                                 OutputStream fOut = null;
                                 long time = System.currentTimeMillis();
                                 File f = new File(path);
                                 if (!f.exists()){
                                     f.mkdirs();
                                 }
-                                File file = new File(path , "fideicomizo" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+                                File file = new File(path , "fideicomiso" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
                                 try {
                                     fOut = new FileOutputStream(file);
                                     imagen.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
@@ -136,7 +136,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     data[6][0] = "cedula";
                                     data[6][1] = "";
                                     data[7][0] = "casa";
-                                    data[7][1] = path + "fideicomizo" + time + ".jpg";
+                                    data[7][1] = path + "fideicomiso" + time + ".jpg";
                                     data[8][0] = "tipo";
                                     data[8][1] = "0";
                                     data[9][0] = "comentario";
