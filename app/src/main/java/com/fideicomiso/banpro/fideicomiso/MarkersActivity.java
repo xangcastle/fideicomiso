@@ -69,7 +69,7 @@ public class MarkersActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( getApplicationContext(),GrabarAudioActivity.class);
+                Intent intent = new Intent(v.getContext(),GrabarAudioActivity.class);
                 intent.putExtra("ID",id__Punto);
                 startActivity(intent);
                 finish();

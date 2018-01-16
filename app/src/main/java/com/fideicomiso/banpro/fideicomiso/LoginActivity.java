@@ -130,52 +130,8 @@ public class LoginActivity extends Activity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-
                     String id = jObj.getString("id");
-                    String username = jObj.getString("username");
-                    String nombre = jObj.getString("nombre");
-                    JSONArray puntos = jObj.getJSONArray("puntos");
                     session.setLogin(true,Integer.parseInt(id));
-
-                    String[][] data = new String[3][2];
-                    data[0][0] = "id";
-                    data[0][1] = id;
-                    data[1][0] = "username";
-                    data[1][1] = username;
-                    data[2][0] = "nombre";
-                    data[2][1] = nombre;
-
-                    Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
-                    long respuesta = conexion.insertRegistration("usuarios", data);
-
-                    for(int i = 0 ; i<puntos.length();i++)
-                    {
-                        data = new String[11][2];
-                        data[0][0] = "id";
-                        data[0][1] = puntos.getJSONObject(i).getString("id");
-                        data[1][0] = "departamento";
-                        data[1][1] = puntos.getJSONObject(i).getString("departamento");
-                        data[2][0] = "municipio";
-                        data[2][1] = puntos.getJSONObject(i).getString("municipio");
-                        data[3][0] = "barrio";
-                        data[3][1] = puntos.getJSONObject(i).getString("barrio");
-                        data[4][0] = "comarca";
-                        data[4][1] = puntos.getJSONObject(i).getString("comarca");
-                        data[5][0] = "comunidad";
-                        data[5][1] = puntos.getJSONObject(i).getString("comunidad");
-                        data[6][0] = "direccion";
-                        data[6][1] = puntos.getJSONObject(i).getString("direccion");
-                        data[7][0] = "suvecion";
-                        data[7][1] = puntos.getJSONObject(i).getString("suvecion");
-                        data[8][0] = "contactos";
-                        data[8][1] = puntos.getJSONObject(i).getString("contactos");
-                        data[9][0] = "longitude";
-                        data[9][1] = puntos.getJSONObject(i).getString("longitude");
-                        data[10][0] = "latitude";
-                        data[10][1] = puntos.getJSONObject(i).getString("latitude");
-
-                        respuesta = conexion.insertRegistration("puntos", data);
-                    }
                     if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                         Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
                         getApplicationContext().startService(serv); //ctx de tipo Context
@@ -189,10 +145,9 @@ public class LoginActivity extends Activity {
                     hideDialog();
                     // Launch main activity
                     Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                    intent.putExtra("respuesta",response);
                     startActivity(intent);
                     finish();
-
-
                 } catch (JSONException e) {
                     // JSON error
                     hideDialog();

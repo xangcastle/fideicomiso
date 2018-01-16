@@ -1,6 +1,7 @@
 package com.fideicomiso.banpro.fideicomiso;
 
 import android.app.AlertDialog;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -28,6 +29,8 @@ import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
@@ -304,20 +307,31 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         File path = new File(Environment.getExternalStorageDirectory()
-                .getPath()+"/fideicomiso/");
+                .getPath()+"/fideicomiso");
 
         if (!path.exists()){
             path.mkdirs();
         }
+
+        String name = "temporal"+System.currentTimeMillis()+".mp4";
+        archivo = new File(path , name); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
         try {
-            archivo = File.createTempFile("temporal"+System.currentTimeMillis(), ".mp4", path);
-            dataFiles.add(path+"temporal"+System.currentTimeMillis()+".mp4");
-        } catch (IOException e) {
+            FileOutputStream  fOut = new FileOutputStream(archivo);
+            fOut.flush(); // Not really required
+            fOut.close();
         }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            dataFiles.add(path+"/"+name);
         recorder.setOutputFile(archivo.getAbsolutePath());
         try {
             recorder.prepare();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
+            String l = e.getMessage();
         }
         recorder.start();
         estado_grabacion.setText("Grabando");
