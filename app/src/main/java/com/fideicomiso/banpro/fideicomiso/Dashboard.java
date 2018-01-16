@@ -45,10 +45,8 @@ public class Dashboard extends Activity {
         if(extras != null)
             response = extras.getString("respuesta");
 
-        if(!extras.equals(null))
+        if(extras != null)
         {
-
-
             try
             {
                 JSONObject jObj = new JSONObject(response);

@@ -51,6 +51,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
     private Button btn_iniciar_visita ;
     private Button btn_rechazar_visita ;
     private String id__Punto;
+    private String ruta ="";
 
 
     @Override
@@ -99,35 +100,51 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
             @Override
             public void onClick(View v) {
 
-                reproducir.setEnabled(true);
-                reproducir.setVisibility(View.VISIBLE);
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
-                grabar.setEnabled(false);
-                grabar.setVisibility(View.INVISIBLE);
+                builder
+                        .setMessage("Desea detener la grabación?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                estado_grabacion.setText("Grabación Finalizada");
 
-                pausar.setEnabled(false);
-                pausar.setVisibility(View.INVISIBLE);
+                                reproducir.setEnabled(true);
+                                reproducir.setVisibility(View.VISIBLE);
 
-                detener.setEnabled(false);
-                detener.setVisibility(View.INVISIBLE);
+                                grabar.setEnabled(false);
+                                grabar.setVisibility(View.INVISIBLE);
 
-                delete.setEnabled(true);
-                delete.setVisibility(View.VISIBLE);
+                                pausar.setEnabled(false);
+                                pausar.setVisibility(View.INVISIBLE);
 
-                resume.setEnabled(false);
-                resume.setVisibility(View.INVISIBLE);
-                detener("");
-                String p = Environment.getExternalStorageDirectory()
-                        .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4";
-                Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
+                                detener.setEnabled(false);
+                                detener.setVisibility(View.INVISIBLE);
 
-                if(armarAudio)
-                {
-                    reproducirAudioFinal(p);
-                }
+                                delete.setEnabled(true);
+                                delete.setVisibility(View.VISIBLE);
 
+                                resume.setEnabled(false);
+                                resume.setVisibility(View.INVISIBLE);
+                                detener("");
+                                String p = Environment.getExternalStorageDirectory()
+                                        .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4";
+                                Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
+                                ruta = p;
+                                if(armarAudio)
+                                {
+                                    reproducirAudioFinal(p);
+                                }
 
-
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -143,6 +160,8 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         {
             @Override
             public void onClick(View v) {
+                estado_grabacion.setText("Pausar");
+
                 reproducir.setEnabled(false);
                 reproducir.setVisibility(View.INVISIBLE);
 
@@ -200,6 +219,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
                                 intent.putExtra("ID",id__Punto);
+                                intent.putExtra("ruta",ruta);
                                 startActivity(intent);
                                 finish();
 
@@ -230,6 +250,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
                                 intent.putExtra("ID",id__Punto);
+                                intent.putExtra("ruta",ruta);
                                 startActivity(intent);
                                 finish();
                             }
@@ -338,7 +359,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
             String l = e.getMessage();
         }
         recorder.start();
-        estado_grabacion.setText("Grabando");
+        estado_grabacion.setText("Grabando...");
 
         grabar.setEnabled(false);
         grabar.setVisibility(View.INVISIBLE);
@@ -401,35 +422,60 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
     }
 
     public void eliminar() {
-        recorder.stop();
-        recorder.release();
-        for (Object row : dataFiles) {
-            File file = new File(row.toString());
-            if(file.exists())
-            {
-                boolean deleted = file.delete();
-            }
-        }
-        grabar.setEnabled(true);
-        grabar.setVisibility(View.VISIBLE);
 
-        reproducir.setEnabled(false);
-        reproducir.setVisibility(View.INVISIBLE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-        grabar.setEnabled(false);
-        grabar.setVisibility(View.INVISIBLE);
+        builder
+                .setMessage("Desea eliminar la grabación ? ")
+                .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        estado_grabacion.setText("");
+                        for (Object row : dataFiles) {
+                            File file = new File(row.toString());
+                            if(file.exists())
+                            {
+                                boolean deleted = file.delete();
+                            }
+                        }
+                        if(!ruta.equals(""))
+                        {
+                            File file = new File(ruta);
+                            if(file.exists())
+                            {
+                                boolean deleted = file.delete();
+                            }
+                        }
+                        grabar.setEnabled(true);
+                        grabar.setVisibility(View.VISIBLE);
 
-        pausar.setEnabled(false);
-        pausar.setVisibility(View.INVISIBLE);
+                        reproducir.setEnabled(false);
+                        reproducir.setVisibility(View.INVISIBLE);
 
-        detener.setEnabled(false);
-        detener.setVisibility(View.INVISIBLE);
+                        grabar.setEnabled(false);
+                        grabar.setVisibility(View.INVISIBLE);
 
-        delete.setEnabled(false);
-        delete.setVisibility(View.INVISIBLE);
+                        pausar.setEnabled(false);
+                        pausar.setVisibility(View.INVISIBLE);
 
-        resume.setEnabled(false);
-        resume.setVisibility(View.INVISIBLE);
+                        detener.setEnabled(false);
+                        detener.setVisibility(View.INVISIBLE);
+
+                        delete.setEnabled(false);
+                        delete.setVisibility(View.INVISIBLE);
+
+                        resume.setEnabled(false);
+                        resume.setVisibility(View.INVISIBLE);
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int id) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
 
