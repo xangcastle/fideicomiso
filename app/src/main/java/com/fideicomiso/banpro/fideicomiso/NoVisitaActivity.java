@@ -144,7 +144,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     data[10][0] = "estado";
                                     data[10][1] = "1";
 
-                                    Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                                    Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                                     long respuesta = conexion.insertRegistration("registros", data);
 
                                     String[][] datos = new String[1][2];

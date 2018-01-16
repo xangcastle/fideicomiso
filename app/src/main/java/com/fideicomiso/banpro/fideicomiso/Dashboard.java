@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class Dashboard extends Activity {
     ListView listView;
@@ -65,7 +66,7 @@ public class Dashboard extends Activity {
                 data[2][0] = "nombre";
                 data[2][1] = nombre;
 
-                Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                 long respuesta = conexion.insertRegistration("usuarios", data);
 
                 for(int i = 0 ; i<puntos.length();i++)
@@ -123,7 +124,7 @@ public class Dashboard extends Activity {
                 datos[10] = "latitude";
 
 
-                Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                 ArrayList puntos =  conexion.searchRegistration("puntos", datos, " estado = 0 ", null, " DESC");
 
                 try{
@@ -170,26 +171,34 @@ public class Dashboard extends Activity {
             }
         });
 
-        SearchView search = (SearchView) findViewById(R.id.search);
+        try
+        {
+            SearchView search = (SearchView) findViewById(R.id.search);
 
 
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(query);
-                return false;
-            }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(query);
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(newText);
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    ((SimpleAdapter)Dashboard.this.adapter).getFilter().filter(newText);
 
-                return false;
-            }
+                    return false;
+                }
 
 
-        });
+            });
+        }
+        catch (Exception e)
+        {
+            String l = e.getMessage();
+        }
+
 
 
     }

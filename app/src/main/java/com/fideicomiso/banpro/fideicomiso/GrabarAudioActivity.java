@@ -203,7 +203,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         {
             @Override
             public void onClick(View v) {
-                eliminar();
+                eliminar(v);
             }
         });
 
@@ -421,9 +421,9 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         grabar();
     }
 
-    public void eliminar() {
+    public void eliminar(View v) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
         builder
                 .setMessage("Desea eliminar la grabación ? ")
@@ -446,14 +446,14 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                                 boolean deleted = file.delete();
                             }
                         }
+                        dataFiles  = new ArrayList<String>();
+                        ruta ="";
                         grabar.setEnabled(true);
                         grabar.setVisibility(View.VISIBLE);
 
                         reproducir.setEnabled(false);
                         reproducir.setVisibility(View.INVISIBLE);
 
-                        grabar.setEnabled(false);
-                        grabar.setVisibility(View.INVISIBLE);
 
                         pausar.setEnabled(false);
                         pausar.setVisibility(View.INVISIBLE);

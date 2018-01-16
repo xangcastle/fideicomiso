@@ -122,7 +122,7 @@ public class MarkersActivity extends AppCompatActivity
                 datos[9] = "longitude";
                 datos[10] = "latitude";
 
-                Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                 ArrayList puntos =  conexion.searchRegistration("puntos", datos, " id =  "+id__Punto, null, " DESC");
                 codDoc = (HashMap) puntos.get(0);
                 HashMap<String, String> map1 = new HashMap<String, String>();

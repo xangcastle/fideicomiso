@@ -131,15 +131,12 @@ public class VisitaActivity extends AppCompatActivity  {
                                 Bundle extras = getIntent().getExtras();
                                 String id__Punto ="";
                                 if(extras != null)
+                                {
                                     id__Punto = extras.getString("ID");
+                                    String url = extras.getString("url");
+                                }
 
-                               /* Intent intent = new Intent( getApplicationContext(),Camera_view.class);
-                                intent.putExtra("cedula",path+"fideicomizo"+time+".jpg");
-                                intent.putExtra("cedula2",path+"fideicomizo2"+time+".jpg");
-                                intent.putExtra("comentario",comentario.getText().toString());
-                                intent.putExtra("ID",id__Punto);
 
-                                startActivity(intent);*/
 
 
 

@@ -107,7 +107,7 @@ public class LoginActivity extends Activity {
                 ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
                 if(conDec.connectionVerification())
                 {
-                    Conexion conexion = new Conexion(getApplicationContext(), "Delta2", null, 3);
+                    Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                     Boolean elimianados = conexion.deleteTabla();
                     if(!elimianados)
                         return ;
