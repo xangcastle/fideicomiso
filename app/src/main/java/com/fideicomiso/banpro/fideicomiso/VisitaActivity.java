@@ -2,11 +2,16 @@ package com.fideicomiso.banpro.fideicomiso;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,6 +33,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 
 public class VisitaActivity extends AppCompatActivity  {
@@ -68,6 +76,10 @@ public class VisitaActivity extends AppCompatActivity  {
 
         imageView = (ImageView) findViewById(R.id.imageview);
         imageView2 = (ImageView) findViewById(R.id.imageview2);
+        imageView.getLayoutParams().height = 300;
+        imageView.getLayoutParams().width = 200;
+        imageView2.getLayoutParams().height = 300;
+        imageView2.getLayoutParams().width = 200;
 
 
         Bundle extras = getIntent().getExtras();
@@ -87,44 +99,24 @@ public class VisitaActivity extends AppCompatActivity  {
                             public void onClick(DialogInterface dialog, int id) {
                                 EditText comentario = (EditText) findViewById(R.id.comment_visita);
 
+                                Bundle extras = getIntent().getExtras();
+                                String id__Punto = "";
+                                String ruta ="";
+                                if (extras != null) {
+                                    id__Punto = extras.getString("ID");
+                                    ruta = extras.getString("ruta");
 
-
-                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/";
+                                }
+                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/cedulas/";
                                 OutputStream fOut = null;
                                 long time = System.currentTimeMillis();
                                 File f = new File(path);
                                 if (!f.exists()){
                                     f.mkdirs();
                                 }
-                                File file = new File(path , "fideicomiso" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-                                try {
-                                    fOut = new FileOutputStream(file);
-                                    imagen.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-                                    fOut.flush(); // Not really required
-                                    fOut.close(); // do not forget to close the stream
-                                    MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                                String ruta_cedula = saveImage(imagen,path,id__Punto+"_cedula_" + time + ".jpg");
+                                String ruta_cedula2 = saveImage(imagen2,path,id__Punto+"_cedula2_" + time + ".jpg");
 
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-
-
-                                File file2 = new File(path , "fideicomiso2" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-                                try {
-                                    fOut = new FileOutputStream(file2);
-                                    imagen2.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-                                    fOut.flush(); // Not really required
-                                    fOut.close(); // do not forget to close the stream
-                                    MediaStore.Images.Media.insertImage(getContentResolver(), file2.getAbsolutePath(), file2.getName(), file2.getName());
-
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
 
 
 
@@ -138,14 +130,8 @@ public class VisitaActivity extends AppCompatActivity  {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                                     Date date = new Date();
                                     String fecha = dateFormat.format(date);
-                                    Bundle extras = getIntent().getExtras();
-                                    String id__Punto = "";
-                                    String ruta ="";
-                                    if (extras != null) {
-                                        id__Punto = extras.getString("ID");
-                                        ruta = extras.getString("ruta");
 
-                                    }
+
                                     EditText nombre = (EditText) findViewById(R.id.nombre);
                                     EditText ncedula = (EditText) findViewById(R.id.cedula);
                                     SessionManager session = new SessionManager(getApplicationContext());
@@ -163,7 +149,7 @@ public class VisitaActivity extends AppCompatActivity  {
                                     data[5][0] = "usuario";
                                     data[5][1] = "" + session.get_user();
                                     data[6][0] = "cedula";
-                                    data[6][1] = path + "fideicomiso" + time + ".jpg";
+                                    data[6][1] = ruta_cedula;
                                     data[7][0] = "casa";
                                     data[7][1] = "";
                                     data[8][0] = "tipo";
@@ -177,7 +163,7 @@ public class VisitaActivity extends AppCompatActivity  {
                                     data[12][0] = "nombre";
                                     data[12][1] = nombre.getText().toString().trim().toUpperCase();
                                     data[13][0] = "cedula2";
-                                    data[13][1] = path + "fideicomiso2" + time + ".jpg";
+                                    data[13][1] = ruta_cedula2;
 
                                     Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
                                     long respuesta = conexion.insertRegistration("registros", data);
@@ -188,8 +174,15 @@ public class VisitaActivity extends AppCompatActivity  {
 
                                     respuesta =  conexion.update("puntos",datos, " id =  "+id__Punto);
 
+                                    if(Build.VERSION.SDK_INT>=19) {
+                                        Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                                        AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                        manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                                     startActivity(intent);
+                                    finish();
 
                                 } else {
                                     gps.showSettingsAlert();
@@ -220,11 +213,8 @@ public class VisitaActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 //Abre la camara para tomar la foto
-                cara = 1 ;
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, 1);
-                }
+                Intent chooseImageIntent = ImagePicker.getPickImageIntent(v.getContext());
+                startActivityForResult(chooseImageIntent, 1);
             }
 
         });
@@ -236,11 +226,9 @@ public class VisitaActivity extends AppCompatActivity  {
 
             @Override
             public void onClick(View v) {
-                cara = 2 ;
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, 1);
-                }
+
+                Intent chooseImageIntent = ImagePicker.getPickImageIntent(v.getContext());
+                startActivityForResult(chooseImageIntent, 2);
             }
 
         });
@@ -258,6 +246,28 @@ public class VisitaActivity extends AppCompatActivity  {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    private String saveImage(Bitmap thumbnail,String path ,String name)  {
+        String respuesta = "" ;
+        try {
+            if (thumbnail != null) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+
+                File destination = new File(path + name);
+                FileOutputStream fo;
+                respuesta = destination.getPath();
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            }
+        }
+        catch (IOException e)
+        {
+
+        }
+        return respuesta;
     }
 
 
@@ -297,21 +307,25 @@ public class VisitaActivity extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1||requestCode==100 ) {
+
             if (resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                if (cara == 1 )
+
+                if (requestCode == 1 )
                 {
-                    imagen = (Bitmap) extras.get("data");
+                    imagen = ImagePicker.getImageFromResult(this, resultCode, data);
                     imageView.setImageBitmap(imagen);
                 }
-                else if (cara == 2 )
+                else if (requestCode == 2 )
                 {
-                    imagen2 = (Bitmap) extras.get("data");
+                    imagen2 = ImagePicker.getImageFromResult(this, resultCode, data);
                     imageView2.setImageBitmap(imagen2);
-                }
+                 }
+                else
+                    {
+                        super.onActivityResult(requestCode, resultCode, data);
+                    }
 
-            }
+
         }
     }
 }

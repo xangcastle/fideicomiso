@@ -70,15 +70,13 @@ android:padding="10dp" >
                     android:id="@+id/resume"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/resume"
-                    android:visibility="invisible"
+                    android:src="@drawable/resume2"
                     />
                 <ImageButton
                     android:id="@+id/pause"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/pause"
-                    android:visibility="invisible"
+                    android:src="@drawable/pause2"
                     />
             </TableRow>
             <TableRow
@@ -90,22 +88,19 @@ android:padding="10dp" >
                     android:id="@+id/stop"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/stop"
-                    android:visibility="invisible"
+                    android:src="@drawable/stop2"
                     />
                 <ImageButton
                     android:id="@+id/cancel"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/cancel"
-                    android:visibility="invisible"
+                    android:src="@drawable/cancel2"
                     />
                 <ImageButton
                     android:id="@+id/play"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/play"
-                    android:visibility="invisible"
+                    android:src="@drawable/play2"
                     />
             </TableRow>
         </TableLayout>

@@ -1,5 +1,6 @@
 package com.fideicomiso.banpro.fideicomiso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,13 +9,18 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -81,26 +87,24 @@ public class NoVisitaActivity extends AppCompatActivity {
 
 
 
-                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/";
+                                String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/vivienda/";
                                 OutputStream fOut = null;
                                 long time = System.currentTimeMillis();
                                 File f = new File(path);
                                 if (!f.exists()){
                                     f.mkdirs();
                                 }
-                                File file = new File(path , "fideicomiso" + time + ".jpg"); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-                                try {
-                                    fOut = new FileOutputStream(file);
-                                    imagen.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-                                    fOut.flush(); // Not really required
-                                    fOut.close(); // do not forget to close the stream
-                                    MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                                String id__Punto = "";
+                                String ruta ="";
+                                Bundle extras = getIntent().getExtras();
+                                if (extras != null) {
+                                    id__Punto = extras.getString("ID");
+                                    ruta = extras.getString("ruta");
 
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
                                 }
+                                String vivienda = saveImage(imagen,path,id__Punto+"_vivienda_" + time + ".jpg");
+
+
 
 
                                 GPSTracker gps = new GPSTracker(getApplicationContext());
@@ -113,14 +117,8 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                                     Date date = new Date();
                                     String fecha = dateFormat.format(date);
-                                    Bundle extras = getIntent().getExtras();
-                                    String id__Punto = "";
-                                    String ruta ="";
-                                    if (extras != null) {
-                                        id__Punto = extras.getString("ID");
-                                        ruta = extras.getString("ruta");
 
-                                    }
+
                                     SessionManager session = new SessionManager(getApplicationContext());
                                     String[][] data = new String[14][2];
                                     data[0][0] = "longitud";
@@ -138,7 +136,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     data[6][0] = "cedula";
                                     data[6][1] = "";
                                     data[7][0] = "casa";
-                                    data[7][1] = path + "fideicomiso" + time + ".jpg";
+                                    data[7][1] = vivienda;
                                     data[8][0] = "tipo";
                                     data[8][1] = "0";
                                     data[9][0] = "comentario";
@@ -160,9 +158,15 @@ public class NoVisitaActivity extends AppCompatActivity {
                                     datos[0][1] = "1";
 
                                     respuesta =  conexion.update("puntos",datos, " id =  "+id__Punto);
-
+                                    if(Build.VERSION.SDK_INT>=19) {
+                                        Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                                        AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                        manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                                     startActivity(intent);
+                                    finish();
 
                                 } else {
                                     gps.showSettingsAlert();
@@ -183,7 +187,8 @@ public class NoVisitaActivity extends AppCompatActivity {
         });
 
         imageView = (ImageView) findViewById(R.id.imageview);
-
+        imageView.getLayoutParams().height = 300;
+        imageView.getLayoutParams().width = 300;
 
 
 
@@ -198,13 +203,33 @@ public class NoVisitaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Abre la camara para tomar la foto
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, 1);
-                }
+                Intent chooseImageIntent = ImagePicker.getPickImageIntent(v.getContext());
+                startActivityForResult(chooseImageIntent, 1);
             }
 
         });
+    }
+    private String saveImage(Bitmap thumbnail,String path ,String name)  {
+        String respuesta = "" ;
+        try {
+            if (thumbnail != null) {
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+
+                File destination = new File(path + name);
+                FileOutputStream fo;
+                respuesta = destination.getPath();
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            }
+        }
+        catch (IOException e)
+        {
+
+        }
+        return respuesta;
     }
 
 
@@ -262,8 +287,7 @@ public class NoVisitaActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1||requestCode==100 ) {
             if (resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                imagen = (Bitmap) extras.get("data");
+                imagen = ImagePicker.getImageFromResult(this, resultCode, data);
                 imageView.setImageBitmap(imagen);
             }
         }

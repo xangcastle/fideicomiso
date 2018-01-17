@@ -241,6 +241,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
 
+                  
                     dos.writeBytes("Content-Disposition: form-data; name=\"ncedula\"" + lineEnd);
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(ncedula);
@@ -285,7 +286,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                     if(ruta!=null && !ruta.equals(""))
                     {
-                        dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "difeicomi.mp4" + "\"" + lineEnd);
+                        dos.writeBytes("Content-Disposition: form-data; name=\"video\";filename=\"" + "audio.mp4" + "\"" + lineEnd);
                         dos.writeBytes(lineEnd);
 
 
@@ -313,7 +314,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                 if(_ruta_cedula2!=null&& !_ruta_cedula2.equals(""))
                 {
-                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula2\";filename=\"" + "cedula2.jpg" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula2\";filename=\"" + "cedula2.png" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
 
@@ -342,7 +343,7 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                 if(ruta_imagen_cedula!=null&& !ruta_imagen_cedula.equals(""))
                 {
-                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula\";filename=\"" + "cedula.jpg" + "\"" + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"cedula\";filename=\"" + "cedula.png" + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
 

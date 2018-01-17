@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">fideicomiso</string>
+    <string name="app_name">Convenio de Educación Financiera</string>
     <string name="hint_email">usuario</string>
     <string name="hint_password">password</string>
     <string name="btn_login">ingresar</string>
@@ -14,7 +14,7 @@
     <string name="url">Direccion</string>
     <string name="title_activity_registro">Registro</string>
     <string name="title_activity_camera_app">CameraAppActivity</string>
-    <string name="btn_grabar">Grabar</string>
+    <string name="btn_grabar">Registrar</string>
     <string name="btn_detener">Detener</string>
     <string name="btn_reproducir">Reproducir</string>
     <string name="record">Grabar</string>
@@ -43,5 +43,11 @@
     <string name="model_product">Modelo</string>
     <string name="register_product_message">Registrando  ..</string>
     <string name="btn_register">Registrar y seguir a grabar video</string>
+
+
+    <string name="gpvch_header">Nueva versión Disponible!</string>
+    <string name="gpvch_button_positive">Actualiza la versión actual</string>
+    <string name="gpvch_button_negative"></string>
+    <string name="gpvch_new_version_info_title">Mejoras del proceso</string>
 
 </resources>

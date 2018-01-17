@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.robohorse.gpversionchecker.GPVersionChecker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +35,7 @@ public class LoginActivity extends Activity {
     private EditText txt_password;
     private SessionManager session;
     private ProgressDialog pDialog;
-    public static final long INTERVALOTIEMPOSINCRONIZACION = 60000;
+    public static final long INTERVALOTIEMPOSINCRONIZACION = 65000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class LoginActivity extends Activity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     0);
         }
-
+        new GPVersionChecker.Builder(this).create();
         if (session.isLoggedIn()) {
             if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                 Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent
