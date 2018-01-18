@@ -26,5 +26,7 @@
     <color name="list_background_pressed">#4287B1</color>
     <color name="list_background">#FFFFFF</color>
     <color name="list_divider">#cccccc</color>
-
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="primary">#00448b</color>
 </resources>

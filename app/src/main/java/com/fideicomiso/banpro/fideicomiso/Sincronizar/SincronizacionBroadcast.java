@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Sincronizar;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

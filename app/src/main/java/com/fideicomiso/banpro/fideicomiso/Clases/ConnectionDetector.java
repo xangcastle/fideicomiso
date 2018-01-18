@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Clases;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,10 +1,11 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.fideicomiso.banpro.fideicomiso.R;
 
 public class MarkerDetailActivity extends Activity {
 

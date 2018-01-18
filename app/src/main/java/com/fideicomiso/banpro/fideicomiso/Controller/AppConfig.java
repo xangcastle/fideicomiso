@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Controller;
 
 public class AppConfig {
 	public static String HOST      = "https://deltacopiers.com/";

@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Clases;
 
 /**
  * Created by root on 10/01/18.

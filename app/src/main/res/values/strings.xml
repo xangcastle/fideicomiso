@@ -7,7 +7,7 @@
     <string name="btn_play">Grabar</string>
     <string name="btn_link_to_register">registrarse</string>
     <string name="message_error">Verifique los datos suministrados</string>
-    <string name="title_activity_dashboard">dashboard</string>
+    <string name="title_activity_dashboard">Educación Financiera - Version 1.8</string>
     <string name="info">Informacion</string>
     <string name="wid">ID</string>
     <string name="name">Nombre</string>
@@ -18,6 +18,9 @@
     <string name="btn_detener">Detener</string>
     <string name="btn_reproducir">Reproducir</string>
     <string name="record">Grabar</string>
+    <string name="suvecion">suvecion</string>
+    <string name="visitas">Visitas Registradas</string>
+    <string name="sincronizar">Sincronizar</string>
     <string name="stop">Detener</string>
     <string name="logout">Salir</string>
     <string name="description_info">Info</string>
@@ -25,9 +28,9 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="marker_detail_latlng">(%1$.2f, %2$.2f)</string>
-    <string name="btn_iniciarVisita">Aceptación de entrevista</string>
+    <string name="btn_iniciarVisita"> Abrir cuenta</string>
     <string name="punto_full_snippet">La República Argentina, conocida simplemente como Argentina, es un país soberano de América del Sur, ubicado en el extremo sur y sudeste de dicho subcontinente. Adopta la forma de gobierno republicana, representativa y federal. El Estado nacional convive federativamente con veinticuatro entidades estatales autónomas, de las cuales veintitrés son provincias que preservan todo el poder no delegado constitucionalmente a la Nación y una es la Ciudad Autónoma de Buenos Aires, designada por ley como capital federal.</string>
-    <string name="btn_rechazarVisita">No aceptación de la entrevista</string>
+    <string name="btn_rechazarVisita">No abrir cuenta</string>
     <string name="comentario">Comentario</string>
 
     <string name="btn_picture_product">Seleccione Imagén Principal</string>
@@ -49,5 +52,6 @@
     <string name="gpvch_button_positive">Actualiza la versión actual</string>
     <string name="gpvch_button_negative"></string>
     <string name="gpvch_new_version_info_title">Mejoras del proceso</string>
+    <string name="title_activity_detalle_registro">DetalleRegistroActivity</string>
 
 </resources>

@@ -1,7 +1,6 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.app.AlertDialog;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -22,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coremedia.iso.boxes.Container;
+import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
+import com.fideicomiso.banpro.fideicomiso.R;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
@@ -213,7 +214,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                     builder
-                            .setMessage("No aceptación de entrevista?")
+                            .setMessage("No abrir Cuenta ?")
                             .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
@@ -261,7 +262,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                     builder
-                            .setMessage("Aceptación de entrevista ?")
+                            .setMessage("Abrir Cuenta ?")
                             .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {

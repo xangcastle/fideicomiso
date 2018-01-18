@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
         import android.app.AlertDialog;
         import android.content.DialogInterface;
         import android.content.Intent;
@@ -12,6 +12,8 @@ package com.fideicomiso.banpro.fideicomiso;
 
         import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
         import com.fideicomiso.banpro.fideicomiso.Clases.GPSTracker;
+        import com.fideicomiso.banpro.fideicomiso.Clases.PuntoDetalleDialogFragment;
+        import com.fideicomiso.banpro.fideicomiso.R;
         import com.google.android.gms.maps.CameraUpdateFactory;
         import com.google.android.gms.maps.GoogleMap;
         import com.google.android.gms.maps.OnMapReadyCallback;

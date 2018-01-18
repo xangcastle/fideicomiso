@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Sincronizar;
 
 import android.content.Context;
 
@@ -21,20 +21,23 @@ public class Sincronizacion implements SincronizacionVideos.ListenerSincronizaci
       int cod= codigo;
         Conexion conexion = new Conexion(this.context , "Delta3", null, 3);
 
-          if(codigo == 3)
-          {
-              long respuesta =  conexion.deleteRegistration("registros", " punto = "+id_punto);
-              respuesta =  conexion.deleteRegistration("puntos", "id = "+id_punto);
-          }
-          else
-              {
-                  String[][] datos = new String[1][2];
-                  datos[0][0] = "estado";
-                  datos[0][1] = "1";
+        if(codigo == 3)
+        {
+            String[][] datos = new String[1][2];
+            datos[0][0] = "estado";
+            datos[0][1] = "3";
+            long respuesta =  conexion.update("puntos",datos, " id =  "+id_punto);
+                 respuesta =  conexion.update("registros",datos, " punto =  "+id_punto);
+        }
+        else
+        {
+            String[][] datos = new String[1][2];
+            datos[0][0] = "estado";
+            datos[0][1] = "1";
 
-                 long respuesta =  conexion.update("registros",datos, " id =  "+id_punto);
+            long respuesta =  conexion.update("registros",datos, " punto =  "+id_punto);
 
-              }
+        }
 
     }
 }

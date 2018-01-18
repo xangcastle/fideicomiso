@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Clases;
 
 
 import android.content.ContentValues;
@@ -49,6 +49,17 @@ public class Conexion extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS 'contactos'");
             return true;
           } catch (Exception e) {
+            Log.e("", e.toString());
+            return false;
+        }
+    }
+
+    public Boolean eliminarPuntosSinc() {
+        try {
+            openDataBase();
+            db.execSQL("DELETE FROM 'puntos' WHERE estado != 3 ");
+            return true;
+        } catch (Exception e) {
             Log.e("", e.toString());
             return false;
         }

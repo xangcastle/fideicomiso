@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Sincronizar;
 
 import android.app.Service;
 import android.content.Intent;
@@ -69,7 +69,7 @@ public class SincronizacionService extends Service {
 
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1", null, " DESC");
+        ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1 or  estado = 2  ", null, " DESC");
         TareaSincronizar obj = new TareaSincronizar(puntos,fecha);
         handler.post(obj);
     }
@@ -141,7 +141,7 @@ public class SincronizacionService extends Service {
                     Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
                     String[][] datos = new String[1][2];
                     datos[0][0] = "estado";
-                    datos[0][1] = "0";
+                    datos[0][1] = "3";
                     long respuesta =  conexion.update("registros",datos, " id =  "+ codDoc.get("punto").toString());
                 }
             }catch ( Exception e) {

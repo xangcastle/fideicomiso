@@ -1,7 +1,9 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.os.Bundle;
 import android.app.Activity;
+
+import com.fideicomiso.banpro.fideicomiso.R;
 
 public class DetalleRegistroActivity extends Activity {
 

@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Clases;
 
 import android.content.ContentValues;
 
@@ -12,28 +12,81 @@ import java.util.Calendar;
 
 public class Punto implements Serializable {
 
-    private String latitud;
-    private String longitud;
+    private String departamento;
+    private String municipio;
+    private String barrio;
+    private String comarca;
+    private String comunidad;
     private String id;
-    private String name;
     private String contactos;
     private String direccion;
     private String suvecion;
+    private String estado;
 
 
-    public Punto(String id,String latitud ,String longitud ,String name,String contactos,String direccion ,String suvecion) {
+
+
+    public Punto(String id,String departamento,String municipio,String barrio ,String  comarca,String comunidad,String contactos,String direccion ,String suvecion) {
         this.id = id;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.name = name;
+        this.departamento = departamento;
+        this.municipio = municipio;
+        this.barrio = barrio;
+        this.comarca = comarca;
+        this.comunidad = comunidad;
         this.contactos = contactos;
         this.direccion =direccion;
         this.suvecion =suvecion;
     }
 
+    public void setEStado(String estado)
+    {
+        this.estado = estado;
+    }
+
+    public String getEstado()
+    {
+        return this.estado;
+    }
+
     public String getSuvecion()
     {
         return this.suvecion;
+    }
+
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public String getContactos()
+    {
+        return this.contactos;
+    }
+    public String getDireccion()
+    {
+        return this.direccion;
+    }
+    public String getDepartamento()
+    {
+        return this.departamento;
+    }
+    public String getMunicipio()
+    {
+        return this.municipio;
+    }
+
+    public String getBarrio()
+    {
+        return this.barrio;
+    }
+
+    public String getComarca()
+    {
+        return this.comarca;
+    }
+    public String getComunidad()
+    {
+        return this.comunidad;
     }
 
     /**

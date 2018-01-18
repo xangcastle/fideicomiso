@@ -1,27 +1,22 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,15 +24,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.fideicomiso.banpro.fideicomiso.Adapter.AdapterPuntosPendientes;
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
+import com.fideicomiso.banpro.fideicomiso.Clases.ConnectionDetector;
 import com.fideicomiso.banpro.fideicomiso.Clases.Punto;
+import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
+import com.fideicomiso.banpro.fideicomiso.Controller.AppConfig;
+import com.fideicomiso.banpro.fideicomiso.Controller.AppController;
+import com.fideicomiso.banpro.fideicomiso.R;
 import com.robohorse.gpversionchecker.GPVersionChecker;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +46,7 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
     ListView listView;
     private ProgressDialog pDialog;
     private RequestQueue requestQueue;
+    private TextView mensaje ;
 
 
     ArrayList<Punto> arrList;
@@ -79,24 +78,9 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
             res = registrarData(response);
         }
 
-        String[] datos = new String[11];
-        datos[0] = "id";
-        datos[1] = "departamento";
-        datos[2] = "municipio";
-        datos[3] = "barrio";
-        datos[4] = "comarca";
-        datos[5] = "comunidad";
-        datos[6] = "direccion";
-        datos[7] = "suvecion";
-        datos[8] = "contactos";
-        datos[9] = "longitude";
-        datos[10] = "latitude";
-
-        Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-        ArrayList puntos =  conexion.searchRegistration("puntos", datos, " estado = 0 ", null, " DESC");
 
         try{
-
+            ArrayList puntos = consultarPuntosBD();
             for (int i = 0; i < puntos.size(); i++) {
                 HashMap codDoc = (HashMap) puntos.get(i);
                 arrList.add(new Punto(codDoc.get("id").toString(),codDoc.get("departamento").toString(),codDoc.get("municipio").toString(),codDoc.get("barrio").toString(),codDoc.get("comarca").toString(),codDoc.get("comunidad").toString(),codDoc.get("contactos").toString(),codDoc.get("direccion").toString(),codDoc.get("suvecion").toString()));
@@ -107,14 +91,18 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
 
 
          search = (SearchView) findViewById(R.id.search);
+         mensaje =(TextView) findViewById(R.id.emptyMensaje);
         if(!arrList.isEmpty()){
 
             listView.setAdapter(new AdapterPuntosPendientes(arrList, Dashboard.this));
             listView.setTextFilterEnabled(true);
+            mensaje.setVisibility(View.INVISIBLE);
+            search.setVisibility(View.VISIBLE);
         }
         else
             {
                 search.setVisibility(View.INVISIBLE);
+                mensaje.setVisibility(View.VISIBLE);
             }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -140,7 +128,25 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         setupSearchView();
         requestQueue = Volley.newRequestQueue(this);
     }
+    private  ArrayList consultarPuntosBD()
+    {
+        String[] datos = new String[11];
+        datos[0] = "id";
+        datos[1] = "departamento";
+        datos[2] = "municipio";
+        datos[3] = "barrio";
+        datos[4] = "comarca";
+        datos[5] = "comunidad";
+        datos[6] = "direccion";
+        datos[7] = "suvecion";
+        datos[8] = "contactos";
+        datos[9] = "longitude";
+        datos[10] = "latitude";
 
+        Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+        ArrayList puntos =  conexion.searchRegistration("puntos", datos, " estado = 0 ", null, " DESC");
+        return puntos;
+    }
     private void setupSearchView() {
         search .setIconifiedByDefault(false);
         search.setOnQueryTextListener(this);
@@ -156,34 +162,37 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         {
             JSONObject jObj = new JSONObject(response);
             Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-            JSONArray puntos = jObj.getJSONArray("puntos");
-            for(int i = 0 ; i<puntos.length();i++)
+            if(conexion.eliminarPuntosSinc())
             {
-                String[][] data = new String[11][2];
-                data[0][0] = "id";
-                data[0][1] = puntos.getJSONObject(i).getString("id");
-                data[1][0] = "departamento";
-                data[1][1] = puntos.getJSONObject(i).getString("departamento");
-                data[2][0] = "municipio";
-                data[2][1] = puntos.getJSONObject(i).getString("municipio");
-                data[3][0] = "barrio";
-                data[3][1] = puntos.getJSONObject(i).getString("barrio");
-                data[4][0] = "comarca";
-                data[4][1] = puntos.getJSONObject(i).getString("comarca");
-                data[5][0] = "comunidad";
-                data[5][1] = puntos.getJSONObject(i).getString("comunidad");
-                data[6][0] = "direccion";
-                data[6][1] = puntos.getJSONObject(i).getString("direccion");
-                data[7][0] = "suvecion";
-                data[7][1] = puntos.getJSONObject(i).getString("suvecion");
-                data[8][0] = "contactos";
-                data[8][1] = puntos.getJSONObject(i).getString("contactos");
-                data[9][0] = "longitude";
-                data[9][1] = puntos.getJSONObject(i).getString("longitude");
-                data[10][0] = "latitude";
-                data[10][1] = puntos.getJSONObject(i).getString("latitude");
+                JSONArray puntos = jObj.getJSONArray("puntos");
+                for(int i = 0 ; i<puntos.length();i++)
+                {
+                    String[][] data = new String[11][2];
+                    data[0][0] = "id";
+                    data[0][1] = puntos.getJSONObject(i).getString("id");
+                    data[1][0] = "departamento";
+                    data[1][1] = puntos.getJSONObject(i).getString("departamento");
+                    data[2][0] = "municipio";
+                    data[2][1] = puntos.getJSONObject(i).getString("municipio");
+                    data[3][0] = "barrio";
+                    data[3][1] = puntos.getJSONObject(i).getString("barrio");
+                    data[4][0] = "comarca";
+                    data[4][1] = puntos.getJSONObject(i).getString("comarca");
+                    data[5][0] = "comunidad";
+                    data[5][1] = puntos.getJSONObject(i).getString("comunidad");
+                    data[6][0] = "direccion";
+                    data[6][1] = puntos.getJSONObject(i).getString("direccion");
+                    data[7][0] = "suvecion";
+                    data[7][1] = puntos.getJSONObject(i).getString("suvecion");
+                    data[8][0] = "contactos";
+                    data[8][1] = puntos.getJSONObject(i).getString("contactos");
+                    data[9][0] = "longitude";
+                    data[9][1] = puntos.getJSONObject(i).getString("longitude");
+                    data[10][0] = "latitude";
+                    data[10][1] = puntos.getJSONObject(i).getString("latitude");
 
-                long respuesta = conexion.insertRegistration("puntos", data);
+                    long respuesta = conexion.insertRegistration("puntos", data);
+                }
             }
             return true ;
         }
@@ -196,20 +205,24 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_principal, menu);
         return super.onCreateOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
         if(conDec.connectionVerification()){
+            if(item.getItemId()==R.id.visitas)
+            {
+                Intent intent = new Intent(Dashboard.this, RegistradosActivity.class);
+                startActivity(intent);
+            }
         switch (item.getItemId()) {
             case R.id.logout :
                 logoutUser();
                 return true ;
             case R.id.sincronizar :
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Dashboard.this);
-
                 builder
                         .setMessage("Esta seguro que desea sincronizar ?")
                         .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
@@ -289,6 +302,7 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
 
             @Override
             public void onResponse(String response) {
+
                 consultarPuntos(response);
                     hideDialog();
 
@@ -327,7 +341,21 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         hideDialog();
         if(res)
         {
+            ArrayList puntos = consultarPuntosBD();
+            arrList = new ArrayList<Punto>();
+            for (int i = 0; i < puntos.size(); i++) {
+                HashMap codDoc = (HashMap) puntos.get(i);
+                arrList.add(new Punto(codDoc.get("id").toString(),codDoc.get("departamento").toString(),codDoc.get("municipio").toString(),codDoc.get("barrio").toString(),codDoc.get("comarca").toString(),codDoc.get("comunidad").toString(),codDoc.get("contactos").toString(),codDoc.get("direccion").toString(),codDoc.get("suvecion").toString()));
+            }
             listView.setAdapter(new AdapterPuntosPendientes(arrList, Dashboard.this));
+            if(!arrList.isEmpty()){
+                mensaje.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                search.setVisibility(View.INVISIBLE);
+                mensaje.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

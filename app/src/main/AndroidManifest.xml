@@ -20,14 +20,14 @@
         android:required="true" />
 
     <application
-        android:name=".AppController"
+        android:name=".Controller.AppController"
         android:allowBackup="true"
         android:icon="@drawable/appicon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".View.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,42 +35,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name=".View.Dashboard"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme" />
 
         <service
-            android:name=".SincronizacionService"
+            android:name=".Sincronizar.SincronizacionService"
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name=".SincronizacionBroadcast">
+        <receiver android:name=".Sincronizar.SincronizacionBroadcast">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MarkersActivity" />
-        <activity android:name=".MarkerDetailActivity" />
+        <activity android:name=".View.MarkersActivity" />
+        <activity android:name=".View.MarkerDetailActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".NoVisitaActivity">
+        <activity android:name=".View.NoVisitaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
+                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
-        <activity android:name=".VisitaActivity">
+        <activity android:name=".View.VisitaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
+                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
-        <activity android:name=".GrabarAudioActivity">
+        <activity android:name=".View.GrabarAudioActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.Dashboard" />
+                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
+        </activity>
+        <activity android:name=".View.RegistradosActivity"  >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
+        </activity>
+        <activity
+            android:name=".View.DetalleRegistroActivity"
+            android:label="@string/title_activity_detalle_registro">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fideicomiso.banpro.fideicomiso.View.RegistradosActivity" />
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;

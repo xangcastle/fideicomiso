@@ -1,8 +1,11 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.Sincronizar;
 
         import android.content.Context;
         import android.os.AsyncTask;
         import android.util.Log;
+
+        import com.fideicomiso.banpro.fideicomiso.Controller.AppConfig;
+
         import java.io.DataOutputStream;
         import java.io.FileInputStream;
         import java.io.FileNotFoundException;

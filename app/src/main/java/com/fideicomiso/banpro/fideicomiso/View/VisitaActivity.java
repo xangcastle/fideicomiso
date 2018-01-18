@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -26,6 +26,9 @@ import android.widget.Toast;
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
 import com.fideicomiso.banpro.fideicomiso.Clases.GPSTracker;
 import com.fideicomiso.banpro.fideicomiso.Clases.ImagePicker;
+import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
+import com.fideicomiso.banpro.fideicomiso.R;
+import com.fideicomiso.banpro.fideicomiso.Sincronizar.SincronizacionBroadcast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

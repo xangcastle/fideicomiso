@@ -28,6 +28,24 @@
             android:visibility="visible"
             android:smoothScrollbar="true" />
 
+    <LinearLayout android:id="@+id/empty"
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/emptyMensaje"
+            android:text="Sin Visitas asignadas"
+            android:paddingTop="60dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="@color/primary_text">
+        </TextView>
+
+    </LinearLayout>
+
 
     </LinearLayout>
 

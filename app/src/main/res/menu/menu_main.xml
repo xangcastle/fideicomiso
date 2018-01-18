@@ -4,7 +4,6 @@
         android:title="@string/logout"
         android:icon="@drawable/ic_action_info"
         android:tooltipText="@string/logout"/>
-
 </menu>
 
 

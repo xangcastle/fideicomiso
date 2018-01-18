@@ -1,4 +1,4 @@
-package com.fideicomiso.banpro.fideicomiso;
+package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,6 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
+import com.fideicomiso.banpro.fideicomiso.Clases.ConnectionDetector;
+import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
+import com.fideicomiso.banpro.fideicomiso.Controller.AppConfig;
+import com.fideicomiso.banpro.fideicomiso.Controller.AppController;
+import com.fideicomiso.banpro.fideicomiso.R;
+import com.fideicomiso.banpro.fideicomiso.Sincronizar.SincronizacionBroadcast;
+import com.fideicomiso.banpro.fideicomiso.Sincronizar.SincronizacionService;
 import com.robohorse.gpversionchecker.GPVersionChecker;
 
 import org.json.JSONException;
