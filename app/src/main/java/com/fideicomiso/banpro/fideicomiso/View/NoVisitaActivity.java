@@ -119,19 +119,41 @@ public class NoVisitaActivity extends AppCompatActivity {
                                    @Override
                                    public void onClick(DialogInterface dialog, int id) {
 
+                                       String vivienda ="";
+                                      try
+                                      {
+                                          String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/vivienda/";
+                                          OutputStream fOut = null;
+                                          long time = System.currentTimeMillis();
+                                          File f = new File(path);
+                                          if (!f.exists()){
+                                              f.mkdirs();
+                                          }
 
 
-                                       String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/vivienda/";
-                                       OutputStream fOut = null;
-                                       long time = System.currentTimeMillis();
-                                       File f = new File(path);
-                                       if (!f.exists()){
-                                           f.mkdirs();
-                                       }
+                                           vivienda = saveImage(imagen,path,id__Punto+"_vivienda_" + time + ".jpg");
 
+                                      }
+                                      catch (Exception e)
+                                      {
+                                          AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
 
-                                       String vivienda = saveImage(imagen,path,id__Punto+"_vivienda_" + time + ".jpg");
+                                          builder
+                                                  .setMessage("Memoria insuficiente , verifique que tenga espacio para poder grabar")
 
+                                                  .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(DialogInterface dialog,int id) {
+                                                          dialog.cancel();
+                                                      }
+                                                  })
+                                                  .show();
+
+                                      }
+                                      if(vivienda.equals(""))
+                                      {
+                                          return;
+                                      }
 
                                        GPSTracker gps = new GPSTracker(getApplicationContext());
 

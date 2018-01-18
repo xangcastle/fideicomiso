@@ -75,10 +75,10 @@ public class AdapterPuntosPendientes extends BaseAdapter implements Filterable{
         contactos.setText(g.getContactos());
 
         TextView direccion=(TextView)view.findViewById(R.id.textDireccion);
-        direccion.setText(g.getContactos());
+        direccion.setText(g.getDireccion());
 
         TextView comuna=(TextView)view.findViewById(R.id.textComuna);
-        comuna.setText(g.getComarca());
+        comuna.setText(g.getComunidad());
 
         TextView comarca=(TextView)view.findViewById(R.id.textComarca);
         direccion.setText(g.getComarca());

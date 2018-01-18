@@ -379,48 +379,65 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
 
 
     public void grabar() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        File path = new File(Environment.getExternalStorageDirectory()
-                .getPath()+"/fideicomiso");
 
-        if (!path.exists()){
-            path.mkdirs();
-        }
+        try {
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            File path = new File(Environment.getExternalStorageDirectory()
+                    .getPath() + "/fideicomiso");
 
-        String name = "temporal"+System.currentTimeMillis()+".mp4";
-        archivo = new File(path , name); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
-        try {
-            FileOutputStream  fOut = new FileOutputStream(archivo);
-            fOut.flush(); // Not really required
-            fOut.close();
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-            dataFiles.add(path+"/"+name);
-        recorder.setOutputFile(archivo.getAbsolutePath());
-        try {
-            recorder.prepare();
-        } catch (IOException e)
+            if (!path.exists()) {
+                path.mkdirs();
+            }
+
+            String name = "temporal" + System.currentTimeMillis() + ".mp4";
+            archivo = new File(path, name); // the File to save , append increasing numeric counter to prevent files from getting overwritten.
+            try {
+                FileOutputStream fOut = new FileOutputStream(archivo);
+                fOut.flush(); // Not really required
+                fOut.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            dataFiles.add(path + "/" + name);
+            recorder.setOutputFile(archivo.getAbsolutePath());
+            try {
+                recorder.prepare();
+            } catch (IOException e) {
+                String l = e.getMessage();
+            }
+            recorder.start();
+            estado_grabacion.setText("Grabando...");
+
+            grabar.setEnabled(false);
+            grabar.setImageResource(R.drawable.record2);
+            pausar.setEnabled(true);
+            pausar.setImageResource(R.drawable.pause);
+            detener.setEnabled(true);
+            detener.setImageResource(R.drawable.stop);
+            resume.setEnabled(false);
+            resume.setImageResource(R.drawable.resume2);
+        }catch (Exception e)
         {
-            String l = e.getMessage();
-        }
-        recorder.start();
-        estado_grabacion.setText("Grabando...");
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-        grabar.setEnabled(false);
-        grabar.setImageResource(R.drawable.record2);
-        pausar.setEnabled(true);
-        pausar.setImageResource(R.drawable.pause);
-        detener.setEnabled(true);
-        detener.setImageResource(R.drawable.stop);
-        resume.setEnabled(false);
-        resume.setImageResource(R.drawable.resume2);
+            builder
+                    .setMessage("Memoria insuficiente , verifique que tenga espacio para poder grabar")
+
+                    .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog,int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+        }
+
+
     }
 
     public void detener(String path ) {

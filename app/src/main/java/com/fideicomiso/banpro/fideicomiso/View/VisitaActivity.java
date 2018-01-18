@@ -134,21 +134,42 @@ public class VisitaActivity extends AppCompatActivity  {
                                    @Override
                                    public void onClick(DialogInterface dialog, int id) {
                                        EditText comentario = (EditText) findViewById(R.id.comment_visita);
+                                       String ruta_cedula ="";
+                                       String ruta_cedula2="";
+                                       try
+                                       {
+                                           String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/cedulas/";
+                                           OutputStream fOut = null;
+                                           long time = System.currentTimeMillis();
+                                           File f = new File(path);
+                                           if (!f.exists()){
+                                               f.mkdirs();
+                                           }
+                                            ruta_cedula = saveImage(imagen,path,id__Punto+"_cedula_" + time + ".jpg");
+                                            ruta_cedula2 = saveImage(imagen2,path,id__Punto+"_cedula2_" + time + ".jpg");
 
-
-                                       String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/cedulas/";
-                                       OutputStream fOut = null;
-                                       long time = System.currentTimeMillis();
-                                       File f = new File(path);
-                                       if (!f.exists()){
-                                           f.mkdirs();
                                        }
-                                       String ruta_cedula = saveImage(imagen,path,id__Punto+"_cedula_" + time + ".jpg");
-                                       String ruta_cedula2 = saveImage(imagen2,path,id__Punto+"_cedula2_" + time + ".jpg");
+                                       catch (Exception e)
+                                       {
+                                           AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
 
+                                           builder
+                                                   .setMessage("Memoria insuficiente , verifique que tenga espacio para poder grabar")
 
+                                                   .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                                       @Override
+                                                       public void onClick(DialogInterface dialog,int id) {
+                                                           dialog.cancel();
+                                                       }
+                                                   })
+                                                   .show();
 
+                                       }
 
+                                     if(ruta_cedula.equals("") || ruta_cedula2.equals(""))
+                                     {
+                                         return ;
+                                     }
                                        GPSTracker gps = new GPSTracker(getApplicationContext());
 
                                        // check if GPS enabled

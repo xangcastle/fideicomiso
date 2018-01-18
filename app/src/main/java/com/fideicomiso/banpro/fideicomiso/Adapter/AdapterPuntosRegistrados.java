@@ -77,7 +77,7 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
         direccion.setText(g.getContactos());
 
         TextView comuna = (TextView) view.findViewById(R.id.textComuna);
-        comuna.setText(g.getComarca());
+        comuna.setText(g.getComunidad());
 
         TextView comarca = (TextView) view.findViewById(R.id.textComarca);
         direccion.setText(g.getComarca());

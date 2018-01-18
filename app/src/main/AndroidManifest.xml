@@ -27,7 +27,8 @@
         android:roundIcon="@drawable/appicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
-        <activity android:name=".View.LoginActivity">
+        <activity android:name=".View.LoginActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,12 +38,14 @@
         <activity
             android:name=".View.Dashboard"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".Sincronizar.SincronizacionService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            />
 
         <receiver android:name=".Sincronizar.SincronizacionBroadcast">
             <intent-filter>
@@ -50,36 +53,36 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".View.MarkersActivity" />
-        <activity android:name=".View.MarkerDetailActivity" />
+        <activity android:name=".View.MarkersActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".View.MarkerDetailActivity"  android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".View.NoVisitaActivity">
+        <activity android:name=".View.NoVisitaActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
-        <activity android:name=".View.VisitaActivity">
+        <activity android:name=".View.VisitaActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
-        <activity android:name=".View.GrabarAudioActivity">
+        <activity android:name=".View.GrabarAudioActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
-        <activity android:name=".View.RegistradosActivity"  >
+        <activity android:name=".View.RegistradosActivity" android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
         </activity>
         <activity
             android:name=".View.DetalleRegistroActivity"
-            android:label="@string/title_activity_detalle_registro">
+            android:label="@string/title_activity_detalle_registro" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fideicomiso.banpro.fideicomiso.View.RegistradosActivity" />
