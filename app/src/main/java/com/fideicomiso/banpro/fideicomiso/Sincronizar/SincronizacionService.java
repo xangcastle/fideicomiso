@@ -47,9 +47,6 @@ public class SincronizacionService extends Service {
     protected void showToast(final String msg){
         //gets the main thread
         Handler handler = new Handler(Looper.getMainLooper());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
-        String fecha = dateFormat.format(date);
 
         String[] datos = new String[14];
         datos[0] = "longitud";
@@ -70,7 +67,7 @@ public class SincronizacionService extends Service {
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
         ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 1 or  estado = 2  ", null, " DESC");
-        TareaSincronizar obj = new TareaSincronizar(puntos,fecha);
+        TareaSincronizar obj = new TareaSincronizar(puntos);
         handler.post(obj);
     }
 
@@ -108,9 +105,8 @@ public class SincronizacionService extends Service {
         private  ArrayList datos;
         private  String fecha;
         private  Conexion conexion;
-        public TareaSincronizar(ArrayList _data , String _fecha) {
+        public TareaSincronizar(ArrayList _data) {
             this.datos = _data;
-            this.fecha = _fecha;
             this.conexion  = new Conexion(getApplicationContext(), "Delta3", null, 3);
         }
 
