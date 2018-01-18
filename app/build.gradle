@@ -12,10 +12,10 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.fideicomiso.banpro.fideicomiso"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.9"
+        versionCode 11
+        versionName "1.8.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -49,4 +49,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.googlecode.mp4parser:isoparser:1.1.21'
     compile 'com.robohorse.gpversionchecker:gpversionchecker:1.4.0'
+
+
 }
