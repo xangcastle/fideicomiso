@@ -19,10 +19,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.content.Intent;
+import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +52,7 @@ public class NoVisitaActivity extends AppCompatActivity {
     String id__Punto="";
     EditText txtComentario;
     String comentario;
+    AlertDialog alert = null;
 
 
 
@@ -77,6 +80,14 @@ public class NoVisitaActivity extends AppCompatActivity {
                         0);
             }
         }
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        /****Mejora****/
+        if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            AlertNoGps();
+        }
+        /********/
 
         txtComentario = (EditText) findViewById(R.id.comment_visita);
 
@@ -111,124 +122,139 @@ public class NoVisitaActivity extends AppCompatActivity {
                }
                else
                    {
-                       android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
+                       StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+                       long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
+                       long megAvailable = bytesAvailable / (1024 * 1024);
+                       if(megAvailable <15)
+                       {
+                           AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
-                       builder
-                               .setMessage("Desea terminar esta visita ?")
-                               .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                   @Override
-                                   public void onClick(DialogInterface dialog, int id) {
-
-                                       String vivienda ="";
-                                      try
-                                      {
-                                          String path = Environment.getExternalStorageDirectory().toString()+"/fideicomiso/vivienda/";
-                                          OutputStream fOut = null;
-                                          long time = System.currentTimeMillis();
-                                          File f = new File(path);
-                                          if (!f.exists()){
-                                              f.mkdirs();
-                                          }
-
-
-                                           vivienda = saveImage(imagen,path,id__Punto+"_vivienda_" + time + ".jpg");
-
-                                      }
-                                      catch (Exception e)
-                                      {
-                                          AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
-
-                                          builder
-                                                  .setMessage("Memoria insuficiente , verifique que tenga espacio para poder grabar")
-
-                                                  .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
-                                                      @Override
-                                                      public void onClick(DialogInterface dialog,int id) {
-                                                          dialog.cancel();
-                                                      }
-                                                  })
-                                                  .show();
-
-                                      }
-                                      if(vivienda.equals(""))
-                                      {
-                                          return;
-                                      }
-
-                                       GPSTracker gps = new GPSTracker(getApplicationContext());
-
-                                       // check if GPS enabled
-                                       if (gps.canGetLocation()) {
-
-                                           double latitude = gps.getLatitude();
-                                           double longitude = gps.getLongitude();
-                                           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                           Date date = new Date();
-                                           String fecha = dateFormat.format(date);
-
-
-                                           SessionManager session = new SessionManager(getApplicationContext());
-                                           String[][] data = new String[14][2];
-                                           data[0][0] = "longitud";
-                                           data[0][1] = "" + longitude;
-                                           data[1][0] = "latitud";
-                                           data[1][1] = "" + latitude;
-                                           data[2][0] = "fecha";
-                                           data[2][1] = fecha;
-                                           data[3][0] = "ruta";
-                                           data[3][1] = ruta;
-                                           data[4][0] = "punto";
-                                           data[4][1] = id__Punto;
-                                           data[5][0] = "usuario";
-                                           data[5][1] = "" + session.get_user();
-                                           data[6][0] = "cedula";
-                                           data[6][1] = "";
-                                           data[7][0] = "casa";
-                                           data[7][1] = vivienda;
-                                           data[8][0] = "tipo";
-                                           data[8][1] = "0";
-                                           data[9][0] = "comentario";
-                                           data[9][1] = comentario;
-                                           data[10][0] = "estado";
-                                           data[10][1] = "1";
-                                           data[11][0] = "ncedula";
-                                           data[11][1] = "";
-                                           data[12][0] = "nombre";
-                                           data[12][1] = "";
-                                           data[13][0] = "cedula2";
-                                           data[13][1] = "";
-
-                                           Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-                                           long respuesta = conexion.insertRegistration("registros", data);
-
-                                           String[][] datos = new String[1][2];
-                                           datos[0][0] = "estado";
-                                           datos[0][1] = "1";
-
-                                           respuesta =  conexion.update("puntos",datos, " id =  "+id__Punto);
-                                           if(Build.VERSION.SDK_INT>=19) {
-                                               Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
-                                               PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
-                                               AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                                               manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
-                                           }
-                                           Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                           startActivity(intent);
-                                           finish();
-
-                                       } else {
-                                           gps.showSettingsAlert();
+                           builder
+                                   .setMessage("La memoria del telefono esta llena")
+                                   .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog,int id) {
+                                           dialog.cancel();
                                        }
+                                   })
+                                   .show();
+                       }
+                       else {
+                           android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(view.getContext());
 
-                                   }
-                               })
-                               .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                   @Override
-                                   public void onClick(DialogInterface dialog, int id) {
-                                       dialog.cancel();
-                                   }
-                               })
-                               .show();
+                           builder
+                                   .setMessage("Desea terminar esta visita ?")
+                                   .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int id) {
+
+                                           String vivienda = "";
+                                           try {
+                                               String path = Environment.getExternalStorageDirectory().toString() + "/fideicomiso/vivienda/";
+                                               OutputStream fOut = null;
+                                               long time = System.currentTimeMillis();
+                                               File f = new File(path);
+                                               if (!f.exists()) {
+                                                   f.mkdirs();
+                                               }
+
+
+                                               vivienda = saveImage(imagen, path, id__Punto + "_vivienda_" + time + ".jpg");
+
+                                           } catch (Exception e) {
+                                               AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
+
+                                               builder
+                                                       .setMessage("Memoria insuficiente , verifique que tenga espacio para poder grabar")
+
+                                                       .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                                           @Override
+                                                           public void onClick(DialogInterface dialog, int id) {
+                                                               dialog.cancel();
+                                                           }
+                                                       })
+                                                       .show();
+
+                                           }
+                                           if (vivienda.equals("")) {
+                                               return;
+                                           }
+
+                                           GPSTracker gps = new GPSTracker(getApplicationContext());
+
+                                           // check if GPS enabled
+                                           if (gps.canGetLocation()) {
+
+                                               double latitude = gps.getLatitude();
+                                               double longitude = gps.getLongitude();
+                                               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                               Date date = new Date();
+                                               String fecha = dateFormat.format(date);
+
+
+                                               SessionManager session = new SessionManager(getApplicationContext());
+                                               String[][] data = new String[14][2];
+                                               data[0][0] = "longitud";
+                                               data[0][1] = "" + longitude;
+                                               data[1][0] = "latitud";
+                                               data[1][1] = "" + latitude;
+                                               data[2][0] = "fecha";
+                                               data[2][1] = fecha;
+                                               data[3][0] = "ruta";
+                                               data[3][1] = ruta;
+                                               data[4][0] = "punto";
+                                               data[4][1] = id__Punto;
+                                               data[5][0] = "usuario";
+                                               data[5][1] = "" + session.get_user();
+                                               data[6][0] = "cedula";
+                                               data[6][1] = "";
+                                               data[7][0] = "casa";
+                                               data[7][1] = vivienda;
+                                               data[8][0] = "tipo";
+                                               data[8][1] = "0";
+                                               data[9][0] = "comentario";
+                                               data[9][1] = comentario;
+                                               data[10][0] = "estado";
+                                               data[10][1] = "1";
+                                               data[11][0] = "ncedula";
+                                               data[11][1] = "";
+                                               data[12][0] = "nombre";
+                                               data[12][1] = "";
+                                               data[13][0] = "cedula2";
+                                               data[13][1] = "";
+
+                                               Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+                                               long respuesta = conexion.insertRegistration("registros", data);
+
+                                               String[][] datos = new String[1][2];
+                                               datos[0][0] = "estado";
+                                               datos[0][1] = "1";
+
+                                               respuesta = conexion.update("puntos", datos, " id =  " + id__Punto);
+                                               if (Build.VERSION.SDK_INT >= 19) {
+                                                   Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                                                   PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                                                   AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                                   manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
+                                               }
+                                               Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                               startActivity(intent);
+                                               finish();
+
+                                           } else {
+                                               gps.showSettingsAlert();
+                                           }
+
+                                       }
+                                   })
+                                   .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialog, int id) {
+                                           dialog.cancel();
+                                       }
+                                   })
+                                   .show();
+                       }
                    }
             }
         });
@@ -338,6 +364,25 @@ public class NoVisitaActivity extends AppCompatActivity {
                 imageView.setImageBitmap(imagen);
             }
         }
+    }
+
+
+    private void AlertNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        alert = builder.create();
+        alert.show();
     }
 }
 

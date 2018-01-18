@@ -28,13 +28,13 @@ android:padding="10dp" >
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="6dp"
         android:shadowColor="#000"
         android:shadowRadius="1.0"
         android:text=""
         android:textAllCaps="false"
         android:textColor="#09953A"
-        android:textSize="40sp"
+        android:textSize="10sp"
         android:textStyle="normal"
         android:typeface="monospace" />
 </LinearLayout>
@@ -126,7 +126,8 @@ android:padding="10dp" >
             android:layout_weight="50"
             android:layout_alignParentBottom="true"
             android:text="@string/btn_iniciarVisita"
-            android:textColor="@color/btn_login" />
+            android:textColor="@color/btn_login"
+            android:background="@color/btn_login_bg"/>
 
         <Button
             android:id="@+id/rechazarVicita"
@@ -135,7 +136,8 @@ android:padding="10dp" >
             android:layout_weight="50"
             android:layout_alignParentBottom="true"
             android:text="@string/btn_rechazarVisita"
-            android:textColor="@color/btn_login" />
+            android:textColor="@color/btn_login"
+            android:background="@color/btn_logut_bg"/>
 
 
 

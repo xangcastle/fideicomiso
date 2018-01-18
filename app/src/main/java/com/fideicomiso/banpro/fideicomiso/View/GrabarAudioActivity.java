@@ -1,6 +1,7 @@
 package com.fideicomiso.banpro.fideicomiso.View;
 
 import android.app.AlertDialog;
+import android.os.StatFs;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -309,7 +311,23 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
             }
         });
 
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
+        long megAvailable = bytesAvailable / (1024 * 1024);
+        if(megAvailable <15)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
+            builder
+                    .setMessage("Memoria llena")
+                    .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog,int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+        }
     }
 
 
