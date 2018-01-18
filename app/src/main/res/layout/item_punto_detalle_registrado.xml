@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/item_list"
+android:orientation="horizontal"
+android:paddingBottom="10dp"
+android:baselineAligned="false"
+android:descendantFocusability="blocksDescendants">
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.90"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Dirección:   "
+            android:textColor="@color/primary_text" />
+
+
+        <TextView
+            android:id="@+id/textDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Contactos:   "
+            android:textColor="@color/primary_text" />
+
+
+        <TextView
+            android:id="@+id/textContactos"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Id:   "
+            android:textColor="@color/primary_text" />
+
+
+        <TextView
+            android:id="@+id/textID"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Barrio:"
+            android:textColor="@color/primary_text" />
+
+
+        <TextView
+            android:id="@+id/textBarrio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Comarca: "
+            android:textColor="@color/primary_text" />
+
+        <TextView
+            android:id="@+id/textComarca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp"
+            android:paddingLeft="5dp"
+            android:text="Comuna: "
+            android:textColor="@color/primary_text" />
+
+        <TextView
+            android:id="@+id/textComuna"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingMultiplier="0.85"
+            android:paddingBottom="4dp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+<RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="0.1"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/suvecion"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/star"
+        />
+</RelativeLayout>
+</LinearLayout>

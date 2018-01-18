@@ -1,9 +1,8 @@
 package com.fideicomiso.banpro.fideicomiso;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Log;
+
+import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
 
 /**
  * Created by root on 10/01/18.

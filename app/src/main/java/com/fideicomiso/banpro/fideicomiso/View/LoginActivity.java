@@ -20,9 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
 import com.robohorse.gpversionchecker.GPVersionChecker;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -120,7 +120,8 @@ public class LoginActivity extends Activity {
         pDialog.setCancelable(false);
     }
 
-    private void checkLogin(final String usuario, final String password) {
+    private void checkLogin(final String usuario, final String password)
+    {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -131,7 +132,21 @@ public class LoginActivity extends Activity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
+
                     String id = jObj.getString("id");
+                    String username = jObj.getString("username");
+                    String nombre = jObj.getString("nombre");
+                    String[][] data = new String[3][2];
+                    data[0][0] = "id";
+                    data[0][1] = id;
+                    data[1][0] = "username";
+                    data[1][1] = username;
+                    data[2][0] = "nombre";
+                    data[2][1] = nombre;
+
+                    Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+                    long respuesta = conexion.insertRegistration("usuarios", data);
+
                     session.setLogin(true,Integer.parseInt(id));
                     if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                         Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent

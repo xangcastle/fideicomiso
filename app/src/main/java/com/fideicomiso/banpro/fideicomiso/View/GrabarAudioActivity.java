@@ -206,29 +206,47 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         btn_rechazar_visita  = (Button)findViewById(R.id.rechazarVicita);
         btn_rechazar_visita.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                builder
-                        .setMessage("No aceptación de entrevista?")
-                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
-                                intent.putExtra("ID",id__Punto);
-                                intent.putExtra("ruta",ruta);
-                                startActivity(intent);
-                                finish();
+                if(!ruta.equals(""))
+                {
 
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
+                    builder
+                            .setMessage("No aceptación de entrevista?")
+                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
+                                    intent.putExtra("ID",id__Punto);
+                                    intent.putExtra("ruta",ruta);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+                else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                        builder
+                                .setMessage("Debe grabar audio para continuar?")
+                                .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .show();
+                    }
             }
         });
 
@@ -237,35 +255,55 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         btn_iniciar_visita.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                builder
-                        .setMessage("Aceptación de entrevista ?")
-                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                if(!ruta.equals(""))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                                for (Object row : dataFiles) {
-                                    File file = new File(row.toString());
-                                    if(file.exists())
-                                    {
-                                        boolean deleted = file.delete();
+                    builder
+                            .setMessage("Aceptación de entrevista ?")
+                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    for (Object row : dataFiles) {
+                                        File file = new File(row.toString());
+                                        if(file.exists())
+                                        {
+                                            boolean deleted = file.delete();
+                                        }
                                     }
+                                    Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
+                                    intent.putExtra("ID",id__Punto);
+                                    intent.putExtra("ruta",ruta);
+                                    startActivity(intent);
+                                    finish();
                                 }
-                                Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
-                                intent.putExtra("ID",id__Punto);
-                                intent.putExtra("ruta",ruta);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                    builder
+                            .setMessage("Debe grabar audio para continuar")
+                            .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+
+
 
             }
         });

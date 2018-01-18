@@ -6,6 +6,8 @@ import android.os.*;
 import android.os.Process;
 import android.widget.Toast;
 
+import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
