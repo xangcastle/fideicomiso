@@ -78,13 +78,13 @@ public class AdapterPuntosPendientes extends BaseAdapter implements Filterable{
         direccion.setText(g.getDireccion());
 
         TextView comuna=(TextView)view.findViewById(R.id.textComuna);
-        comuna.setText(g.getComunidad());
+        comuna.setText(g.getDireccion());
 
         TextView comarca=(TextView)view.findViewById(R.id.textComarca);
-        direccion.setText(g.getComarca());
+        comarca.setText(g.getComarca());
 
         TextView barrio=(TextView)view.findViewById(R.id.textBarrio);
-        direccion.setText(g.getBarrio());
+        barrio.setText(g.getBarrio());
 
         return view;
     }

@@ -1,230 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:background="@drawable/item_list"
-android:orientation="horizontal"
-android:paddingBottom="10dp"
-android:baselineAligned="false"
-android:descendantFocusability="blocksDescendants">
-
-<LinearLayout
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="0.90"
-    android:orientation="vertical">
+    android:background="@drawable/item_list"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:baselineAligned="false"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Estado:"
-            android:textColor="@color/primary_text" />
+        android:layout_weight="0.90"
+        android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/textEstado"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textColor="@color/btn_login_bg"
+            android:orientation="horizontal">
 
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Punto:   "
+                android:textColor="@color/bg_register" />
+
+
+            <TextView
+                android:id="@+id/textPunto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Nombre:   "
+                android:textColor="@color/bg_register" />
+
+
+            <TextView
+                android:id="@+id/textNombre"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Cedula:   "
+                android:textColor="@color/bg_register" />
+
+
+            <TextView
+                android:id="@+id/textCedula"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Comentario:"
+                android:textColor="@color/bg_register" />
+
+
+            <TextView
+                android:id="@+id/textComentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Tipo: "
+                android:textColor="@color/bg_register" />
+
+            <TextView
+                android:id="@+id/textTipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Cantidad de Imagenes: "
+                android:textColor="@color/bg_register" />
+
+            <TextView
+                android:id="@+id/textImagenes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="audio: "
+                android:textColor="@color/bg_register"/>
+
+            <TextView
+                android:id="@+id/textAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Estado: "
+                android:textColor="@color/bg_register" />
+
+            <TextView
+                android:id="@+id/textEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/btn_register"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:text="Fecha: "
+                android:textColor="@color/bg_register"/>
+
+            <TextView
+                android:id="@+id/textFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:lineSpacingMultiplier="0.85"
+                android:paddingBottom="4dp"
+                android:textColor="@color/bg_register"/>
+        </LinearLayout>
+
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Dirección:   "
-            android:textColor="@color/primary_text" />
-
-
-        <TextView
-            android:id="@+id/textDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:textColor="@color/btn_login_bg"
-            android:paddingBottom="4dp" />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Contactos:   "
-            android:textColor="@color/primary_text" />
-
-
-        <TextView
-            android:id="@+id/textContactos"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:textColor="@color/btn_login_bg"
-            android:paddingBottom="4dp" />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Id:   "
-            android:textColor="@color/primary_text" />
-
-
-        <TextView
-            android:id="@+id/textID"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:textColor="@color/btn_login_bg"
-            android:paddingBottom="4dp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Barrio:"
-            android:textColor="@color/primary_text" />
-
-
-        <TextView
-            android:id="@+id/textBarrio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textColor="@color/btn_login_bg"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Comarca: "
-            android:textColor="@color/primary_text" />
-
-        <TextView
-            android:id="@+id/textComarca"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:textColor="@color/btn_login_bg"
-            android:paddingBottom="4dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:paddingBottom="4dp"
-            android:paddingLeft="5dp"
-            android:text="Comuna: "
-            android:textColor="@color/primary_text" />
-
-        <TextView
-            android:id="@+id/textComuna"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:lineSpacingMultiplier="0.85"
-            android:textColor="@color/btn_login_bg"
-            android:paddingBottom="4dp" />
-    </LinearLayout>
-
-
-
-</LinearLayout>
-
-<RelativeLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="0.1"
-    android:orientation="vertical">
-
-    <ImageButton
-        android:id="@+id/suvecion"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/transparent"
-        android:src="@drawable/star"
-        />
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/estado"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
 </LinearLayout>

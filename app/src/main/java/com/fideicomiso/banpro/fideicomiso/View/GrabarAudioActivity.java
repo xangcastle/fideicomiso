@@ -118,7 +118,6 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 estado_grabacion.setText("Grabación Finalizada");
-
                                 reproducir.setEnabled(true);
                                 reproducir.setImageResource(R.drawable.play);
                                 grabar.setEnabled(false);
@@ -595,4 +594,5 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
             return false;
         }
     }
+
 }

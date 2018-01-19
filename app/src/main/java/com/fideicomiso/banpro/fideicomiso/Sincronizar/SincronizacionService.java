@@ -115,7 +115,7 @@ public class SincronizacionService extends Service {
         public void run() {
             try{
 
-                for (int i = 0; i < datos.size(); i++) {
+               /* for (int i = 0; i < datos.size(); i++) {
                     HashMap codDoc = (HashMap) datos.get(i);
                     Sincronizacion sincronizacion = new Sincronizacion();
                     sincronizacion.sincronizacionVideo(getApplicationContext(),
@@ -139,7 +139,7 @@ public class SincronizacionService extends Service {
                     datos[0][0] = "estado";
                     datos[0][1] = "3";
                     long respuesta =  conexion.update("registros",datos, " id =  "+ codDoc.get("punto").toString());
-                }
+                }*/
             }catch ( Exception e) {
                 e.printStackTrace();
             }

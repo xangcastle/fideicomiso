@@ -350,6 +350,7 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
             listView.setAdapter(new AdapterPuntosPendientes(arrList, Dashboard.this));
             if(!arrList.isEmpty()){
                 mensaje.setVisibility(View.INVISIBLE);
+                search.setVisibility(View.VISIBLE);
             }
             else
             {

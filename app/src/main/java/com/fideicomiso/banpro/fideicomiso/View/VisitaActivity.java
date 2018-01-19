@@ -83,11 +83,14 @@ public class VisitaActivity extends AppCompatActivity  {
                         0);
             }
         }
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        /****Mejora****/
-        if ( !locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            AlertNoGps();
+        if(Build.VERSION.SDK_INT<=23) {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+            /****Mejora****/
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                AlertNoGps();
+            }
         }
         /********/
 

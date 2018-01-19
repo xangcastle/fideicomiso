@@ -19,8 +19,8 @@ android:padding="10dp" >
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     >
     <TextView
         android:id="@+id/estado_grabacion"
@@ -34,7 +34,7 @@ android:padding="10dp" >
         android:text=""
         android:textAllCaps="false"
         android:textColor="#09953A"
-        android:textSize="10sp"
+        android:textSize="20sp"
         android:textStyle="normal"
         android:typeface="monospace" />
 </LinearLayout>

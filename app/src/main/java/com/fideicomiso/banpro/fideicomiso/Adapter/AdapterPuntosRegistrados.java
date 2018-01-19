@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.fideicomiso.banpro.fideicomiso.Clases.Punto;
+import com.fideicomiso.banpro.fideicomiso.Clases.Registro;
 import com.fideicomiso.banpro.fideicomiso.R;
 
 import java.util.ArrayList;
@@ -23,17 +24,17 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
     /**
      * Es el arreglo que se genera cuando se copia en el filtrador
      */
-    private ArrayList<Punto> puntosCopia;
+    private ArrayList<Registro> puntosCopia;
     /**
      * Es el arreglo original de las gestiones
      */
-    private ArrayList<Punto> puntosOriginal;
+    private ArrayList<Registro> puntosOriginal;
     /**
      * Contexto de la aplicación
      */
     private Context context;
 
-    public AdapterPuntosRegistrados(ArrayList<Punto> puntosOriginal, Context context) {
+    public AdapterPuntosRegistrados(ArrayList<Registro> puntosOriginal, Context context) {
         this.puntosOriginal = puntosOriginal;
         this.context = context;
         this.puntosCopia = puntosOriginal;
@@ -61,46 +62,68 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
             view = inflater.inflate(R.layout.item_punto_detalle_registrado, viewGroup, false);
         }
 
-        final Punto g = puntosCopia.get(i);
-        ImageButton suvecion = (ImageButton) view.findViewById(R.id.suvecion);
-        if (g.getSuvecion() == "1") {
-            suvecion.setImageResource(R.drawable.star2);
+        final Registro g = puntosCopia.get(i);
+        ImageButton estdo = (ImageButton) view.findViewById(R.id.estado);
+        if (g.getEstado().equals("1") || g.getEstado().equals("2")|| g.getEstado().equals("PENDIENTE")) {
+            estdo.setImageResource(R.drawable.sincronizar);
         }
+        else if (g.getEstado().equals("3") || g.getEstado().equals("ENVIADO"))
+            {
+                estdo.setImageResource(R.drawable.terminado);
+            }
 
-        TextView id = (TextView) view.findViewById(R.id.textID);
-        id.setText(g.getId());
+        TextView fecha = (TextView) view.findViewById(R.id.textFecha);
+        fecha.setText(g.getFecha());
 
-        TextView contactos = (TextView) view.findViewById(R.id.textContactos);
-        contactos.setText(g.getContactos());
+        TextView punto = (TextView) view.findViewById(R.id.textPunto);
+        punto.setText(g.getPunto());
 
-        TextView direccion = (TextView) view.findViewById(R.id.textDireccion);
-        direccion.setText(g.getContactos());
+        TextView nombre = (TextView) view.findViewById(R.id.textNombre);
+        nombre.setText(g.getNombre());
 
-        TextView comuna = (TextView) view.findViewById(R.id.textComuna);
-        comuna.setText(g.getComunidad());
+        TextView tipo = (TextView) view.findViewById(R.id.textTipo);
+        if(g.getTipo().equals("1"))
+            tipo.setText("Abre Cuenta");
+        else if(g.getTipo().equals("0"))
+            tipo.setText("No Abre cuenta");
 
-        TextView comarca = (TextView) view.findViewById(R.id.textComarca);
-        direccion.setText(g.getComarca());
+        TextView cedula = (TextView) view.findViewById(R.id.textCedula);
+        cedula.setText(g.getNcedula());
 
-        TextView barrio = (TextView) view.findViewById(R.id.textBarrio);
-        direccion.setText(g.getBarrio());
+        TextView comentario = (TextView) view.findViewById(R.id.textComentario);
+        comentario.setText(g.getComentarios());
+
+        TextView imagenes = (TextView) view.findViewById(R.id.textImagenes);
+        int cant = 0 ;
+        if( g.getCedula1() != null&&!g.getCedula1().equals(""))
+            cant++;
+        if( g.getCedula2() != null&&!g.getCedula2().equals(""))
+            cant++;
+
+        if( g.getVivienda() != null&&!g.getVivienda().equals(""))
+            cant++;
+
+        imagenes.setText(cant+"");
+
+        TextView audio = (TextView) view.findViewById(R.id.textAudio);
+
+        if( g.getRuta() != null&&!g.getRuta().equals(""))
+            audio.setText("SI");
+        else
+            audio.setText("NO");
 
         TextView estado = (TextView) view.findViewById(R.id.textEstado);
-
-        if(g.getEstado().equals("1")||g.getEstado().equals("PENDIENTE"))
+        if(g.getEstado().equals("2") || g.getEstado().equals("1")||g.getEstado().equals("PENDIENTE"))
         {
             estado.setText("PENDIENTE");
-            g.setEStado("PENDIENTE");
+            g.setEstado("PENDIENTE");
         }
 
         if(g.getEstado().equals("3")||g.getEstado().equals("ENVIADO"))
         {
             estado.setText("ENVIADO");
-            g.setEStado("ENVIADO");
+            g.setEstado("ENVIADO");
         }
-
-
-
         return view;
     }
 
@@ -116,19 +139,18 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
             protected FilterResults performFiltering(CharSequence constraint) {
                 final FilterResults oReturn = new FilterResults();
                 try {
-                    final ArrayList<Punto> results = new ArrayList<Punto>();
+                    final ArrayList<Registro> results = new ArrayList<Registro>();
                     if (puntosOriginal == null)
                         puntosOriginal = puntosCopia;
                     if (constraint != null) {
                         if (puntosOriginal != null && puntosOriginal.size() > 0) {
-                            for (final Punto g : puntosOriginal) {
+                            for (final Registro g : puntosOriginal) {
                                 if (g.getId().contains(constraint.toString().toLowerCase()) ||
-                                        g.getDireccion().toLowerCase().contains(constraint.toString().toLowerCase()) ||
-                                        g.getContactos().toLowerCase().contains(constraint.toString().toLowerCase())
-                                        || g.getSuvecion().toLowerCase().contains(constraint.toString().toLowerCase())
-                                        || g.getComarca().toLowerCase().contains(constraint.toString().toLowerCase())
-                                        || g.getComunidad().toLowerCase().contains(constraint.toString().toLowerCase())
-                                        || g.getBarrio().toLowerCase().contains(constraint.toString().toLowerCase())
+                                        g.getPunto().toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                                        g.getEstado().toLowerCase().contains(constraint.toString().toLowerCase())
+                                        || g.getFecha().toLowerCase().contains(constraint.toString().toLowerCase())
+                                        || g.getNombre().toLowerCase().contains(constraint.toString().toLowerCase())
+                                        || g.getNcedula().toLowerCase().contains(constraint.toString().toLowerCase())
                                         || g.getEstado().toLowerCase().contains(constraint.toString().toLowerCase())) {
                                     results.add(g);
                                 }
@@ -146,7 +168,7 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
             @Override
             protected void publishResults(CharSequence constraint,
                                           FilterResults results) {
-                puntosCopia = (ArrayList<Punto>) results.values;
+                puntosCopia = (ArrayList<Registro>) results.values;
                 notifyDataSetChanged();
             }
         };
