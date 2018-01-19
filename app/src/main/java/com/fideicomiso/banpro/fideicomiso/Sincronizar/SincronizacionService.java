@@ -7,13 +7,11 @@ import android.os.Process;
 import android.widget.Toast;
 
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
+import com.fideicomiso.banpro.fideicomiso.Clases.ConnectionDetector;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-
 
 public class SincronizacionService extends Service {
 
@@ -34,7 +32,7 @@ public class SincronizacionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "onStartCommand", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sincronizando", Toast.LENGTH_SHORT).show();
 
         // call a new service handler. The service ID can be used to identify the service
         Message message = mServiceHandler.obtainMessage();
@@ -114,30 +112,33 @@ public class SincronizacionService extends Service {
         @Override
         public void run() {
             try{
-                for (int i = 0; i < datos.size(); i++) {
-                    HashMap codDoc = (HashMap) datos.get(i);
-                    Sincronizacion sincronizacion = new Sincronizacion();
-                    sincronizacion.sincronizacionVideo(getApplicationContext(),
-                            ((codDoc.get("ruta").toString()=="")?null:codDoc.get("ruta").toString()),
-                            codDoc.get("longitud").toString(),
-                            codDoc.get("latitud").toString(),
-                            codDoc.get("fecha").toString(),
-                            codDoc.get("usuario").toString(),
-                            codDoc.get("punto").toString(),
-                            codDoc.get("_id").toString(),
-                            codDoc.get("tipo").toString(),
-                            codDoc.get("comentario").toString(),
-                            ((codDoc.get("cedula").toString()=="")?null:codDoc.get("cedula").toString()),
-                            ((codDoc.get("casa").toString()=="")?null:codDoc.get("casa").toString()),
-                            ((codDoc.get("cedula2").toString()=="")?null:codDoc.get("cedula2").toString()),
-                            codDoc.get("ncedula").toString(),
-                            codDoc.get("nombre").toString()
-                    );
-                    Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :"+codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
-                    String[][] datos = new String[1][2];
-                    datos[0][0] = "estado";
-                    datos[0][1] = "3";
-                    long respuesta =  conexion.update("registros",datos, " id =  "+ codDoc.get("punto").toString());
+                ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
+                if(conDec.connectionVerification()) {
+                    for (int i = 0; i < datos.size(); i++) {
+                        HashMap codDoc = (HashMap) datos.get(i);
+                        Sincronizacion sincronizacion = new Sincronizacion();
+                        sincronizacion.sincronizacionVideo(getApplicationContext(),
+                                ((codDoc.get("ruta").toString() == "") ? null : codDoc.get("ruta").toString()),
+                                codDoc.get("longitud").toString(),
+                                codDoc.get("latitud").toString(),
+                                codDoc.get("fecha").toString(),
+                                codDoc.get("usuario").toString(),
+                                codDoc.get("punto").toString(),
+                                codDoc.get("_id").toString(),
+                                codDoc.get("tipo").toString(),
+                                codDoc.get("comentario").toString(),
+                                ((codDoc.get("cedula").toString() == "") ? null : codDoc.get("cedula").toString()),
+                                ((codDoc.get("casa").toString() == "") ? null : codDoc.get("casa").toString()),
+                                ((codDoc.get("cedula2").toString() == "") ? null : codDoc.get("cedula2").toString()),
+                                codDoc.get("ncedula").toString(),
+                                codDoc.get("nombre").toString()
+                        );
+                        Toast.makeText(getApplicationContext(), "Sincronización en proceso punto :" + codDoc.get("punto").toString(), Toast.LENGTH_SHORT).show();
+                        String[][] datos = new String[1][2];
+                        datos[0][0] = "estado";
+                        datos[0][1] = "3";
+                        long respuesta = conexion.update("registros", datos, " id =  " + codDoc.get("punto").toString());
+                    }
                 }
             }catch ( Exception e) {
                 e.printStackTrace();

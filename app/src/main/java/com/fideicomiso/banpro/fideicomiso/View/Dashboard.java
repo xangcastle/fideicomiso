@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -210,13 +209,15 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.visitas)
+        {
+            Intent intent = new Intent(Dashboard.this, RegistradosActivity.class);
+            startActivity(intent);
+            return true ;
+        }
         ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
         if(conDec.connectionVerification()){
-            if(item.getItemId()==R.id.visitas)
-            {
-                Intent intent = new Intent(Dashboard.this, RegistradosActivity.class);
-                startActivity(intent);
-            }
+
         switch (item.getItemId()) {
             case R.id.logout :
                 logoutUser();

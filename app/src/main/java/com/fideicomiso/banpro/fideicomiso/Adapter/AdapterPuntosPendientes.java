@@ -67,6 +67,9 @@ public class AdapterPuntosPendientes extends BaseAdapter implements Filterable{
         {
             suvecion.setImageResource(R.drawable.star2);
         }
+        else{
+            suvecion.setImageResource(R.drawable.star);
+        }
 
         TextView id=(TextView)view.findViewById(R.id.textID);
         id.setText(g.getId());

@@ -253,6 +253,8 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
 
                     dos.writeBytes("Content-Disposition: form-data; name=\"nombre\"" + lineEnd);
                     dos.writeBytes(lineEnd);
+                    byte[] buf =nombre.getBytes("UTF-8");
+                    dos.write(buf, 0, buf.length);
                     dos.writeBytes(nombre);
                     dos.writeBytes(lineEnd);
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -261,7 +263,8 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
                     {
                         dos.writeBytes("Content-Disposition: form-data; name=\"comentario\"" + lineEnd);
                         dos.writeBytes(lineEnd);
-                        dos.writeBytes(comentario);
+                        byte[] buf2 =comentario.getBytes("UTF-8");
+                        dos.write(buf2, 0, buf.length);
                         dos.writeBytes(lineEnd);
                         dos.writeBytes(twoHyphens + boundary + lineEnd);
                     }

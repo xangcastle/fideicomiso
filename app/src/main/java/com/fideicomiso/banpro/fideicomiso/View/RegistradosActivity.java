@@ -79,24 +79,41 @@ public class RegistradosActivity extends AppCompatActivity implements SearchView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ConnectionDetector conDec = new  ConnectionDetector(getApplicationContext());
+                if(conDec.connectionVerification())
+                {
+                    item = (Registro) parent.getItemAtPosition(position);
+                    if(!item.getEstado().equals("ENVIADO"))
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-                item = (Registro) parent.getItemAtPosition(position);
-                if(!item.getEstado().equals("ENVIADO"))
+                        builder
+                                .setMessage("Desea Sincronizar este registro ?")
+                                .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        pDialog.setMessage("Sincronizando ..."+item.getPunto());
+                                        showDialog();
+                                        SincronizacionVideos sincronizacionImagenes = new SincronizacionVideos(getApplication(),item.getRuta(), item.getLongitud(),  item.getLatitud(), item.getFecha(),  item.getUsuario() , item.getPunto(),item.getPunto(),item.getTipo(),item.getComentarios(),item.getCedula1(),item.getVivienda(), item.getCedula2(),item.getNcedula(),item.getNombre(),RegistradosActivity.this);
+
+                                        sincronizacionImagenes.execute();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .show();
+                    }
+
+                }
+                else
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-
                     builder
-                            .setMessage("Desea Sincronizar este registro ?")
-                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    pDialog.setMessage("Sincronizando ..."+item.getPunto());
-                                    showDialog();
-                                    SincronizacionVideos sincronizacionImagenes = new SincronizacionVideos(getApplication(),item.getRuta(), item.getLongitud(),  item.getLatitud(), item.getFecha(),  item.getUsuario() , item.getPunto(),item.getPunto(),item.getTipo(),item.getComentarios(),item.getCedula1(),item.getVivienda(), item.getCedula2(),item.getNcedula(),item.getNombre(),RegistradosActivity.this);
-
-                                    sincronizacionImagenes.execute();
-                                }
-                            })
+                            .setMessage("Debe tener Internet para sincronizar")
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog,int id) {
@@ -105,6 +122,7 @@ public class RegistradosActivity extends AppCompatActivity implements SearchView
                             })
                             .show();
                 }
+
 
 
 
