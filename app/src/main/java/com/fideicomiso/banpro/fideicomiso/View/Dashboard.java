@@ -220,7 +220,23 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
 
         switch (item.getItemId()) {
             case R.id.logout :
-                logoutUser();
+                android.app.AlertDialog.Builder builder2 = new android.app.AlertDialog.Builder(Dashboard.this);
+                builder2
+                        .setMessage("Esta seguro que desea cerrar Sesion?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                logoutUser();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+
                 return true ;
             case R.id.sincronizar :
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Dashboard.this);

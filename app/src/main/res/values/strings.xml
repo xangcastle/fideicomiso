@@ -7,7 +7,7 @@
     <string name="btn_play">Grabar</string>
     <string name="btn_link_to_register">registrarse</string>
     <string name="message_error">Verifique los datos suministrados</string>
-    <string name="title_activity_dashboard"> V 1.8.3 - Educación Financiera </string>
+    <string name="title_activity_dashboard"> V 1.8.4 - Educación Financiera </string>
     <string name="info">Informacion</string>
     <string name="wid">ID</string>
     <string name="name">Nombre</string>
@@ -22,7 +22,7 @@
     <string name="visitas">Visitas Registradas</string>
     <string name="sincronizar">Sincronizar</string>
     <string name="stop">Detener</string>
-    <string name="logout">Salir</string>
+    <string name="logout">Cerrar Sesión</string>
     <string name="description_info">Info</string>
     <string name="permission_request">This sample needs permission for camera and audio recording.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>

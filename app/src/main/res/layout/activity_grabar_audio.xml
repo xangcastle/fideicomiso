@@ -14,143 +14,135 @@ android:padding="10dp" >
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    >
-    <TextView
-        android:id="@+id/estado_grabacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="6dp"
-        android:shadowColor="#000"
-        android:shadowRadius="1.0"
-        android:text=""
-        android:textAllCaps="false"
-        android:textColor="#09953A"
-        android:textSize="20sp"
-        android:textStyle="normal"
-        android:typeface="monospace" />
-</LinearLayout>
-
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:layout_marginTop="20dip">
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
-        <TableLayout
-            android:id="@+id/tableLayout1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:stretchColumns="*">
-            <TableRow
-                android:id="@+id/tableRow1"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                >
+                <TextView
+                    android:id="@+id/estado_grabacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:shadowColor="#000"
+                    android:shadowRadius="1.0"
+                    android:text=""
+                    android:textAllCaps="false"
+                    android:textColor="#09953A"
+                    android:textSize="20sp"
+                    android:textStyle="normal"
+                    android:typeface="monospace" />
+            </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/record"
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/record"
-                    />
-                <ImageButton
-                    android:id="@+id/resume"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    >
+                    <TableLayout
+                        android:id="@+id/tableLayout1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:stretchColumns="*">
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                            <ImageButton
+                                android:id="@+id/record"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/record"
+                                />
+                            <ImageButton
+                                android:id="@+id/resume"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/resume2"
+                                />
+                            <ImageButton
+                                android:id="@+id/pause"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/pause2"
+                                />
+                        </TableRow>
+                        <TableRow
+                            android:id="@+id/tableRow2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+                            <ImageButton
+                                android:id="@+id/stop"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/stop2"
+                                />
+                            <ImageButton
+                                android:id="@+id/cancel"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/cancel2"
+                                />
+                            <ImageButton
+                                android:id="@+id/play"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:src="@drawable/play2"
+                                />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/resume2"
-                    />
-                <ImageButton
-                    android:id="@+id/pause"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/pause2"
-                    />
-            </TableRow>
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
-                <ImageButton
-                    android:id="@+id/stop"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/stop2"
-                    />
-                <ImageButton
-                    android:id="@+id/cancel"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/cancel2"
-                    />
-                <ImageButton
-                    android:id="@+id/play"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/play2"
-                    />
-            </TableRow>
-        </TableLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dip">
 
+                    <Button
+                        android:id="@+id/iniciarVicita"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="20dip"
+                        android:text="@string/btn_iniciarVisita"
+                        android:textColor="@color/btn_login"
+                        android:background="@color/btn_login_bg"/>
 
-        <Button
-            android:id="@+id/iniciarVicita"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/btn_iniciarVisita"
-            android:textColor="@color/btn_login"
-            android:background="@color/btn_login_bg"/>
+                    <Button
+                        android:id="@+id/noEstabaVicita"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dip"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/noEstabaVisita"
+                        android:textColor="@color/btn_login"
+                        android:background="@color/wallet_holo_blue_light"/>
 
-        <Button
-            android:id="@+id/noEstabaVicita"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/noEstabaVisita"
-            android:textColor="@color/btn_login"
-            android:background="@color/wallet_holo_blue_light"/>
-
-        <Button
-            android:id="@+id/rechazarVicita"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/btn_rechazarVisita"
-            android:textColor="@color/btn_login"
-            android:background="@color/btn_logut_bg"/>
-
-
-
-    </LinearLayout>
-</LinearLayout>
-
+                    <Button
+                        android:id="@+id/rechazarVicita"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="40dip"
+                        android:text="@string/btn_rechazarVisita"
+                        android:textColor="@color/btn_login"
+                        android:background="@color/btn_logut_bg"/>
+                </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

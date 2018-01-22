@@ -203,7 +203,22 @@ public class RegistradosActivity extends AppCompatActivity implements SearchView
         if(conDec.connectionVerification()){
             switch (item.getItemId()) {
                 case R.id.logout :
-                    logoutUser();
+                    android.app.AlertDialog.Builder builder2 = new android.app.AlertDialog.Builder(RegistradosActivity.this);
+                    builder2
+                            .setMessage("Esta seguro que desea cerrar Sesión?")
+                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    logoutUser();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
                     return true ;
                 default:
                     return super.onOptionsItemSelected(item);

@@ -63,12 +63,12 @@
         <activity android:name=".View.NoVisitaActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
+                android:value="com.fideicomiso.banpro.fideicomiso.View.GrabarAudioActivity" />
         </activity>
         <activity android:name=".View.VisitaActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fideicomiso.banpro.fideicomiso.View.Dashboard" />
+                android:value="com.fideicomiso.banpro.fideicomiso.View.GrabarAudioActivity" />
         </activity>
         <activity android:name=".View.GrabarAudioActivity" android:screenOrientation="portrait">
             <meta-data
