@@ -259,13 +259,7 @@ public class RegistradosActivity extends AppCompatActivity implements SearchView
     public void enSincronizacionFinalizada(int codigo, String id_punto) {
         if(codigo == 3)
         {
-                Conexion conexion = new Conexion(getApplicationContext() , "Delta3", null, 3);
-                String[][] datos = new String[1][2];
-                datos[0][0] = "estado";
-                datos[0][1] = "3";
-                long respuesta =  conexion.update("puntos",datos, " id =  "+id_punto);
-                respuesta =  conexion.update("registros",datos, " punto =  "+id_punto);
-                cargarData();
+           cargarData();
         }
         hideDialog();
     }

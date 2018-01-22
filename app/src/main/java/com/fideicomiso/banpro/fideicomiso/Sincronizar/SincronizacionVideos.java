@@ -4,6 +4,7 @@ package com.fideicomiso.banpro.fideicomiso.Sincronizar;
         import android.os.AsyncTask;
         import android.util.Log;
 
+        import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
         import com.fideicomiso.banpro.fideicomiso.Controller.AppConfig;
 
         import java.io.DataOutputStream;
@@ -131,6 +132,32 @@ public class SincronizacionVideos extends AsyncTask<Void, Void, Integer> {
      */
     protected void onPostExecute(Integer result) {
         this.codigoResultado=result;
+        try
+        {
+            Conexion conexion = new Conexion(this.context , "Delta3", null, 3);
+
+            if(this.codigoResultado == 3)
+            {
+                String[][] datos = new String[1][2];
+                datos[0][0] = "estado";
+                datos[0][1] = "3";
+                long respuesta =  conexion.update("puntos",datos, " id =  "+this.id_punto);
+                respuesta =  conexion.update("registros",datos, " punto =  "+this.id_punto);
+            }
+            else
+            {
+                String[][] datos = new String[1][2];
+                datos[0][0] = "estado";
+                datos[0][1] = "1";
+
+                long respuesta =  conexion.update("registros",datos, " punto =  "+this.id_punto);
+            }
+        }catch (Exception e)
+        {
+
+        }
+
+
         listenerSincronizacionImagenes.enSincronizacionFinalizada(codigoResultado,this.id_punto);
 
     }

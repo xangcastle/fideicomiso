@@ -16,5 +16,7 @@
 <resources>
 
     <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
-    <style name="AppTheme2" parent="@style/Theme.AppCompat"/>
+    <style name="AppTheme2" parent="@style/Theme.AppCompat">
+        <item name="android:homeAsUpIndicator">@drawable/ic_close</item>
+    </style>
 </resources>

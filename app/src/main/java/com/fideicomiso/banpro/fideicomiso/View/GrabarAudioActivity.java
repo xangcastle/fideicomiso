@@ -163,7 +163,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                                 resume.setEnabled(false);
                                 detener("");
                                 String p = Environment.getExternalStorageDirectory()
-                                        .getPath()+"/fideicomiso/"+id__Punto+System.currentTimeMillis()+".mp4";
+                                        .getPath()+"/fideicomiso/"+id__Punto+"_"+System.currentTimeMillis()+".mp4";
                                 Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
                                 ruta = p;
                                 if(armarAudio)
