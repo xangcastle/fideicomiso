@@ -48,6 +48,7 @@ public class NoVisitaActivity extends AppCompatActivity {
     private SessionManager session;
     private ImageView imageView;
     private Bitmap imagen = null;
+    Boolean rechazo = false;
     String ruta = "";
     String id__Punto="";
     EditText txtComentario;
@@ -99,8 +100,10 @@ public class NoVisitaActivity extends AppCompatActivity {
         if (extras != null) {
             id__Punto = extras.getString("ID");
             ruta = extras.getString("ruta");
-
+            rechazo = extras.getBoolean("rechazo");
         }
+
+
 
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -187,59 +190,77 @@ public class NoVisitaActivity extends AppCompatActivity {
 
                                                double latitude = gps.getLatitude();
                                                double longitude = gps.getLongitude();
-                                               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                               Date date = new Date();
-                                               String fecha = dateFormat.format(date);
+                                               if (latitude ==0|| latitude ==0.0 || longitude ==0.0||longitude ==0)
+                                               {
+                                                   AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
 
+                                                   builder
+                                                           .setMessage("Toda la información esta bien , pero no podemos ubicar coordenadas , necesitamos que salga a un lugar descubierto y de click nuevamente en el boton registrar")
 
-                                               SessionManager session = new SessionManager(getApplicationContext());
-                                               String[][] data = new String[14][2];
-                                               data[0][0] = "longitud";
-                                               data[0][1] = "" + longitude;
-                                               data[1][0] = "latitud";
-                                               data[1][1] = "" + latitude;
-                                               data[2][0] = "fecha";
-                                               data[2][1] = fecha;
-                                               data[3][0] = "ruta";
-                                               data[3][1] = ruta;
-                                               data[4][0] = "punto";
-                                               data[4][1] = id__Punto;
-                                               data[5][0] = "usuario";
-                                               data[5][1] = "" + session.get_user();
-                                               data[6][0] = "cedula";
-                                               data[6][1] = "";
-                                               data[7][0] = "casa";
-                                               data[7][1] = vivienda;
-                                               data[8][0] = "tipo";
-                                               data[8][1] = "0";
-                                               data[9][0] = "comentario";
-                                               data[9][1] = comentario;
-                                               data[10][0] = "estado";
-                                               data[10][1] = "1";
-                                               data[11][0] = "ncedula";
-                                               data[11][1] = "";
-                                               data[12][0] = "nombre";
-                                               data[12][1] = "";
-                                               data[13][0] = "cedula2";
-                                               data[13][1] = "";
-
-                                               Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-                                               long respuesta = conexion.insertRegistration("registros", data);
-
-                                               String[][] datos = new String[1][2];
-                                               datos[0][0] = "estado";
-                                               datos[0][1] = "1";
-
-                                               respuesta = conexion.update("puntos", datos, " id =  " + id__Punto);
-                                               if (Build.VERSION.SDK_INT >= 19) {
-                                                   Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
-                                                   PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
-                                                   AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                                                   manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
+                                                           .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(DialogInterface dialog, int id) {
+                                                                   dialog.cancel();
+                                                               }
+                                                           })
+                                                           .show();
                                                }
-                                               Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                               startActivity(intent);
-                                               finish();
+                                               else
+                                                   {
+                                                       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                                       Date date = new Date();
+                                                       String fecha = dateFormat.format(date);
+
+
+                                                       SessionManager session = new SessionManager(getApplicationContext());
+                                                       String[][] data = new String[14][2];
+                                                       data[0][0] = "longitud";
+                                                       data[0][1] = "" + longitude;
+                                                       data[1][0] = "latitud";
+                                                       data[1][1] = "" + latitude;
+                                                       data[2][0] = "fecha";
+                                                       data[2][1] = fecha;
+                                                       data[3][0] = "ruta";
+                                                       data[3][1] = ruta;
+                                                       data[4][0] = "punto";
+                                                       data[4][1] = id__Punto;
+                                                       data[5][0] = "usuario";
+                                                       data[5][1] = "" + session.get_user();
+                                                       data[6][0] = "cedula";
+                                                       data[6][1] = "";
+                                                       data[7][0] = "casa";
+                                                       data[7][1] = vivienda;
+                                                       data[8][0] = "tipo";
+                                                       data[8][1] = ((rechazo)?"0":"2");
+                                                       data[9][0] = "comentario";
+                                                       data[9][1] = comentario;
+                                                       data[10][0] = "estado";
+                                                       data[10][1] = "1";
+                                                       data[11][0] = "ncedula";
+                                                       data[11][1] = "";
+                                                       data[12][0] = "nombre";
+                                                       data[12][1] = "";
+                                                       data[13][0] = "cedula2";
+                                                       data[13][1] = "";
+
+                                                       Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+                                                       long respuesta = conexion.insertRegistration("registros", data);
+
+                                                       String[][] datos = new String[1][2];
+                                                       datos[0][0] = "estado";
+                                                       datos[0][1] = "1";
+
+                                                       respuesta = conexion.update("puntos", datos, " id =  " + id__Punto);
+                                                       if (Build.VERSION.SDK_INT >= 19) {
+                                                           Intent alarmIntent = new Intent(getApplicationContext(), SincronizacionBroadcast.class);
+                                                           PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+                                                           AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                                                           manager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + LoginActivity.INTERVALOTIEMPOSINCRONIZACION, pendingIntent);
+                                                       }
+                                                       Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                                       startActivity(intent);
+                                                       finish();
+                                                   }
 
                                            } else {
                                                gps.showSettingsAlert();
@@ -264,13 +285,17 @@ public class NoVisitaActivity extends AppCompatActivity {
         imageView.getLayoutParams().width = 300;
 
 
-
-
-
-        //======== codigo nuevo ========
         Button boton = (Button) findViewById(R.id.btnTomaFoto);
         //Si no existe crea la carpeta donde se guardaran las fotos
         //accion para el boton
+        if(rechazo)
+        {
+            boton.setText("Foto con el Cliente");
+        }
+        else
+            {
+                boton.setText("Foto Casa");
+            }
         boton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -383,6 +408,17 @@ public class NoVisitaActivity extends AppCompatActivity {
                 });
         alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.putExtra("ruta",this.ruta);
+        setIntent.putExtra("ID",this.id__Punto);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
     }
 }
 

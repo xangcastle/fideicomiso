@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.coremedia.iso.boxes.Container;
 import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
 import com.fideicomiso.banpro.fideicomiso.R;
+import com.fideicomiso.banpro.fideicomiso.Sincronizar.EliminarMultimedia;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
@@ -49,10 +50,11 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
     ImageButton grabar, pausar, detener , reproducir,resume,delete;
     TextView estado_grabacion;
     ArrayList dataFiles ;
-    String idPunto;
     private SessionManager session;
     private Button btn_iniciar_visita ;
     private Button btn_rechazar_visita ;
+    private Button btn_no_estaba_visita ;
+
     private String id__Punto;
     private String ruta ="";
 
@@ -80,9 +82,8 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                         0);
             }
         }
-        Bundle extras = getIntent().getExtras();
-        if(extras != null)
-            id__Punto = extras.getString("ID");
+
+
 
 
         grabar     = (ImageButton) findViewById(R.id.record);
@@ -101,9 +102,40 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         delete.setEnabled(false);
         resume.setEnabled(false);
 
-
-        if(extras != null)
-            idPunto = extras.getString("ID");
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            id__Punto = extras.getString("ID");
+            String r = extras.getString("ruta");
+            if(r!= null && !r.equals(""))
+            {
+                estado_grabacion.setText("Grabación Finalizada");
+                reproducir.setEnabled(true);
+                reproducir.setImageResource(R.drawable.play);
+                grabar.setEnabled(false);
+                grabar.setImageResource(R.drawable.record2);
+                pausar.setEnabled(false);
+                pausar.setImageResource(R.drawable.pause2);
+                detener.setEnabled(false);
+                detener.setImageResource(R.drawable.stop2);
+                delete.setEnabled(true);
+                delete.setImageResource(R.drawable.cancel);
+                resume.setEnabled(false);
+                this.ruta = r ;
+                player = new MediaPlayer();
+                player.setOnCompletionListener(this);
+                try {
+                    if(r != "")
+                        player.setDataSource(r);
+                    else
+                        player.setDataSource(archivo.getAbsolutePath());
+                } catch (IOException e) {
+                }
+                try {
+                    player.prepare();
+                } catch (IOException e) {
+                }
+            }
+        }
 
         detener.setOnClickListener(new View.OnClickListener()
         {
@@ -131,7 +163,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                                 resume.setEnabled(false);
                                 detener("");
                                 String p = Environment.getExternalStorageDirectory()
-                                        .getPath()+"/fideicomiso/"+idPunto+System.currentTimeMillis()+".mp4";
+                                        .getPath()+"/fideicomiso/"+id__Punto+System.currentTimeMillis()+".mp4";
                                 Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
                                 ruta = p;
                                 if(armarAudio)
@@ -205,6 +237,55 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
             }
         });
 
+
+        btn_no_estaba_visita= (Button)findViewById(R.id.noEstabaVicita);
+        btn_no_estaba_visita.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+
+                if(!ruta.equals(""))
+                {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                    builder
+                            .setMessage("No se pudo realizar visita ?")
+                            .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
+                                    intent.putExtra("ID",id__Punto);
+                                    intent.putExtra("ruta",ruta);
+                                    intent.putExtra("rechazo",false);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                    builder
+                            .setMessage("Debe grabar audio para continuar?")
+                            .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
+
         btn_rechazar_visita  = (Button)findViewById(R.id.rechazarVicita);
         btn_rechazar_visita.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -219,10 +300,12 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                             .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
-
+                                    EliminarMultimedia eli = new EliminarMultimedia(getApplicationContext());
+                                    eli.execute();
                                     Intent intent = new Intent(getApplicationContext(), NoVisitaActivity.class);
                                     intent.putExtra("ID",id__Punto);
                                     intent.putExtra("ruta",ruta);
+                                    intent.putExtra("rechazo",true);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -268,13 +351,8 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
 
-                                    for (Object row : dataFiles) {
-                                        File file = new File(row.toString());
-                                        if(file.exists())
-                                        {
-                                            boolean deleted = file.delete();
-                                        }
-                                    }
+                                    EliminarMultimedia eli = new EliminarMultimedia(getApplicationContext());
+                                    eli.execute();
                                     Intent intent = new Intent(getApplicationContext(), VisitaActivity.class);
                                     intent.putExtra("ID",id__Punto);
                                     intent.putExtra("ruta",ruta);

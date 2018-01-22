@@ -417,6 +417,17 @@ public class VisitaActivity extends AppCompatActivity  {
         alert = builder.create();
         alert.show();
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.putExtra("ruta",this.ruta);
+        setIntent.putExtra("ID",this.id__Punto);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
+    }
 }
 
 

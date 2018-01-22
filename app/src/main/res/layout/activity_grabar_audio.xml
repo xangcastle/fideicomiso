@@ -123,17 +123,24 @@ android:padding="10dp" >
             android:id="@+id/iniciarVicita"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
             android:layout_alignParentBottom="true"
             android:text="@string/btn_iniciarVisita"
             android:textColor="@color/btn_login"
             android:background="@color/btn_login_bg"/>
 
         <Button
+            android:id="@+id/noEstabaVicita"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/noEstabaVisita"
+            android:textColor="@color/btn_login"
+            android:background="@color/wallet_holo_blue_light"/>
+
+        <Button
             android:id="@+id/rechazarVicita"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
             android:layout_alignParentBottom="true"
             android:text="@string/btn_rechazarVisita"
             android:textColor="@color/btn_login"
