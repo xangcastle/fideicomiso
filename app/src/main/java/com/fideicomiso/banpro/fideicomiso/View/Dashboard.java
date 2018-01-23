@@ -63,7 +63,7 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
             String[][] datos = new String[1][2];
             datos[0][0] = "estado";
             datos[0][1] = "0";
-            long respuesta = conexion.update("puntos", datos, " fecha = '2018-01-22' " );
+            long respuesta = conexion.update("registros", datos, " fecha = '2018-01-22' " );
             session.set_reenviar(true);
         }
 

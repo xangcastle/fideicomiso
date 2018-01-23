@@ -64,7 +64,7 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
 
         final Registro g = puntosCopia.get(i);
         ImageButton estdo = (ImageButton) view.findViewById(R.id.estado);
-        if (g.getEstado().equals("1") || g.getEstado().equals("2")|| g.getEstado().equals("PENDIENTE")) {
+        if (g.getEstado().equals("0")||g.getEstado().equals("1")||g.getEstado().equals("2") ||g.getEstado().equals("PENDIENTE")) {
             estdo.setImageResource(R.drawable.sincronizar);
         }
         else if (g.getEstado().equals("3") || g.getEstado().equals("ENVIADO"))
@@ -115,7 +115,7 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
             audio.setText("NO");
 
         TextView estado = (TextView) view.findViewById(R.id.textEstado);
-        if(g.getEstado().equals("2") || g.getEstado().equals("1")||g.getEstado().equals("PENDIENTE"))
+        if(g.getEstado().equals("0")||g.getEstado().equals("1")||g.getEstado().equals("2") ||g.getEstado().equals("PENDIENTE"))
         {
             estado.setText("PENDIENTE");
             g.setEstado("PENDIENTE");

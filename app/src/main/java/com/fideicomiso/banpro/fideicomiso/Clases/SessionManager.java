@@ -21,7 +21,7 @@ public class SessionManager {
 
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final String USU_ID = "usu_id";
-    private static final String REENVIAR = "reenviar" ;//Esto se debe borrar
+    private static final String REENVIAR = "reenviar2" ;//Esto se debe borrar
 
 
     public SessionManager(Context context) {

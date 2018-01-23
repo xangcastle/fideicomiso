@@ -14,8 +14,8 @@ android {
         applicationId "com.fideicomiso.banpro.fideicomiso"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 13
-        versionName "1.8.4"
+        versionCode 18
+        versionName "1.8.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
