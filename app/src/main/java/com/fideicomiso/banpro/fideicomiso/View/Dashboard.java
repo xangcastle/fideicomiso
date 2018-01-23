@@ -57,6 +57,15 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         setContentView(R.layout.activity_dashboard);
         new GPVersionChecker.Builder(this).create();
         session = new SessionManager(getApplicationContext());
+        if(!session.get_reenviar())
+        {
+            Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+            String[][] datos = new String[1][2];
+            datos[0][0] = "estado";
+            datos[0][1] = "0";
+            long respuesta = conexion.update("puntos", datos, " fecha = '2018-01-22' " );
+            session.set_reenviar(true);
+        }
 
         if (!session.isLoggedIn()) {
             logoutUser();

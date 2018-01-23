@@ -23,7 +23,10 @@ public class EliminarMultimedia extends AsyncTask<Void, Void, Integer> {
     protected Integer doInBackground(Void... voids) {
         try
         {
-            String[] datos = new String[5];
+
+            File f = new File(Environment.getExternalStorageDirectory()
+                    .getPath() + "/fideicomiso");
+         /*   String[] datos = new String[5];
             datos[0] = "cedula";
             datos[1] = "cedula2";
             datos[2] = "casa";
@@ -31,8 +34,7 @@ public class EliminarMultimedia extends AsyncTask<Void, Void, Integer> {
             datos[4] = "id";
             Conexion conexion = new Conexion(this.context, "Delta3", null, 3);
             ArrayList puntos =  conexion.searchRegistration("registros", datos," estado = 3  ", null, " DESC");
-            File f = new File(Environment.getExternalStorageDirectory()
-                    .getPath() + "/fideicomiso");
+
             for (Object data : puntos) {
                 HashMap codDoc = (HashMap) data;
                 File ruta = new File(codDoc.get("ruta").toString());
@@ -65,7 +67,7 @@ public class EliminarMultimedia extends AsyncTask<Void, Void, Integer> {
                         boolean deleted = file.delete();
                     }
                 }
-            }
+            }*/
 
             ArrayList<File> files = archivosCompatibles(f.listFiles(),"temporal");
 

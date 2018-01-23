@@ -21,6 +21,8 @@ public class SessionManager {
 
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final String USU_ID = "usu_id";
+    private static final String REENVIAR = "reenviar" ;//Esto se debe borrar
+
 
     public SessionManager(Context context) {
         this._context = context;
@@ -48,4 +50,14 @@ public class SessionManager {
 
         return pref.getInt(USU_ID,0);
     }
+    public void set_reenviar(Boolean reenviar){
+        editor.putBoolean(REENVIAR,reenviar);
+        editor.commit();
+    }
+
+    public Boolean get_reenviar(){
+
+        return pref.getBoolean(REENVIAR,false);
+    }
+
 }

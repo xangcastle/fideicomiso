@@ -88,6 +88,7 @@ public class LoginActivity extends Activity {
                     0);
         }
         new GPVersionChecker.Builder(this).create();
+
         if (session.isLoggedIn()) {
             if (!isMyServiceRunning(SincronizacionService.class)){ //método que determina si el servicio ya está corriendo o no
                 Intent serv = new Intent(getApplicationContext(),SincronizacionService.class); //serv de tipo Intent

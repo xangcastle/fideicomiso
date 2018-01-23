@@ -86,6 +86,8 @@ public class AdapterPuntosRegistrados extends BaseAdapter implements Filterable 
             tipo.setText("Abre Cuenta");
         else if(g.getTipo().equals("0"))
             tipo.setText("No Abre cuenta");
+        else if(g.getTipo().equals("2"))
+            tipo.setText("No se puede Realizar visita");
 
         TextView cedula = (TextView) view.findViewById(R.id.textCedula);
         cedula.setText(g.getNcedula());
