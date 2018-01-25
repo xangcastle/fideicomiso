@@ -54,6 +54,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
     private Button btn_iniciar_visita ;
     private Button btn_rechazar_visita ;
     private Button btn_no_estaba_visita ;
+    private Boolean cargaPrevia = false;
 
     private String id__Punto;
     private String ruta ="";
@@ -411,7 +412,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     cargarAudioPrevio(audioPrevio.getAbsolutePath());
-
+                                    cargaPrevia = true;
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -675,7 +676,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                         if(!ruta.equals(""))
                         {
                             File file = new File(ruta);
-                            if(file.exists())
+                            if(file.exists() && !cargaPrevia)
                             {
                                 boolean deleted = file.delete();
                             }
