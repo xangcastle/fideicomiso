@@ -206,7 +206,7 @@ public class VisitaActivity extends AppCompatActivity  {
 
                                                double latitude = gps.getLatitude();
                                                double longitude = gps.getLongitude();
-                                               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                               SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                                                Date date = new Date();
                                                String fecha = dateFormat.format(date);
 

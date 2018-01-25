@@ -207,7 +207,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                                }
                                                else
                                                    {
-                                                       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                                       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                                                        Date date = new Date();
                                                        String fecha = dateFormat.format(date);
 
