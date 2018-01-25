@@ -353,33 +353,41 @@ public class MarkersActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
+            try
+            {
+                ArrayList<LatLng> points = null;
+                PolylineOptions lineOptions = null;
+                MarkerOptions markerOptions = new MarkerOptions();
 
-            for(int i=0;i<result.size();i++){
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
+                for(int i=0;i<result.size();i++){
+                    points = new ArrayList<LatLng>();
+                    lineOptions = new PolylineOptions();
 
-                List<HashMap<String, String>> path = result.get(i);
+                    List<HashMap<String, String>> path = result.get(i);
 
-                for(int j=0;j<path.size();j++){
-                    HashMap<String,String> point = path.get(j);
+                    for(int j=0;j<path.size();j++){
+                        HashMap<String,String> point = path.get(j);
 
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
+                        double lat = Double.parseDouble(point.get("lat"));
+                        double lng = Double.parseDouble(point.get("lng"));
+                        LatLng position = new LatLng(lat, lng);
 
-                    points.add(position);
+                        points.add(position);
+                    }
+
+                    lineOptions.addAll(points);
+                    lineOptions.width(4);
+                    lineOptions.color(Color.rgb(0,0,255));
                 }
+                if(lineOptions!=null) {
+                    map.addPolyline(lineOptions);
+                }
+            }
+            catch (Exception e)
+            {
 
-                lineOptions.addAll(points);
-                lineOptions.width(4);
-                lineOptions.color(Color.rgb(0,0,255));
             }
-            if(lineOptions!=null) {
-                map.addPolyline(lineOptions);
-            }
+
         }
     }
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {

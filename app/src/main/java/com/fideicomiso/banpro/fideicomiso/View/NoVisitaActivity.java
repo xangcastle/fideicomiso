@@ -193,8 +193,7 @@ public class NoVisitaActivity extends AppCompatActivity {
                                                double longitude = gps.getLongitude();
                                                if (latitude ==0|| latitude ==0.0 || longitude ==0.0||longitude ==0)
                                                {
-                                                   AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
-
+                                                   AlertDialog.Builder builder = new AlertDialog.Builder(NoVisitaActivity.this);
                                                    builder
                                                            .setMessage("Toda la información esta bien , pero no podemos ubicar coordenadas , necesitamos que salga a un lugar descubierto y de click nuevamente en el boton registrar")
 

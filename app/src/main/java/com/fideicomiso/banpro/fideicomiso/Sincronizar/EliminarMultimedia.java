@@ -23,7 +23,6 @@ public class EliminarMultimedia extends AsyncTask<Void, Void, Integer> {
     protected Integer doInBackground(Void... voids) {
         try
         {
-
             File f = new File(Environment.getExternalStorageDirectory()
                     .getPath() + "/fideicomiso");
          /*   String[] datos = new String[5];

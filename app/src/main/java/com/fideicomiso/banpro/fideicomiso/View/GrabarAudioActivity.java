@@ -57,6 +57,8 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
 
     private String id__Punto;
     private String ruta ="";
+    private File audioPrevio;
+    private String ruta_previa ="";
 
 
     @Override
@@ -105,36 +107,8 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             id__Punto = extras.getString("ID");
-            String r = extras.getString("ruta");
-            if(r!= null && !r.equals(""))
-            {
-                estado_grabacion.setText("Grabación Finalizada");
-                reproducir.setEnabled(true);
-                reproducir.setImageResource(R.drawable.play);
-                grabar.setEnabled(false);
-                grabar.setImageResource(R.drawable.record2);
-                pausar.setEnabled(false);
-                pausar.setImageResource(R.drawable.pause2);
-                detener.setEnabled(false);
-                detener.setImageResource(R.drawable.stop2);
-                delete.setEnabled(true);
-                delete.setImageResource(R.drawable.cancel);
-                resume.setEnabled(false);
-                this.ruta = r ;
-                player = new MediaPlayer();
-                player.setOnCompletionListener(this);
-                try {
-                    if(r != "")
-                        player.setDataSource(r);
-                    else
-                        player.setDataSource(archivo.getAbsolutePath());
-                } catch (IOException e) {
-                }
-                try {
-                    player.prepare();
-                } catch (IOException e) {
-                }
-            }
+            ruta_previa = extras.getString("ruta");
+            cargarAudioPrevio(ruta_previa);
         }
 
         detener.setOnClickListener(new View.OnClickListener()
@@ -149,28 +123,33 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                         .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                estado_grabacion.setText("Grabación Finalizada");
-                                reproducir.setEnabled(true);
-                                reproducir.setImageResource(R.drawable.play);
-                                grabar.setEnabled(false);
-                                grabar.setImageResource(R.drawable.record2);
-                                pausar.setEnabled(false);
-                                pausar.setImageResource(R.drawable.pause2);
-                                detener.setEnabled(false);
-                                detener.setImageResource(R.drawable.stop2);
-                                delete.setEnabled(true);
-                                delete.setImageResource(R.drawable.cancel);
-                                resume.setEnabled(false);
-                                detener("");
-                                String p = Environment.getExternalStorageDirectory()
-                                        .getPath()+"/fideicomiso/"+id__Punto+"_"+System.currentTimeMillis()+".mp4";
-                                Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
-                                ruta = p;
-                                if(armarAudio)
+                                try
                                 {
-                                    reproducirAudioFinal(p);
-                                }
+                                    estado_grabacion.setText("Grabación Finalizada");
+                                    reproducir.setEnabled(true);
+                                    reproducir.setImageResource(R.drawable.play);
+                                    grabar.setEnabled(false);
+                                    grabar.setImageResource(R.drawable.record2);
+                                    pausar.setEnabled(false);
+                                    pausar.setImageResource(R.drawable.pause2);
+                                    detener.setEnabled(false);
+                                    detener.setImageResource(R.drawable.stop2);
+                                    delete.setEnabled(true);
+                                    delete.setImageResource(R.drawable.cancel);
+                                    resume.setEnabled(false);
+                                    detener("");
+                                    String p = Environment.getExternalStorageDirectory()
+                                            .getPath()+"/fideicomiso/"+id__Punto+"_"+System.currentTimeMillis()+".mp4";
+                                    Boolean armarAudio = mergeMediaFiles(true ,dataFiles,p);
+                                    ruta = p;
+                                    if(armarAudio)
+                                    {
+                                        reproducirAudioFinal(p);
+                                    }
+                                }catch (Exception e)
+                                {
 
+                                }
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -195,21 +174,26 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         {
             @Override
             public void onClick(View v) {
-                estado_grabacion.setText("Pausar");
+                try
+                {
+                    estado_grabacion.setText("Pausar");
+                    reproducir.setEnabled(false);
+                    reproducir.setImageResource(R.drawable.play2);
+                    grabar.setEnabled(false);
+                    grabar.setImageResource(R.drawable.record2);
+                    pausar.setEnabled(false);
+                    pausar.setImageResource(R.drawable.pause2);
+                    detener.setEnabled(false);
+                    detener.setImageResource(R.drawable.stop2);
+                    delete.setEnabled(false);
+                    delete.setImageResource(R.drawable.cancel2);
+                    resume.setEnabled(true);
+                    resume.setImageResource(R.drawable.resume);
+                    detener("");
+                }catch (Exception e)
+                {
 
-                reproducir.setEnabled(false);
-                reproducir.setImageResource(R.drawable.play2);
-                grabar.setEnabled(false);
-                grabar.setImageResource(R.drawable.record2);
-                pausar.setEnabled(false);
-                pausar.setImageResource(R.drawable.pause2);
-                detener.setEnabled(false);
-                detener.setImageResource(R.drawable.stop2);
-                delete.setEnabled(false);
-                delete.setImageResource(R.drawable.cancel2);
-                resume.setEnabled(true);
-                resume.setImageResource(R.drawable.resume);
-                detener("");
+                }
             }
         });
 
@@ -405,6 +389,86 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                     })
                     .show();
         }
+
+
+        if(ruta_previa==null)
+        {
+            File f = new File(Environment.getExternalStorageDirectory()
+                    .getPath() + "/fideicomiso");
+
+            ArrayList<File> archivos = archivosCompatibles(f.listFiles(),id__Punto+"_");
+
+            if(archivos.size()>0)
+            {
+                audioPrevio = archivos.get(archivos.size()-1);
+                if (audioPrevio.exists())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GrabarAudioActivity.this);
+
+                    builder
+                            .setMessage("Existe un Audio Previamente grabado para la Visita "+id__Punto+" Desea usarlo ? .Si es una nueva visita al mismo punto no lo debe usar ")
+                            .setPositiveButton("Si Usar",  new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    cargarAudioPrevio(audioPrevio.getAbsolutePath());
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
+
+                }
+            }
+        }
+
+
+    }
+    public ArrayList<File> archivosCompatibles(File[] archivos,String name) {
+        ArrayList<File> archivosC = new ArrayList<File>();
+        for (File f : archivos)
+            if (f.getName().toLowerCase().startsWith(name)) {
+                archivosC.add(f);
+            }
+
+        return archivosC;
+    }
+
+    public void cargarAudioPrevio(String r)
+    {
+        if(r!= null && !r.equals(""))
+        {
+            estado_grabacion.setText("Grabación Finalizada");
+            reproducir.setEnabled(true);
+            reproducir.setImageResource(R.drawable.play);
+            grabar.setEnabled(false);
+            grabar.setImageResource(R.drawable.record2);
+            pausar.setEnabled(false);
+            pausar.setImageResource(R.drawable.pause2);
+            detener.setEnabled(false);
+            detener.setImageResource(R.drawable.stop2);
+            delete.setEnabled(true);
+            delete.setImageResource(R.drawable.cancel);
+            resume.setEnabled(false);
+            this.ruta = r ;
+            player = new MediaPlayer();
+            player.setOnCompletionListener(this);
+            try {
+                if(r != "")
+                    player.setDataSource(r);
+                else
+                    player.setDataSource(archivo.getAbsolutePath());
+            } catch (IOException e) {
+            }
+            try {
+                player.prepare();
+            } catch (IOException e) {
+            }
+        }
     }
 
 
@@ -464,7 +528,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         reproducir.setImageResource(R.drawable.play);
         pausar.setEnabled(false);
         pausar.setImageResource(R.drawable.pause2);
-        detener.setEnabled(true);
+        detener.setEnabled(false);
         detener.setImageResource(R.drawable.stop2);
         delete.setEnabled(true);
         delete.setImageResource(R.drawable.cancel);
@@ -579,7 +643,7 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
         reproducir.setImageResource(R.drawable.play2);
         pausar.setEnabled(false);
         pausar.setImageResource(R.drawable.pause2);
-        detener.setEnabled(true);
+        detener.setEnabled(false);
         detener.setImageResource(R.drawable.stop2);
         delete.setEnabled(false);
         delete.setImageResource(R.drawable.cancel2);

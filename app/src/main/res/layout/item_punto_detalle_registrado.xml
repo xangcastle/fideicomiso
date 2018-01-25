@@ -192,7 +192,7 @@
                 android:lineSpacingMultiplier="0.85"
                 android:paddingBottom="4dp"
                 android:paddingLeft="5dp"
-                android:text="audio: "
+                android:text="Audio: "
                 android:textColor="@color/bg_register"/>
 
             <TextView
