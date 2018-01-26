@@ -263,7 +263,8 @@ public class NoVisitaActivity extends AppCompatActivity {
                                                    }
 
                                            } else {
-                                               gps.showSettingsAlert();
+                                               AlertNoGps();
+                                               //gps.showSettingsAlert();
                                            }
 
                                        }
@@ -390,21 +391,28 @@ public class NoVisitaActivity extends AppCompatActivity {
 
 
     private void AlertNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
-                .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        alert = builder.create();
-        alert.show();
+        try {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(NoVisitaActivity.this);
+            builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
+                    .setCancelable(false)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(NoVisitaActivity.this, "Verifique GPS.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

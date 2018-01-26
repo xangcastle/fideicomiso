@@ -125,12 +125,27 @@ public class VisitaActivity extends AppCompatActivity  {
                 ncedula    = txtCedula.getText().toString().trim().toUpperCase();
                 nombre     = txtNombre.getText().toString().trim().toUpperCase();
 
+
                if(imagen==null || id__Punto.equals("")|| ruta.equals("") || imagen2 == null || ncedula.equals("") || nombre.equals("") )
                {
                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                    builder
-                           .setMessage("Las capturas de la cedula por ambos lados son Necesarias , asi como el nombre y el numero de cedula ")
+                           .setMessage("Las capturas de la cedula por ambos lados son Necesarias , asi como el nombre y el numero de cédula ")
+                           .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog,int id) {
+                                   dialog.cancel();
+                               }
+                           })
+                           .show();
+               }
+               else if (ncedula.length()<14 || !isNumeric(ncedula.substring(0,ncedula.length()-1)) || isNumeric(ncedula.substring(ncedula.length()-1,ncedula.length())))
+               {
+                   AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                   builder
+                           .setMessage("Por favor verifique el número de la cédula , debe tener 13 numeros y una letra al final")
                            .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
                                @Override
                                public void onClick(DialogInterface dialog,int id) {
@@ -262,7 +277,7 @@ public class VisitaActivity extends AppCompatActivity  {
                                                finish();
 
                                            } else {
-                                               gps.showSettingsAlert();
+                                               AlertNoGps();
                                            }
 
 
@@ -400,21 +415,29 @@ public class VisitaActivity extends AppCompatActivity  {
         }
     }
     private void AlertNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
-                .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        alert = builder.create();
-        alert.show();
+        try
+        {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("El sistema GPS esta desactivado, ¿Desea activarlo?")
+                    .setCancelable(false)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(VisitaActivity.this, "Verifique GPS.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -442,6 +465,15 @@ public class VisitaActivity extends AppCompatActivity  {
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private static boolean isNumeric(String cadena){
+        try {
+            Double.parseDouble(cadena);
+            return true;
+        } catch (NumberFormatException nfe){
+            return false;
+        }
     }
 }
 
