@@ -35,6 +35,8 @@ public class Conexion extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IF NOT EXISTS 'puntos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'departamento' TEXT , 'municipio' TEXT ,'barrio' TEXT, 'comarca' TEXT, 'comunidad' TEXT ,'direccion' TEXT ,'suvecion' INTEGER,'id' TEXT, 'contactos' TEXT , 'longitude' TEXT,'latitude' TEXT,'estado' INTEGER DEFAULT  0);");
             db.execSQL("CREATE TABLE IF NOT EXISTS 'contactos' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'nombre' TEXT , 'referencia' TEXT ,'punto' INTEGER);");
             db.execSQL("CREATE TABLE IF NOT EXISTS 'registros' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'longitud' TEXT , 'latitud' TEXT ,'fecha' TEXT ,'ruta' TEXT , 'punto' INTEGER ,'usuario' INTEGER ,'estado' INTEGER DEFAULT  0  ,'comentario' TEXT , 'casa' TEXT , 'tipo' TEXT , 'cedula' TEXT ,'cedula2' TEXT,'ncedula' TEXT ,'nombre' TEXT );");
+            db.execSQL("CREATE TABLE IF NOT EXISTS 'tipos_no_pudo' ('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'nombre' TEXT)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS 'tipos_no_abrir'('_id' INTEGER PRIMARY KEY AUTOINCREMENT, 'nombre' TEXT)");
         } catch (Exception e) {
             Log.e("", e.toString());
         }
@@ -64,6 +66,20 @@ public class Conexion extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public Boolean eliminarCausalesSinc() {
+        try {
+            openDataBase();
+            db.execSQL("DELETE FROM 'tipos_no_pudo'  ");
+            db.execSQL("DELETE FROM 'tipos_no_abrir'  ");
+            return true;
+        } catch (Exception e) {
+            Log.e("", e.toString());
+            return false;
+        }
+    }
+
+
 
     public Conexion(Context _context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(_context, name, factory, version);

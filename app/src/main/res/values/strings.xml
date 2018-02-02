@@ -21,6 +21,7 @@
     <string name="suvecion">suvecion</string>
     <string name="visitas">Visitas Registradas</string>
     <string name="sincronizar">Sincronizar</string>
+    <string name="sincronizarCausales">Sincronizar Causales</string>
     <string name="stop">Detener</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="description_info">Info</string>

@@ -164,6 +164,38 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         search.setFocusableInTouchMode(true);
     }
 
+
+
+    public boolean registrarDataCausales(String response)
+    {
+        try
+        {
+            JSONArray causales = new JSONArray(response);
+            Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+            if(conexion.eliminarCausalesSinc())
+            {
+                String nameTable ="";
+                for(int i = 0 ; i<causales.length();i++)
+                {
+                    nameTable = causales.getJSONObject(i).getString("aplicacion");
+                    if(nameTable =="1")
+                        nameTable = "tipos_no_pudo" ;
+                    else if(nameTable =="1")
+                        nameTable = "tipos_no_abrir" ;
+                    String[][] data = new String[1][2];
+                    data[0][0] = "id";
+                    data[0][1] = causales.getJSONObject(i).getString("nombre");
+
+                    long respuesta = conexion.insertRegistration("puntos", data);
+                }
+            }
+            return true ;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
     public boolean registrarData(String response)
     {
         try
@@ -269,6 +301,27 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
                         .show();
 
                 return true ;
+            case R.id.sincronizarCausales :
+                android.app.AlertDialog.Builder builder3 = new android.app.AlertDialog.Builder(Dashboard.this);
+                builder3
+                        .setMessage("Esta seguro que desea sincronizar ?")
+                        .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                pDialog.setMessage("Sincronizando Causales...");
+                                showDialog();
+                                SessionManager session = new SessionManager(getApplicationContext());
+                                sincronizarCausales();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -356,6 +409,44 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
+    private void sincronizarCausales()
+    {
+        // Tag used to cancel the request
+        String tag_string_req = "req_login";
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_CAUSALES, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                registrarDataCausales(response);
+                hideDialog();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideDialog();
+                Toast.makeText(getApplicationContext(),
+                        R.string.message_error, Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
 
     /**
      * Consulta las gestiones
