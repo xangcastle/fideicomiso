@@ -6,7 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.Manifest;
@@ -30,9 +33,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
@@ -42,8 +48,7 @@ import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
 import com.fideicomiso.banpro.fideicomiso.R;
 import com.fideicomiso.banpro.fideicomiso.Sincronizar.SincronizacionBroadcast;
 
-
-public class NoVisitaActivity extends AppCompatActivity {
+public class NoVisitaActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ProgressDialog pDialog;
     private SessionManager session;
@@ -52,11 +57,8 @@ public class NoVisitaActivity extends AppCompatActivity {
     Boolean rechazo = false;
     String ruta = "";
     String id__Punto="";
-    EditText txtComentario;
-    String comentario;
+    String comentario = "";
     AlertDialog alert = null;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +70,8 @@ public class NoVisitaActivity extends AppCompatActivity {
             logoutUser();
 
 
-        if(versionDispositivo()>=23)
-        {
-            if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE))
-            {
-                android.support.v4.app.ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        0);
-            } else
-            {
-                android.support.v4.app.ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        0);
-            }
-        }
+
+
         if(Build.VERSION.SDK_INT<=23) {
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             /****Mejora****/
@@ -90,9 +80,6 @@ public class NoVisitaActivity extends AppCompatActivity {
             }
             /********/
         }
-
-        txtComentario = (EditText) findViewById(R.id.comment_visita);
-
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -109,7 +96,7 @@ public class NoVisitaActivity extends AppCompatActivity {
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                comentario = txtComentario.getText().toString();
+
                if(imagen == null || comentario.equals("") )
                {
                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -287,16 +274,39 @@ public class NoVisitaActivity extends AppCompatActivity {
 
 
         Button boton = (Button) findViewById(R.id.btnTomaFoto);
-        //Si no existe crea la carpeta donde se guardaran las fotos
-        //accion para el boton
+
+
+        String table = "" ;
         if(rechazo)
         {
             boton.setText("Foto con el Cliente");
+            table = "tipos_no_abrir";
         }
         else
             {
                 boton.setText("Foto Casa");
+                table = "tipos_no_pudo";
             }
+
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+        String[] datos = new String[14];
+        datos[0] = "nombre";
+
+        Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
+        final List<String> options =   conexion.searchRegistration(table, datos,"", null, " DESC");
+
+
+        // Initializing an ArrayAdapter
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this,R.layout.spinner_item,options);
+
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
+
+
         boton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -342,13 +352,6 @@ public class NoVisitaActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-
-    public int versionDispositivo() {
-        int version = 0;
-        version = android.os.Build.VERSION.SDK_INT;
-        return version;
     }
 
     private void logoutUser() {
@@ -430,6 +433,19 @@ public class NoVisitaActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        comentario = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(),
+                "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
 

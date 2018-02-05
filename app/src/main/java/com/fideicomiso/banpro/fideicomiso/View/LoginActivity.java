@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.fideicomiso.banpro.fideicomiso.Clases.Conexion;
 import com.fideicomiso.banpro.fideicomiso.Clases.ConnectionDetector;
+import com.fideicomiso.banpro.fideicomiso.Clases.RuntimePermissionsActivity;
 import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
 import com.fideicomiso.banpro.fideicomiso.Controller.AppConfig;
 import com.fideicomiso.banpro.fideicomiso.Controller.AppController;
@@ -36,12 +37,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends RuntimePermissionsActivity {
     private Button btn_login;
     private EditText txt_usuario;
     private EditText txt_password;
     private SessionManager session;
     private ProgressDialog pDialog;
+    private static final int REQUEST_PERMISSIONS = 20;
     public static final long INTERVALOTIEMPOSINCRONIZACION = 65000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +54,13 @@ public class LoginActivity extends Activity {
         txt_password = (EditText)findViewById(R.id.password);
         session = new SessionManager(getApplicationContext());
 
-        if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE))
+
+        if(versionDispositivo()>=23)
         {
-            android.support.v4.app.ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
-                    0);
-        } else
-        {
-            android.support.v4.app.ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.VIBRATE, Manifest.permission.RECEIVE_BOOT_COMPLETED,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.INTERNET,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
-                    0);
+            LoginActivity.super.requestAppPermissions(new
+                            String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.LOCATION_HARDWARE,Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,Manifest.permission.READ_LOGS,Manifest.permission.ACCESS_COARSE_LOCATION}, R.string.runtime_permissions_txt
+                    , REQUEST_PERMISSIONS);
         }
-
-
-
         new GPVersionChecker.Builder(this).create();
 
         if (session.isLoggedIn()) {
@@ -105,6 +100,22 @@ public class LoginActivity extends Activity {
         });
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+        if(requestCode == -1)
+        {
+            Toast.makeText(this, "Debe Aceptar todos los permisos o la App no funcionara adecuadamente", Toast.LENGTH_LONG).show();
+            LoginActivity.super.requestAppPermissions(new
+                            String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.LOCATION_HARDWARE,Manifest.permission.RECORD_AUDIO,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,Manifest.permission.READ_LOGS,Manifest.permission.ACCESS_COARSE_LOCATION}, R.string.runtime_permissions_txt
+                    , REQUEST_PERMISSIONS);
+        }
+       else
+           {
+               Toast.makeText(this, "Todos los permisos aceptados", Toast.LENGTH_LONG).show();
+
+           }
     }
 
     private void checkLogin(final String usuario, final String password)
@@ -212,5 +223,7 @@ public class LoginActivity extends Activity {
             }
         } return false;
     }
+
+
 
 }

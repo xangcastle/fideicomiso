@@ -304,7 +304,7 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
             case R.id.sincronizarCausales :
                 android.app.AlertDialog.Builder builder3 = new android.app.AlertDialog.Builder(Dashboard.this);
                 builder3
-                        .setMessage("Esta seguro que desea sincronizar ?")
+                        .setMessage("Esta seguro que desea sincronizar Causales?")
                         .setPositiveButton("Si",  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {

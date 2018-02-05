@@ -39,22 +39,12 @@
                 android:paddingRight="20dp"
                 android:layout_marginTop="20dip">
 
-                <EditText
-                    android:id="@+id/comment_visita"
-                    android:layout_width="match_parent"
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="top|left"
-                    android:inputType="textMultiLine"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:lines="6"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:scrollHorizontally="false"
-                    android:textColor="@color/wallet_holo_blue_light"
                     android:hint="Comentarios necesarios"/>
-
+                    />
 
                 <Button
                     android:id="@+id/btnTomaFoto"
