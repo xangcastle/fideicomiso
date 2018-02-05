@@ -378,40 +378,42 @@ public class GrabarAudioActivity extends AppCompatActivity implements MediaPlaye
                     .show();
         }
 
+        try {
+            if (ruta_previa == null) {
+                File f = new File(Environment.getExternalStorageDirectory()
+                        .getPath() + "/fideicomiso");
 
-        if(ruta_previa==null)
-        {
-            File f = new File(Environment.getExternalStorageDirectory()
-                    .getPath() + "/fideicomiso");
+                ArrayList<File> archivos = archivosCompatibles(f.listFiles(), id__Punto + "_");
 
-            ArrayList<File> archivos = archivosCompatibles(f.listFiles(),id__Punto+"_");
+                if (archivos.size() > 0) {
+                    audioPrevio = archivos.get(archivos.size() - 1);
+                    if (audioPrevio.exists()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GrabarAudioActivity.this);
 
-            if(archivos.size()>0)
-            {
-                audioPrevio = archivos.get(archivos.size()-1);
-                if (audioPrevio.exists())
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(GrabarAudioActivity.this);
+                        builder
+                                .setMessage("Existe un Audio Previamente grabado para la Visita " + id__Punto + " Desea usarlo ? .Si es una nueva visita al mismo punto no lo debe usar ")
+                                .setPositiveButton("Si Usar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        cargarAudioPrevio(audioPrevio.getAbsolutePath());
+                                        cargaPrevia = true;
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                                .show();
 
-                    builder
-                            .setMessage("Existe un Audio Previamente grabado para la Visita "+id__Punto+" Desea usarlo ? .Si es una nueva visita al mismo punto no lo debe usar ")
-                            .setPositiveButton("Si Usar",  new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    cargarAudioPrevio(audioPrevio.getAbsolutePath());
-                                    cargaPrevia = true;
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,int id) {
-                                    dialog.cancel();
-                                }
-                            })
-                            .show();
-
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            
         }
 
 

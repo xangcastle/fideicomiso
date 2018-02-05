@@ -52,7 +52,7 @@
     <string name="btn_register">Registrar y seguir a grabar video</string>
 
 
-    <string name="gpvch_header">Nueva versión Disponible!</string>
+    <string name="gpvch_header">Nueva versión Disponible! Deben dar en Sincronizar Causal</string>
     <string name="gpvch_button_positive">Actualiza la versión actual</string>
     <string name="gpvch_button_negative"></string>
     <string name="gpvch_new_version_info_title">Mejoras del proceso</string>

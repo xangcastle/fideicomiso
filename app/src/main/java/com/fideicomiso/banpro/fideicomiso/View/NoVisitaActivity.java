@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,6 +47,7 @@ import com.fideicomiso.banpro.fideicomiso.Clases.GPSTracker;
 import com.fideicomiso.banpro.fideicomiso.Clases.ImagePicker;
 import com.fideicomiso.banpro.fideicomiso.Clases.SessionManager;
 import com.fideicomiso.banpro.fideicomiso.R;
+import com.fideicomiso.banpro.fideicomiso.Sincronizar.Sincronizacion;
 import com.fideicomiso.banpro.fideicomiso.Sincronizar.SincronizacionBroadcast;
 
 public class NoVisitaActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -97,12 +99,12 @@ public class NoVisitaActivity extends AppCompatActivity implements AdapterView.O
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-               if(imagen == null || comentario.equals("") )
+               if(imagen == null || comentario.equals("Seleccione una causal") || comentario.equals("") )
                {
                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
                    builder
-                           .setMessage("Debe tomar una foto y realizar un comentario ")
+                           .setMessage("Debe tomar una foto y seleccionar una causal ")
                            .setNegativeButton("Entiendo", new DialogInterface.OnClickListener() {
                                @Override
                                public void onClick(DialogInterface dialog,int id) {
@@ -291,14 +293,19 @@ public class NoVisitaActivity extends AppCompatActivity implements AdapterView.O
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-        String[] datos = new String[14];
+        String[] datos = new String[1];
         datos[0] = "nombre";
 
         Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
-        final List<String> options =   conexion.searchRegistration(table, datos,"", null, " DESC");
+        ArrayList result =   conexion.searchRegistration(table, datos,"", null, " DESC");
 
+        ArrayList<String> options = new ArrayList<String>();
 
-        // Initializing an ArrayAdapter
+        options.add("Seleccione una causal");
+        for (int i = 0; i < result.size(); i++) {
+            HashMap codDoc = (HashMap) result.get(i);
+            options.add(codDoc.get("nombre").toString());
+        }
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 this,R.layout.spinner_item,options);
 
@@ -438,9 +445,6 @@ public class NoVisitaActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         comentario = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),
-                "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -170,7 +170,8 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
     {
         try
         {
-            JSONArray causales = new JSONArray(response);
+            JSONObject jObj = new JSONObject(response);
+            JSONArray causales = jObj.getJSONArray("causales");
             Conexion conexion = new Conexion(getApplicationContext(), "Delta3", null, 3);
             if(conexion.eliminarCausalesSinc())
             {
@@ -178,15 +179,15 @@ public class Dashboard extends Activity  implements SearchView.OnQueryTextListen
                 for(int i = 0 ; i<causales.length();i++)
                 {
                     nameTable = causales.getJSONObject(i).getString("aplicacion");
-                    if(nameTable =="1")
+                    if(nameTable.equals("0"))
                         nameTable = "tipos_no_pudo" ;
-                    else if(nameTable =="1")
+                    else if(nameTable.equals("1"))
                         nameTable = "tipos_no_abrir" ;
                     String[][] data = new String[1][2];
-                    data[0][0] = "id";
+                    data[0][0] = "nombre";
                     data[0][1] = causales.getJSONObject(i).getString("nombre");
 
-                    long respuesta = conexion.insertRegistration("puntos", data);
+                    long respuesta = conexion.insertRegistration(nameTable, data);
                 }
             }
             return true ;
